@@ -1,15 +1,15 @@
-import { IChessman, Color, ChessmanType, ListOfVectors } from './chessmanInterface';
+import { IFigure, Color, FigureType, ListOfVectors } from './figureInterface';
 
-export default class RookModel implements IChessman {
+export default class RookModel implements IFigure {
     readonly color: Color;
-    readonly name: ChessmanType;
+    readonly name: FigureType;
     is_moved: boolean;
     move_vectors: ListOfVectors;
     attack_vectors: ListOfVectors;
 
     constructor(color: Color) {
         this.color = color;
-        this.name = ChessmanType.Rook;
+        this.name = FigureType.Rook;
         let reverse: number = this.color === Color.White ? 1 : -1;
         this.move_vectors = [
             [[1 * reverse, 0], [2 * reverse, 0]]

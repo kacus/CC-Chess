@@ -5,7 +5,7 @@ export enum Color {
     White = 'W'
 };
 
-export enum ChessmanType {
+export enum FigureType {
     Rook = 'rook',
     Tower = 'tower',
     Bishop = 'bishop',
@@ -18,10 +18,10 @@ export type Field = [number, number];
 export type ListOfVectors = Array<Array<Field>>;
 
 
-export interface IChessman {
+export interface IFigure {
     readonly color: Color;
-    readonly name: ChessmanType;
-    is_moved: boolean; //is this chessman already moved in current game
+    readonly name: FigureType;
+    is_moved: boolean; //is this figure already moved in current game
     move_vectors: ListOfVectors;
     attack_vectors: ListOfVectors;
     move(): void;

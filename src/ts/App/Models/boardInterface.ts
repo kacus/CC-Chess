@@ -1,7 +1,7 @@
-import { IChessman, Color, Field } from './chessmanInterface';
+import { IFigure, Color, Field } from './figureInterface';
 
 export default interface IBoard {
-    board: IChessman[][];
+    board: IFigure[][];
 
     possibleMovesFor(pos: Field): Array<Field>;
     possibleAttacksFor(pos: Field): Array<Field>;

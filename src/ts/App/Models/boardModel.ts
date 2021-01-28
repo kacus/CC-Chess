@@ -1,5 +1,5 @@
 import IBoard from './boardInterface';
-import { IChessman, Color, Field } from './chessmanInterface';
+import { IFigure, Color, Field } from './figureInterface';
 
 import KingModel from './kingModel';
 import KnightModel from './knightModel';
@@ -9,7 +9,7 @@ import BishopModel from './bishopModel';
 import QueenModel from './queenModel';
 
 export default class BoardModel implements IBoard {
-    board: IChessman[][];
+    board: IFigure[][];
     whiteKing: KingModel;
     blackKing: KingModel;
 
