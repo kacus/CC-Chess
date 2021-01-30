@@ -1,6 +1,7 @@
 import IMenu from './menuInterface';
 export default class MenuView implements IMenu {
-    constructor(parent) {
+    parent: HTMLElement;
+    constructor(parent: HTMLElement) {
         this.parent = parent;
     }
 
