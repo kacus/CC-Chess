@@ -15,8 +15,8 @@ export default class RookModel implements IFigure {
             [[0, 1 * reverse], [0, 2 * reverse]]
         ];
         this.attack_vectors = [
-            [[1 * reverse, -1]],
-            [[1 * reverse, 1]]
+            [[1 , reverse]],
+            [[-1 * reverse, reverse]]
         ];
     }
 
@@ -24,7 +24,7 @@ export default class RookModel implements IFigure {
         this.is_moved = true;
         let reverse: number = this.color === Color.White ? 1 : -1;
         this.move_vectors = [
-            [[1 * reverse, 0]]
+            [[0, 1 * reverse]]
         ];
     }
 }

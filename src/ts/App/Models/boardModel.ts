@@ -17,8 +17,23 @@ export default class BoardModel implements IBoard {
         this.setBoard();
     }
 
+    move(start: Field, end: Field): void {
+        const figure = this.get(start);
+        figure.move();
+        this.set(end, figure);
+        this.resetField(start);
+    }
+
     get(pos: Field): IFigure {
-        return this.board[8-pos[1]][pos[0]-1];
+        return this.board[8 - pos[1]][pos[0] - 1];
+    }
+
+    set(pos: Field, figure: IFigure): void {
+        this.board[8 - pos[1]][pos[0] - 1] = figure;
+    }
+
+    resetField(pos: Field): void {
+        this.set(pos, null);
     }
 
     possibleMovesFor(pos: Field): Array<Field> {
@@ -56,7 +71,7 @@ export default class BoardModel implements IBoard {
             return attacks;
         }
 
-        chessman.move_vectors.forEach(vector => {
+        chessman.attack_vectors.forEach(vector => {
             let index_of_move = 0;
             while (index_of_move < vector.length) {
                 const move = vector[index_of_move];
