@@ -1,4 +1,5 @@
 import BoardModel from './Models/boardModel';
+import { Field } from './Models/figureInterface';
 import BoardView from './Views/boardView';
 
 export default function App(debug: boolean = false): void {
@@ -8,6 +9,4 @@ export default function App(debug: boolean = false): void {
     const root = document.getElementById('root');
 
     boardView.init(root, boardModel);
-
-
 }

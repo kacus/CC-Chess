@@ -1,5 +1,5 @@
 import IBoard from './boardInterface';
-import { IFigure, Color, Field } from './figureInterface';
+import { IFigure, Color, Field, FigureType } from './figureInterface';
 
 import KingModel from './kingModel';
 import KnightModel from './knightModel';
@@ -17,10 +17,13 @@ export default class BoardModel implements IBoard {
         this.setBoard();
     }
 
+    get(pos: Field): IFigure {
+        return this.board[8-pos[1]][pos[0]-1];
+    }
+
     possibleMovesFor(pos: Field): Array<Field> {
         let moves: Array<Field> = [];
-        const chessman = this.board[pos[0] - 1][pos[1] - 1];
-        console.log('selected!', chessman);
+        const chessman = this.get(pos);
         if (chessman === null) {
             return moves;
         }
@@ -34,8 +37,10 @@ export default class BoardModel implements IBoard {
                 if (row < 1 || row > 8) break;
                 const col = pos[1] + move[1];
                 if (col < 1 || col > 8) break;
+                let new_pos: Field = [row, col];
 
-                if (this.board[row - 1][col - 1] === null) moves.push([row, col]);
+                if (this.get(new_pos) !== null) break
+                moves.push([row, col]);
                 index_of_move += 1;
             }
         })
@@ -45,7 +50,7 @@ export default class BoardModel implements IBoard {
 
     possibleAttacksFor(pos: Field): Array<Field> {
         let attacks: Array<Field> = [];
-        const chessman = this.board[pos[0] - 1][pos[1] - 1];
+        const chessman = this.get(pos);
 
         if (chessman === null) {
             return attacks;
@@ -60,8 +65,9 @@ export default class BoardModel implements IBoard {
                 if (row < 1 || row > 8) break;
                 const col = pos[1] + move[1];
                 if (col < 1 || col > 8) break;
+                let new_pos: Field = [row, col];
 
-                const target = this.board[row - 1][col - 1];
+                const target = this.get(new_pos);
                 if (target !== null) {
                     if (target.color !== chessman.color) attacks.push([row, col]);
                     break;
@@ -77,22 +83,22 @@ export default class BoardModel implements IBoard {
         this.whiteKing = new KingModel(Color.White);
         this.blackKing = new KingModel(Color.Black);
         this.board = [
-            [new TowerModel(Color.White), new KnightModel(Color.White), new BishopModel(Color.White), new QueenModel(Color.White), this.whiteKing, new BishopModel(Color.White), new KnightModel(Color.White), new TowerModel(Color.White)],
+            [new TowerModel(Color.Black), new KnightModel(Color.Black), new BishopModel(Color.Black), new QueenModel(Color.Black), this.blackKing, new BishopModel(Color.Black), new KnightModel(Color.Black), new TowerModel(Color.Black)],
             [null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null],
-            [new TowerModel(Color.Black), new KnightModel(Color.Black), new BishopModel(Color.Black), new QueenModel(Color.Black), this.blackKing, new BishopModel(Color.Black), new KnightModel(Color.Black), new TowerModel(Color.Black)]
+            [new TowerModel(Color.White), new KnightModel(Color.White), new BishopModel(Color.White), new QueenModel(Color.White), this.whiteKing, new BishopModel(Color.White), new KnightModel(Color.White), new TowerModel(Color.White)]
         ];
         //Black rooks
         for (let i = 0; i < this.board[1].length; i++) {
-            this.board[1][i] = new RookModel(Color.White);
+            this.board[1][i] = new RookModel(Color.Black);
         }
         //White rooks
         for (let i = 0; i < this.board[6].length; i++) {
-            this.board[6][i] = new RookModel(Color.Black);
+            this.board[6][i] = new RookModel(Color.White);
         }
 
     }

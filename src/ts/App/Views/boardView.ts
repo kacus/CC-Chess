@@ -1,5 +1,5 @@
 import IBoard from '../Models/boardInterface';
-import { Color, FigureType, IFigure } from '../Models/figureInterface';
+import { Color, Field, FigureType, IFigure } from '../Models/figureInterface';
 
 export default class BoardView {
 
@@ -7,14 +7,18 @@ export default class BoardView {
         const board = document.createElement('div');
         board.classList.add('chessboard');
 
-        boardModel.board.forEach(row => {
-            row.forEach(figure => {
+        boardModel.board.forEach((row, index_y) => {
+            row.forEach((figure, index_x) => {
                 const field = document.createElement('div');
+
+                field.dataset.x = 1+index_x+'';
+                field.dataset.y = 8-index_y+'';
+
                 field.classList.add('chessboard__field');
                 if (figure) {
                     const figureImage = this.getFigureImage(figure);
                     field.appendChild(figureImage);
-                    
+
                 }
                 board.appendChild(field);
             })
@@ -55,4 +59,26 @@ export default class BoardView {
 
         return figureImg;
     }
+
+    getField(pos: Field): Element{
+        const field = document.querySelector(`[data-x="${pos[0]}"][data-y="${pos[1]}"]`);
+        
+        return field;
+    }
+
+    setAsPossibleToMove(pos: Field):void{
+        const field = this.getField(pos);
+        field.classList.add('chessboard__field--possible_move');
+    }
+
+    setAsPossibleToAttack(pos: Field):void{
+        const field = this.getField(pos);
+        field.classList.add('chessboard__field--possible_attack');
+    }
+
+    setAsSelected(pos: Field):void{
+        const field = this.getField(pos);
+        field.classList.add('chessboard__field--selected');
+    }
+
 }
