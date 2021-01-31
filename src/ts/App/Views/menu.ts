@@ -20,6 +20,7 @@ export default class MenuView implements IMenu {
     //     el.appendChild(child4);
     // }
 
+
     display(){
         const menu_background = this.createElement('div', 'menu_background');
 
@@ -101,16 +102,35 @@ export default class MenuView implements IMenu {
         span_tg.innerText = 'W MINUTACH';
         time_game.appendChild(span_tg);
         const slider_box = this.createElement('div', 'slider_box');
-        const slider = this.createElement('input');
+        const slider = this.createElement('input', 'slider_range');
         slider.setAttribute('type', 'range');
         slider.setAttribute('min', '2');
         slider.setAttribute('max', '15');
         slider.setAttribute('step', '0.1');
-        slider.setAttribute('value', '0');
+        slider.setAttribute('value', '5');
+        slider.setAttribute('id', 'range');
+
+        const slider_time = this.createElement('output');
+        slider_time.setAttribute('id', 'range_display');
+        slider.appendChild(slider_time);
         slider_box.appendChild(slider);
 
-        //make slider function
+        // const x = document.querySelector("input");
+        // const y = document.getElementById("range_display");
+        // y.innerHTML = x.value;
 
+        function addTime() {
+            const x = document.querySelector('input').value;
+            slider_time.innerText = `Wybrany czas gry to: ${x}min`;
+        };
+
+
+        const t = document.getElementById('range');
+        t.addEventListener("input", () => {
+            addTime();
+        });
+       
+     
         setting_box.appendChild(setting_game);
         setting_box.appendChild(form_action);
         setting_box.appendChild(time_game);
