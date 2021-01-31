@@ -62,49 +62,44 @@ export default class BoardController {
     private clickOnField = (pos: Field): void => {
         //We have selected figure already
         if (this.selectedField !== null) {
-            const clicked = this.board.get(pos);
-            //we clicked another figure
-            if (clicked) {
-                //it is our figure
-                if (clicked.color === this.board.get(this.selectedField).color) {
-                    this.selectNewPos(pos);
-                    return;
-                } else {
-                    //it is enemy figure
-                    //we can attack this figure
-                    if (this.isFieldOnList(pos, this.attacksForSelected)) {
-                        console.log('ATTACK');
-                        return;
-                    } else {
-                        //we cannot attack this figure
-                        this.resetSelectedPos();
-                        return;
-                    }
-                }
-            } else {
-                //we clicked empty field
-                if (this.isFieldOnList(pos, this.movesForSelected)) {
-                    //we can move on this field
-                    const figure = this.board.get(this.selectedField);
-                    this.makeMove(this.selectedField, pos, figure)
-                    this.resetSelectedPos();
-                    return;
-                } else {
-                    //we can't move on this field
-                    this.resetSelectedPos();
-                    return;
-                }
-            }
+            this.figureAlreadySelected(pos);
         } else {
-            //We didn't select figure yet
-            const figureOnPos = this.board.get(pos);
-            //We clicked on our figure
-            if (figureOnPos && figureOnPos.color === this.moveFor) {
+            this.figureNotSelected(pos);
+        }
+    }
+
+    private figureNotSelected(pos: Field): void {
+        //We didn't select figure yet
+        const figureOnPos = this.board.get(pos);
+
+        //We clicked on our figure
+        if (figureOnPos && figureOnPos.color === this.moveFor) {
+            this.selectNewPos(pos);
+        }
+    }
+
+    private figureAlreadySelected(pos: Field): void {
+        const clicked = this.board.get(pos);
+
+        //we clicked another figure
+        if (clicked) {
+            //it is our figure
+            if (clicked.color === this.board.get(this.selectedField).color) {
                 this.selectNewPos(pos);
                 return;
             } else {
-                return;
+                //it is enemy figure
+                //we can attack this figure
+                if (this.isFieldOnList(pos, this.attacksForSelected)) {
+                    console.log('ATTACK');
+                }
             }
+        } else if (this.isFieldOnList(pos, this.movesForSelected)) {
+            //we clicked empty field
+            //we can move on this field
+            const figure = this.board.get(this.selectedField);
+            this.makeMove(this.selectedField, pos, figure)
         }
+        this.resetSelectedPos();
     }
 }
