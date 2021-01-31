@@ -3,7 +3,7 @@ export default class MenuView implements IMenu {
     parent: HTMLElement;
     constructor(parent: HTMLElement) {
         this.parent = parent;
-    }
+    };
 
     createElement(tag: string, className?: string) {
         const element = document.createElement(tag);
