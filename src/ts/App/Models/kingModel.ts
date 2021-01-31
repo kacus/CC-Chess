@@ -22,6 +22,7 @@ export default class KingModel implements IFigure {
             [[1, 1]],
         ];
         this.attackVectors = this.moveVectors;
+        this.isMoved = false;
     }
 
     public move() {

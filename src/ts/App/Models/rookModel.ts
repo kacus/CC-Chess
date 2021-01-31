@@ -18,6 +18,7 @@ export default class RookModel implements IFigure {
             [[1 , reverse]],
             [[-1 * reverse, reverse]]
         ];
+        this.isMoved = false;
     }
 
     move() {

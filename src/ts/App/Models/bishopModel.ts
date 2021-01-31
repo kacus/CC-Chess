@@ -17,6 +17,7 @@ export default class BishopModel implements IFigure {
             [[1, -1], [2, -2], [3, -3], [4, -4], [5, -5], [6, -6], [7, -7]], //left-bottom
         ];
         this.attackVectors = this.moveVectors;
+        this.isMoved = false;
     }
 
     public move() {

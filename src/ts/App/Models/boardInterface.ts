@@ -1,7 +1,7 @@
 import { IFigure, Color, Field } from './figureInterface';
 
 export default interface IBoard {
-    board: IFigure[][];
+    board: (IFigure | null)[][];
 
     possibleMovesFor(pos: Field): Field[];
     possibleAttacksFor(pos: Field): Field[];

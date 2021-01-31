@@ -7,7 +7,7 @@ export default class BoardController {
     private view: BoardView;
     private board: BoardModel;
     private parent: HTMLElement;
-    private selectedField: Field;
+    private selectedField: Field | null;
     private movesForSelected: Field[];
     private attacksForSelected: Field[];
     private moveFor: Color;
@@ -18,8 +18,8 @@ export default class BoardController {
         this.view = new BoardView();
         this.moveFor = Color.White;
         this.selectedField = null;
-        this.movesForSelected = null;
-        this.attacksForSelected = null;
+        this.movesForSelected = [];
+        this.attacksForSelected = [];
     }
 
     private isFieldOnList(pos: Field, list: Field[]): boolean {
@@ -45,8 +45,8 @@ export default class BoardController {
     private resetSelectedPos() {
         this.view.resetStyles();
         this.selectedField = null;
-        this.movesForSelected = null;
-        this.attacksForSelected = null;
+        this.movesForSelected = [];
+        this.attacksForSelected = [];
     }
 
     private makeMove(start: Field, end: Field, figure: IFigure): void {
@@ -61,8 +61,8 @@ export default class BoardController {
 
     private clickOnField = (pos: Field): void => {
         //We have selected figure already
-        if (this.selectedField !== null) {
-            this.figureAlreadySelected(pos);
+        if (this.selectedField) {
+            this.figureAlreadySelected(pos, this.selectedField);
         } else {
             this.figureNotSelected(pos);
         }
@@ -70,21 +70,22 @@ export default class BoardController {
 
     private figureNotSelected(pos: Field): void {
         //We didn't select figure yet
-        const figureOnPos = this.board.get(pos);
+        const figure = this.board.get(pos);
 
         //We clicked on our figure
-        if (figureOnPos && figureOnPos.color === this.moveFor) {
+        if (figure && figure.color === this.moveFor) {
             this.selectNewPos(pos);
         }
     }
 
-    private figureAlreadySelected(pos: Field): void {
-        const clicked = this.board.get(pos);
+    private figureAlreadySelected(pos: Field, selected: Field): void {
+        const clickedFigure = this.board.get(pos);
 
-        //we clicked another figure
-        if (clicked) {
+        //we clicked another figure and have selected one
+        const figure = this.board.get(selected);
+        if (clickedFigure && figure) {
             //it is our figure
-            if (clicked.color === this.board.get(this.selectedField).color) {
+            if (clickedFigure.color === figure.color) {
                 this.selectNewPos(pos);
                 return;
             } else {
@@ -94,11 +95,10 @@ export default class BoardController {
                     console.log('ATTACK');
                 }
             }
-        } else if (this.isFieldOnList(pos, this.movesForSelected)) {
+        } else if (figure && this.isFieldOnList(pos, this.movesForSelected)) {
             //we clicked empty field
             //we can move on this field
-            const figure = this.board.get(this.selectedField);
-            this.makeMove(this.selectedField, pos, figure)
+            this.makeMove(selected, pos, figure);
         }
         this.resetSelectedPos();
     }

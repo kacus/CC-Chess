@@ -21,6 +21,7 @@ export default class KnightModel implements IFigure {
             [[2, 1]],
         ];
         this.attackVectors = this.moveVectors;
+        this.isMoved = false;
     }
 
     public move() {
