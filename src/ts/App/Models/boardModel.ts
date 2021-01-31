@@ -1,12 +1,13 @@
 import IBoard from './boardInterface';
 import { IFigure, Color, Field, FigureType } from './figureInterface';
-
-import KingModel from './kingModel';
-import KnightModel from './knightModel';
-import RookModel from './rookModel';
-import TowerModel from './towerModel';
-import BishopModel from './bishopModel';
-import QueenModel from './queenModel';
+import {
+    KingModel,
+    KnightModel,
+    RookModel,
+    TowerModel,
+    BishopModel,
+    QueenModel
+} from './index';
 
 export default class BoardModel implements IBoard {
     public board: IFigure[][];
