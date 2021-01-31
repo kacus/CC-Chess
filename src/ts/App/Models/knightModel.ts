@@ -1,16 +1,16 @@
 import { IFigure, Color, FigureType, ListOfVectors } from './figureInterface';
 
 export default class KnightModel implements IFigure {
-    readonly color: Color;
-    readonly name: FigureType;
-    is_moved: boolean;
-    move_vectors: ListOfVectors;
-    attack_vectors: ListOfVectors;
+    public readonly color: Color;
+    public readonly name: FigureType;
+    public isMoved: boolean;
+    public moveVectors: ListOfVectors;
+    public attackVectors: ListOfVectors;
 
     constructor(color: Color) {
         this.color = color;
         this.name = FigureType.Knight;
-        this.move_vectors = [
+        this.moveVectors = [
             [[-2, -1]],
             [[-2, 1]],
             [[-1, 2]],
@@ -20,10 +20,10 @@ export default class KnightModel implements IFigure {
             [[2, -1]],
             [[2, 1]],
         ];
-        this.attack_vectors = this.move_vectors;
+        this.attackVectors = this.moveVectors;
     }
 
-    move() {
-        this.is_moved = true;
+    public move() {
+        this.isMoved = true;
     }
 }

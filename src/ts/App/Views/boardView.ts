@@ -1,9 +1,9 @@
-import IBoard from '../Models/boardInterface';
+import BoardModel from '../Models/boardModel';
 import { Color, Field, FigureType, IFigure } from '../Models/figureInterface';
 
 export default class BoardView {
 
-    init(parent: HTMLElement, boardModel: IBoard, clickHandler: (pos: Field) => void): void {
+    public init(parent: HTMLElement, boardModel: BoardModel, clickHandler: (pos: Field) => void): void {
         const board = document.createElement('div');
         board.classList.add('chessboard');
 
@@ -15,8 +15,8 @@ export default class BoardView {
                 field.dataset.y = 8 - index_y + '';
 
                 field.addEventListener('click', () => {
-                    const field_pos: Field = [parseInt(field.dataset.x), parseInt(field.dataset.y)];
-                    clickHandler(field_pos);
+                    const fieldPos: Field = [parseInt(field.dataset.x), parseInt(field.dataset.y)];
+                    clickHandler(fieldPos);
                 })
 
                 field.classList.add('chessboard__field');
@@ -35,27 +35,7 @@ export default class BoardView {
         const figureImg = document.createElement('img');
 
         //Map figure to file name
-        let file = figure.color === Color.White ? 'w' : 'b';
-        switch (figure.name) {
-            case FigureType.Rook:
-                file += 'p';
-                break;
-            case FigureType.Tower:
-                file += 'r';
-                break;
-            case FigureType.Knight:
-                file += 'n';
-                break;
-            case FigureType.Bishop:
-                file += 'b';
-                break;
-            case FigureType.King:
-                file += 'k';
-                break;
-            case FigureType.Queen:
-                file += 'q';
-                break;
-        }
+        const file = figure.color + figure.name;
 
         figureImg.setAttribute('src', `./static/assets/pieces/kosal/${file}.svg`);
         figureImg.setAttribute('alt', `${figure.color} ${figure.name}`);
@@ -79,35 +59,35 @@ export default class BoardView {
         field.appendChild(figureImage);
     }
 
-    getField(pos: Field): Element {
+    public getField(pos: Field): Element {
         const field = document.querySelector(`[data-x="${pos[0]}"][data-y="${pos[1]}"]`);
 
         return field;
     }
 
-    move(start: Field, end: Field, figure: IFigure):void{
+    public move(start: Field, end: Field, figure: IFigure):void{
         this.setFigureOnField(end, figure);
         this.resetField(start);
         this.resetStyles();
     }
 
 
-    setAsPossibleToMove(pos: Field): void {
+    public setAsPossibleToMove(pos: Field): void {
         const field = this.getField(pos);
         field.classList.add('chessboard__field--possible_move');
     }
 
-    setAsPossibleToAttack(pos: Field): void {
+    public setAsPossibleToAttack(pos: Field): void {
         const field = this.getField(pos);
         field.classList.add('chessboard__field--possible_attack');
     }
 
-    setAsSelected(pos: Field): void {
+    public setAsSelected(pos: Field): void {
         const field = this.getField(pos);
         field.classList.add('chessboard__field--selected');
     }
 
-    resetStyles() {
+    public resetStyles() {
         const fields = document.querySelectorAll('.chessboard__field');
         fields.forEach(field => {
             field.classList.value = '';

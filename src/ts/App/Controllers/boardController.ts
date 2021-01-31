@@ -4,15 +4,14 @@ import { Color, Field, IFigure } from '../Models/figureInterface';
 import BoardView from '../Views/boardView';
 
 export default class BoardController {
-    view: BoardView;
-    board: BoardModel;
-    parent: HTMLElement;
-    selectedField: Field;
-    movesForSelected: Array<Field>;
-    attacksForSelected: Array<Field>;
+    private view: BoardView;
+    private board: BoardModel;
+    private parent: HTMLElement;
+    private selectedField: Field;
+    private movesForSelected: Field[];
+    private attacksForSelected: Field[];
+    private moveFor: Color;
 
-
-    moveFor: Color;
     constructor(parent: HTMLElement) {
         this.parent = parent;
         this.board = new BoardModel();
@@ -23,20 +22,16 @@ export default class BoardController {
         this.attacksForSelected = null;
     }
 
-    private isFieldOnList(pos: Field, list: Array<Field>): boolean {
+    private isFieldOnList(pos: Field, list: Field[]): boolean {
         return !(list.every(elem => elem[0] !== pos[0] || elem[1] !== pos[1]));
     }
 
     private selectNewPos(pos: Field): void {
         this.view.resetStyles();
-        console.log('Wybrano');
-        console.log(pos);
 
         this.selectedField = pos;
         this.movesForSelected = this.board.possibleMovesFor(this.selectedField);
         this.attacksForSelected = this.board.possibleAttacksFor(this.selectedField);
-        console.log(this.movesForSelected);
-        console.log(this.attacksForSelected);
 
         this.view.setAsSelected(pos);
         this.movesForSelected.forEach(field => {
@@ -54,17 +49,17 @@ export default class BoardController {
         this.attacksForSelected = null;
     }
 
-    private makeMove(start: Field, end: Field, figure: IFigure): void{
+    private makeMove(start: Field, end: Field, figure: IFigure): void {
         this.view.move(start, end, figure);
         this.board.move(start, end);
     }
 
-    setBoard(): void {
-        this.view.init(this.parent, this.board, this.clickOnField.bind(this));
+    public setBoard(): void {
+        this.view.init(this.parent, this.board, this.clickOnField);
         this.moveFor = Color.White;
     }
 
-    clickOnField(pos: Field): void {
+    private clickOnField = (pos: Field): void => {
         //We have selected figure already
         if (this.selectedField !== null) {
             const clicked = this.board.get(pos);
@@ -107,7 +102,7 @@ export default class BoardController {
             if (figureOnPos && figureOnPos.color === this.moveFor) {
                 this.selectNewPos(pos);
                 return;
-            } else{
+            } else {
                 return;
             }
         }
