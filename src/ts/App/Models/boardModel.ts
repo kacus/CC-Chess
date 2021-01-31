@@ -37,8 +37,8 @@ export default class BoardModel implements IBoard {
         this.set(pos, null);
     }
 
-    public possibleMovesFor(pos: Field): Array<Field> {
-        let moves: Array<Field> = [];
+    public possibleMovesFor(pos: Field): Field[] {
+        const moves: Field[] = [];
         const chessman = this.get(pos);
         if (chessman === null) {
             return moves;
@@ -70,8 +70,8 @@ export default class BoardModel implements IBoard {
         return moves;
     }
 
-    public possibleAttacksFor(pos: Field): Array<Field> {
-        let attacks: Array<Field> = [];
+    public possibleAttacksFor(pos: Field): Field[] {
+        const attacks: Field[] = [];
         const chessman = this.get(pos);
 
         if (chessman === null) {
