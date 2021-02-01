@@ -6,8 +6,8 @@ export enum EColor {
 };
 
 export enum EFigureType {
-    Rook = 'p',
-    Tower = 'r',
+    Pawn = 'p',
+    Rook = 'r',
     Bishop = 'b',
     Knight = 'n',
     Queen = 'q',

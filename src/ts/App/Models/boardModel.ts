@@ -3,8 +3,8 @@ import { IFigure, EColor, TField, EFigureType } from './figureInterface';
 import {
     KingModel,
     KnightModel,
+    PawnModel,
     RookModel,
-    TowerModel,
     BishopModel,
     QueenModel
 } from './index';
@@ -111,27 +111,27 @@ export default class BoardModel implements IBoard {
         this.whiteKing = new KingModel(EColor.White);
         return [
             this.setFirstLine(EColor.Black),
-            this.setRooks(EColor.Black),
+            this.setPawns(EColor.Black),
             ...(Array.from({ length: 4 }, _ => Array(8).fill(null))),
-            this.setRooks(EColor.White),
+            this.setPawns(EColor.White),
             this.setFirstLine(EColor.White),
         ]
     }
 
-    private setRooks(color: EColor): (IFigure | null)[] {
-        return [...new Array(8)].map(x => new RookModel(color));
+    private setPawns(color: EColor): (IFigure | null)[] {
+        return [...new Array(8)].map(x => new PawnModel(color));
     }
 
     private setFirstLine(color: EColor): (IFigure | null)[] {
         return [
-            new TowerModel(color),
+            new RookModel(color),
             new KnightModel(color),
             new BishopModel(color),
             new QueenModel(color),
             color === EColor.White ? this.whiteKing : this.blackKing,
             new BishopModel(color),
             new KnightModel(color),
-            new TowerModel(color)
+            new RookModel(color)
         ]
     }
 
