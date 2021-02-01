@@ -1,15 +1,15 @@
-import { IFigure, Color, FigureType, ListOfVectors } from './figureInterface';
+import { IFigure, EColor, EFigureType, TListOfVectors } from './figureInterface';
 
 export default class TowerModel implements IFigure {
-    public readonly color: Color;
-    public readonly name: FigureType;
+    public readonly color: EColor;
+    public readonly name: EFigureType;
     public isMoved: boolean;
-    public moveVectors: ListOfVectors;
-    public attackVectors: ListOfVectors;
+    public moveVectors: TListOfVectors;
+    public attackVectors: TListOfVectors;
 
-    constructor(color: Color) {
+    constructor(color: EColor) {
         this.color = color;
-        this.name = FigureType.Tower;
+        this.name = EFigureType.Tower;
         this.moveVectors = [
             [[1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0]], //top
             [[-1, 0], [-2, 0], [-3, 0], [-4, 0], [-5, 0], [-6, 0], [-7, 0]], //bottom

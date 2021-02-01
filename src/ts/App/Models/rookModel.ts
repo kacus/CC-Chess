@@ -1,16 +1,16 @@
-import { IFigure, Color, FigureType, ListOfVectors } from './figureInterface';
+import { IFigure, EColor, EFigureType, TListOfVectors } from './figureInterface';
 
 export default class RookModel implements IFigure {
-    public readonly color: Color;
-    public readonly name: FigureType;
+    public readonly color: EColor;
+    public readonly name: EFigureType;
     public isMoved: boolean;
-    public moveVectors: ListOfVectors;
-    public attackVectors: ListOfVectors;
+    public moveVectors: TListOfVectors;
+    public attackVectors: TListOfVectors;
 
-    constructor(color: Color) {
+    constructor(color: EColor) {
         this.color = color;
-        this.name = FigureType.Rook;
-        const reverse: number = this.color === Color.White ? 1 : -1;
+        this.name = EFigureType.Rook;
+        const reverse: number = this.color === EColor.White ? 1 : -1;
         this.moveVectors = [
             [[0, 1 * reverse], [0, 2 * reverse]]
         ];
@@ -23,7 +23,7 @@ export default class RookModel implements IFigure {
 
     move() {
         this.isMoved = true;
-        const reverse: number = this.color === Color.White ? 1 : -1;
+        const reverse: number = this.color === EColor.White ? 1 : -1;
         this.moveVectors = [
             [[0, 1 * reverse]]
         ];

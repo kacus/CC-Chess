@@ -1,15 +1,15 @@
-import { IFigure, Color, FigureType, ListOfVectors } from './figureInterface';
+import { IFigure, EColor, EFigureType, TListOfVectors } from './figureInterface';
 
 export default class KingModel implements IFigure {
-    public readonly color: Color;
-    public readonly name: FigureType;
+    public readonly color: EColor;
+    public readonly name: EFigureType;
     public isMoved: boolean;
-    public moveVectors: ListOfVectors;
-    public attackVectors: ListOfVectors;
+    public moveVectors: TListOfVectors;
+    public attackVectors: TListOfVectors;
 
-    constructor(color: Color) {
+    constructor(color: EColor) {
         this.color = color;
-        this.name = FigureType.King;
+        this.name = EFigureType.King;
         this.moveVectors = [
             [[-1, -1]],
             [[-1, 0]],

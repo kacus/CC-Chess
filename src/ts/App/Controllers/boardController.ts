@@ -1,32 +1,32 @@
 
 import BoardModel from '../Models/boardModel';
-import { Color, Field, IFigure } from '../Models/figureInterface';
+import { EColor, TField, IFigure } from '../Models/figureInterface';
 import BoardView from '../Views/boardView';
 
 export default class BoardController {
     private view: BoardView;
     private board: BoardModel;
     private parent: HTMLElement;
-    private selectedField: Field | null;
-    private movesForSelected: Field[];
-    private attacksForSelected: Field[];
-    private moveFor: Color;
+    private selectedField: TField | null;
+    private movesForSelected: TField[];
+    private attacksForSelected: TField[];
+    private moveFor: EColor;
 
     constructor(parent: HTMLElement) {
         this.parent = parent;
         this.board = new BoardModel();
         this.view = new BoardView();
-        this.moveFor = Color.White;
+        this.moveFor = EColor.White;
         this.selectedField = null;
         this.movesForSelected = [];
         this.attacksForSelected = [];
     }
 
-    private isFieldOnList(pos: Field, list: Field[]): boolean {
+    private isFieldOnList(pos: TField, list: TField[]): boolean {
         return !(list.every(elem => elem[0] !== pos[0] || elem[1] !== pos[1]));
     }
 
-    private selectNewPos(pos: Field): void {
+    private selectNewPos(pos: TField): void {
         this.view.resetStyles();
 
         this.selectedField = pos;
@@ -49,17 +49,17 @@ export default class BoardController {
         this.attacksForSelected = [];
     }
 
-    private makeMove(start: Field, end: Field, figure: IFigure): void {
+    private makeMove(start: TField, end: TField, figure: IFigure): void {
         this.view.move(start, end, figure);
         this.board.move(start, end);
     }
 
     public setBoard(): void {
         this.view.init(this.parent, this.board, this.clickOnField);
-        this.moveFor = Color.White;
+        this.moveFor = EColor.White;
     }
 
-    private clickOnField = (pos: Field): void => {
+    private clickOnField = (pos: TField): void => {
         //We have selected figure already
         if (this.selectedField) {
             this.figureAlreadySelected(pos, this.selectedField);
@@ -68,7 +68,7 @@ export default class BoardController {
         }
     }
 
-    private figureNotSelected(pos: Field): void {
+    private figureNotSelected(pos: TField): void {
         //We didn't select figure yet
         const figure = this.board.get(pos);
 
@@ -78,7 +78,7 @@ export default class BoardController {
         }
     }
 
-    private figureAlreadySelected(pos: Field, selected: Field): void {
+    private figureAlreadySelected(pos: TField, selected: TField): void {
         const clickedFigure = this.board.get(pos);
 
         //we clicked another figure and have selected one

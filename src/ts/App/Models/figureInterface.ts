@@ -1,11 +1,11 @@
 import { type } from "os";
 
-export enum Color {
+export enum EColor {
     Black = 'b',
     White = 'w'
 };
 
-export enum FigureType {
+export enum EFigureType {
     Rook = 'p',
     Tower = 'r',
     Bishop = 'b',
@@ -14,15 +14,15 @@ export enum FigureType {
     King = 'k'
 };
 
-export type Field = [number, number];
-export type ListOfVectors = Field[][];
+export type TField = [number, number];
+export type TListOfVectors = TField[][];
 
 
 export interface IFigure {
-    readonly color: Color;
-    readonly name: FigureType;
+    readonly color: EColor;
+    readonly name: EFigureType;
     isMoved: boolean; //is this figure already moved in current game
-    moveVectors: ListOfVectors;
-    attackVectors: ListOfVectors;
+    moveVectors: TListOfVectors;
+    attackVectors: TListOfVectors;
     move(): void;
 };

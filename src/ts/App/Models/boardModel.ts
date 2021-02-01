@@ -1,5 +1,5 @@
 import IBoard from './boardInterface';
-import { IFigure, Color, Field, FigureType } from './figureInterface';
+import { IFigure, EColor, TField, EFigureType } from './figureInterface';
 import {
     KingModel,
     KnightModel,
@@ -10,14 +10,14 @@ import {
 } from './index';
 
 export default class BoardModel implements IBoard {
-    private blackKing: KingModel = new KingModel(Color.Black);
-    private whiteKing: KingModel = new KingModel(Color.White);
+    private blackKing: KingModel = new KingModel(EColor.Black);
+    private whiteKing: KingModel = new KingModel(EColor.White);
     public board: (IFigure | null)[][] = this.setBoard();
 
     constructor() {
     }
 
-    public move(start: Field, end: Field): void {
+    public move(start: TField, end: TField): void {
         const figure = this.get(start);
         if (figure) {
             figure.move();
@@ -26,20 +26,20 @@ export default class BoardModel implements IBoard {
         this.resetField(start);
     }
 
-    public get(pos: Field): (IFigure | null) {
+    public get(pos: TField): (IFigure | null) {
         return this.board[8 - pos[1]][pos[0] - 1];
     }
 
-    public set(pos: Field, figure: IFigure | null): void {
+    public set(pos: TField, figure: IFigure | null): void {
         this.board[8 - pos[1]][pos[0] - 1] = figure;
     }
 
-    private resetField(pos: Field): void {
+    private resetField(pos: TField): void {
         this.set(pos, null);
     }
 
-    public possibleMovesFor(pos: Field): Field[] {
-        const moves: Field[] = [];
+    public possibleMovesFor(pos: TField): TField[] {
+        const moves: TField[] = [];
         const chessman = this.get(pos);
         if (chessman === null) {
             return moves;
@@ -58,7 +58,7 @@ export default class BoardModel implements IBoard {
                 if (col < 1 || col > 8) {
                     break;
                 }
-                const newPos: Field = [row, col];
+                const newPos: TField = [row, col];
 
                 if (this.get(newPos) !== null) {
                     break;
@@ -71,8 +71,8 @@ export default class BoardModel implements IBoard {
         return moves;
     }
 
-    public possibleAttacksFor(pos: Field): Field[] {
-        const attacks: Field[] = [];
+    public possibleAttacksFor(pos: TField): TField[] {
+        const attacks: TField[] = [];
         const chessman = this.get(pos);
 
         if (chessman === null) {
@@ -92,7 +92,7 @@ export default class BoardModel implements IBoard {
                 if (col < 1 || col > 8) {
                     break;
                 }
-                const newPos: Field = [row, col];
+                const newPos: TField = [row, col];
                 const target = this.get(newPos);
 
                 if (target !== null) {
@@ -107,39 +107,39 @@ export default class BoardModel implements IBoard {
     }
 
     public setBoard(): (IFigure | null)[][] {
-        this.blackKing = new KingModel(Color.Black);
-        this.whiteKing = new KingModel(Color.White);
+        this.blackKing = new KingModel(EColor.Black);
+        this.whiteKing = new KingModel(EColor.White);
         return [
-            this.setFirstLine(Color.Black),
-            this.setRooks(Color.Black),
+            this.setFirstLine(EColor.Black),
+            this.setRooks(EColor.Black),
             ...(Array.from({ length: 4 }, _ => Array(8).fill(null))),
-            this.setRooks(Color.White),
-            this.setFirstLine(Color.White),
+            this.setRooks(EColor.White),
+            this.setFirstLine(EColor.White),
         ]
     }
 
-    private setRooks(color: Color): (IFigure | null)[] {
+    private setRooks(color: EColor): (IFigure | null)[] {
         return [...new Array(8)].map(x => new RookModel(color));
     }
 
-    private setFirstLine(color: Color): (IFigure | null)[] {
+    private setFirstLine(color: EColor): (IFigure | null)[] {
         return [
             new TowerModel(color),
             new KnightModel(color),
             new BishopModel(color),
             new QueenModel(color),
-            color === Color.White ? this.whiteKing : this.blackKing,
+            color === EColor.White ? this.whiteKing : this.blackKing,
             new BishopModel(color),
             new KnightModel(color),
             new TowerModel(color)
         ]
     }
 
-    public isMate(color: Color): boolean {
+    public isMate(color: EColor): boolean {
         return false;
     }
 
-    public isCheckMate(color: Color): boolean {
+    public isCheckMate(color: EColor): boolean {
         return false;
     }
 }
