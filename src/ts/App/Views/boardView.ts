@@ -1,9 +1,9 @@
 import BoardModel from '../Models/boardModel';
-import { Color, Field, FigureType, IFigure } from '../Models/figureInterface';
+import { EColor, TField, EFigureType, IFigure } from '../Models/figureInterface';
 
 export default class BoardView {
 
-    public init(parent: HTMLElement, boardModel: BoardModel, clickHandler: (pos: Field) => void): void {
+    public init(parent: HTMLElement, boardModel: BoardModel, clickHandler: (pos: TField) => void): void {
         const board = document.createElement('div');
         board.classList.add('chessboard');
 
@@ -15,7 +15,7 @@ export default class BoardView {
                 field.dataset.y = 8 - index_y + '';
 
                 field.addEventListener('click', () => {
-                    const fieldPos: Field = [parseInt(field.dataset.x), parseInt(field.dataset.y)];
+                    const fieldPos: TField = [parseInt(field.dataset.x), parseInt(field.dataset.y)];
                     clickHandler(fieldPos);
                 })
 
@@ -45,44 +45,44 @@ export default class BoardView {
         return figureImg;
     }
 
-    private resetField(pos: Field): void {
+    private resetField(pos: TField): void {
         const field = this.getField(pos);
         field.innerHTML = '';
         field.classList.value = '';
         field.classList.add('chessboard__field');
     }
 
-    private setFigureOnField(pos: Field, figure: IFigure): void {
+    private setFigureOnField(pos: TField, figure: IFigure): void {
         const field = this.getField(pos);
         const figureImage = this.getFigureImage(figure);
         field.innerHTML = '';
         field.appendChild(figureImage);
     }
 
-    public getField(pos: Field): Element {
+    public getField(pos: TField): Element {
         const field = document.querySelector(`[data-x="${pos[0]}"][data-y="${pos[1]}"]`);
 
         return field;
     }
 
-    public move(start: Field, end: Field, figure: IFigure):void{
+    public move(start: TField, end: TField, figure: IFigure):void{
         this.setFigureOnField(end, figure);
         this.resetField(start);
         this.resetStyles();
     }
 
 
-    public setAsPossibleToMove(pos: Field): void {
+    public setAsPossibleToMove(pos: TField): void {
         const field = this.getField(pos);
         field.classList.add('chessboard__field--possible_move');
     }
 
-    public setAsPossibleToAttack(pos: Field): void {
+    public setAsPossibleToAttack(pos: TField): void {
         const field = this.getField(pos);
         field.classList.add('chessboard__field--possible_attack');
     }
 
-    public setAsSelected(pos: Field): void {
+    public setAsSelected(pos: TField): void {
         const field = this.getField(pos);
         field.classList.add('chessboard__field--selected');
     }
