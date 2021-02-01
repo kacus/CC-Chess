@@ -10,17 +10,16 @@ import {
 } from './index';
 
 export default class BoardModel implements IBoard {
-    public board!: (IFigure | null)[][];
-    private whiteKing!: KingModel;
-    private blackKing!: KingModel;
+    private blackKing: KingModel = new KingModel(Color.Black);
+    private whiteKing: KingModel = new KingModel(Color.White);
+    public board: (IFigure | null)[][] = this.setBoard();
 
     constructor() {
-        this.setBoard();
     }
 
     public move(start: Field, end: Field): void {
         const figure = this.get(start);
-        if(figure){
+        if (figure) {
             figure.move();
         }
         this.set(end, figure);
@@ -107,23 +106,33 @@ export default class BoardModel implements IBoard {
         return attacks;
     }
 
-    public setBoard(): void {
-        this.whiteKing = new KingModel(Color.White);
+    public setBoard(): (IFigure | null)[][] {
         this.blackKing = new KingModel(Color.Black);
-        this.board = [
-            [new TowerModel(Color.Black), new KnightModel(Color.Black), new BishopModel(Color.Black), new QueenModel(Color.Black), this.blackKing, new BishopModel(Color.Black), new KnightModel(Color.Black), new TowerModel(Color.Black)],
-            ...(Array.from({ length: 6 }, e => Array(8).fill(null))),
-            [new TowerModel(Color.White), new KnightModel(Color.White), new BishopModel(Color.White), new QueenModel(Color.White), this.whiteKing, new BishopModel(Color.White), new KnightModel(Color.White), new TowerModel(Color.White)]
-        ];
-        //Black rooks
-        for (let i = 0; i < this.board[1].length; i++) {
-            this.board[1][i] = new RookModel(Color.Black);
-        }
-        //White rooks
-        for (let i = 0; i < this.board[6].length; i++) {
-            this.board[6][i] = new RookModel(Color.White);
-        }
+        this.whiteKing = new KingModel(Color.White);
+        return [
+            this.setFirstLine(Color.Black),
+            this.setRooks(Color.Black),
+            ...(Array.from({ length: 4 }, _ => Array(8).fill(null))),
+            this.setRooks(Color.White),
+            this.setFirstLine(Color.White),
+        ]
+    }
 
+    private setRooks(color: Color): (IFigure | null)[] {
+        return [...new Array(8)].map(x => new RookModel(color));
+    }
+
+    private setFirstLine(color: Color): (IFigure | null)[] {
+        return [
+            new TowerModel(color),
+            new KnightModel(color),
+            new BishopModel(color),
+            new QueenModel(color),
+            color === Color.White ? this.whiteKing : this.blackKing,
+            new BishopModel(color),
+            new KnightModel(color),
+            new TowerModel(color)
+        ]
     }
 
     public isMate(color: Color): boolean {
