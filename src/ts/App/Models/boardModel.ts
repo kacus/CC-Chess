@@ -10,31 +10,12 @@ import {
 } from './index';
 
 export default class BoardModel implements IBoard {
-    public board: (IFigure | null)[][];
-    private whiteKing: KingModel;
-    private blackKing: KingModel;
+    public board!: (IFigure | null)[][];
+    private whiteKing!: KingModel;
+    private blackKing!: KingModel;
 
     constructor() {
-        this.whiteKing = new KingModel(Color.White);
-        this.blackKing = new KingModel(Color.Black);
-        this.board = [
-            [new TowerModel(Color.Black), new KnightModel(Color.Black), new BishopModel(Color.Black), new QueenModel(Color.Black), this.blackKing, new BishopModel(Color.Black), new KnightModel(Color.Black), new TowerModel(Color.Black)],
-            Array(8).fill(null),
-            Array(8).fill(null),
-            Array(8).fill(null),
-            Array(8).fill(null),
-            Array(8).fill(null),
-            Array(8).fill(null),
-            [new TowerModel(Color.White), new KnightModel(Color.White), new BishopModel(Color.White), new QueenModel(Color.White), this.whiteKing, new BishopModel(Color.White), new KnightModel(Color.White), new TowerModel(Color.White)]
-        ];
-        //Black rooks
-        for (let i = 0; i < this.board[1].length; i++) {
-            this.board[1][i] = new RookModel(Color.Black);
-        }
-        //White rooks
-        for (let i = 0; i < this.board[6].length; i++) {
-            this.board[6][i] = new RookModel(Color.White);
-        }
+        this.setBoard();
     }
 
     public move(start: Field, end: Field): void {
@@ -131,12 +112,7 @@ export default class BoardModel implements IBoard {
         this.blackKing = new KingModel(Color.Black);
         this.board = [
             [new TowerModel(Color.Black), new KnightModel(Color.Black), new BishopModel(Color.Black), new QueenModel(Color.Black), this.blackKing, new BishopModel(Color.Black), new KnightModel(Color.Black), new TowerModel(Color.Black)],
-            Array(8).fill(null),
-            Array(8).fill(null),
-            Array(8).fill(null),
-            Array(8).fill(null),
-            Array(8).fill(null),
-            Array(8).fill(null),
+            ...(Array.from({ length: 6 }, e => Array(8).fill(null))),
             [new TowerModel(Color.White), new KnightModel(Color.White), new BishopModel(Color.White), new QueenModel(Color.White), this.whiteKing, new BishopModel(Color.White), new KnightModel(Color.White), new TowerModel(Color.White)]
         ];
         //Black rooks
