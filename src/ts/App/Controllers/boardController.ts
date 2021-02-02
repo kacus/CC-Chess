@@ -5,23 +5,41 @@ import BoardView from '../Views/boardView';
 
 export default class BoardController {
     private view: BoardView;
-    private board: BoardModel;
-    private parent: HTMLElement;
-    private selectedField: TField | null;
-    private movesForSelected: TField[];
-    private attacksForSelected: TField[];
-    private moveFor: EColor;
+    private board!: BoardModel;
+    private selectedField!: TField | null;
+    private movesForSelected!: TField[];
+    private attacksForSelected!: TField[];
+    private moveFor!: EColor;
+    private timeLeftForBlack!: number;
+    private timeLeftForWhite!: number;
+    private timer!: NodeJS.Timeout;
 
     constructor(parent: HTMLElement) {
-        this.parent = parent;
-        this.board = new BoardModel();
         this.view = new BoardView();
+        this.view.init(parent, this.clickOnField);
+    }
+
+    public newGame(time: number): void {
+        //reset constroller
         this.moveFor = EColor.White;
         this.selectedField = null;
         this.movesForSelected = [];
         this.attacksForSelected = [];
+        this.timeLeftForWhite = time;
+        this.timeLeftForBlack = time;
+
+        //make new board model
+        this.board = new BoardModel();
+
+        //set up board
+        this.setUpBoard(this.board);
+
+        //start timer
+        this.setUpTimer();
+        if (+process.env.DEBUG!) console.log(`NEW GAME STARTS`);
     }
 
+    //Moves and attacks functions
     private isFieldOnList(pos: TField, list: TField[]): boolean {
         return !(list.every(elem => elem[0] !== pos[0] || elem[1] !== pos[1]));
     }
@@ -52,11 +70,13 @@ export default class BoardController {
     private makeMove(start: TField, end: TField, figure: IFigure): void {
         this.view.move(start, end, figure);
         this.board.move(start, end);
+        this.changeTurn();
     }
 
-    public setBoard(): void {
-        this.view.init(this.parent, this.board, this.clickOnField);
-        this.moveFor = EColor.White;
+    private makeAttack(start: TField, end: TField, figure: IFigure): void {
+        this.view.move(start, end, figure);
+        this.board.move(start, end);
+        this.changeTurn();
     }
 
     private clickOnField = (pos: TField): void => {
@@ -92,7 +112,7 @@ export default class BoardController {
                 //it is enemy figure
                 //we can attack this figure
                 if (this.isFieldOnList(pos, this.attacksForSelected)) {
-                    console.log('ATTACK');
+                    this.makeAttack(selected, pos, figure);
                 }
             }
         } else if (figure && this.isFieldOnList(pos, this.movesForSelected)) {
@@ -101,5 +121,49 @@ export default class BoardController {
             this.makeMove(selected, pos, figure);
         }
         this.resetSelectedPos();
+    }
+
+    //Game functions
+    private setUpBoard(board: BoardModel): void {
+        this.view.setUpBoard(board);
+    }
+
+    private setUpTimer() {
+        this.timer = setInterval(this.updateTime, 1000);
+    }
+
+    private stopTimer() {
+        clearInterval(this.timer);
+    }
+
+    private updateTime = (): void => {
+        if(this.moveFor === EColor.White){
+            this.timeLeftForWhite -= 1;
+            if(this.timeLeftForWhite <= 0){
+                this.gameOver(EColor.Black);
+                return;
+            }
+            if (+process.env.DEBUG!) console.log(`Left time for White: ${this.timeLeftForWhite}sec`);
+        }else{
+            this.timeLeftForBlack -= 1;
+            if(this.timeLeftForBlack <= 0){
+                this.gameOver(EColor.White);
+                return;
+            }
+            if (+process.env.DEBUG!) console.log(`Left time for Black: ${this.timeLeftForBlack}sec`);
+        }
+    };
+
+    private changeTurn() {
+        this.moveFor = this.moveFor === EColor.White ? EColor.Black : EColor.White;
+    }
+
+    private gameOver(winer: EColor) {
+        this.stopTimer();
+        if (+process.env.DEBUG!) console.log(`WINER! ${winer}`);
+        if (+process.env.DEBUG!) console.log(`NEW GAME WILL START IN 5 SEC`);
+        setTimeout(()=>{
+            this.newGame(15);
+        }, 5000);
     }
 }
