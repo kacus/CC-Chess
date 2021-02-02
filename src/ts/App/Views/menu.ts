@@ -22,14 +22,14 @@ export default class MenuView implements IMenu {
        
     createMenuBackground(element: HTMLElement){
         const menu_background = this.createElement('div', 'menu_background');
-        const setting_players = this.createElement('div', 'setting_players');
-        const setting_players_text = this.createElement('div', 'setting_players_text');
-        setting_players_text.innerText = 'USTAWIENIA GRACZY';
-        setting_players.appendChild(setting_players_text);
-        menu_background.appendChild(setting_players);
+        // const setting_players = this.createElement('div', 'setting_players');
+        // const setting_players_text = this.createElement('div', 'setting_players_text');
+        // setting_players_text.innerText = 'USTAWIENIA GRACZY';
+        // setting_players.appendChild(setting_players_text);
 
-        this.createPlayersBox(menu_background);
-        this.createRadio(menu_background);
+
+        this.createSettingPlayers(menu_background);
+        // this.createRadio(menu_background);
         this.createSettingBox(menu_background);
         element.appendChild(menu_background);
     };
@@ -44,7 +44,12 @@ export default class MenuView implements IMenu {
         element.appendChild(btn_box);
     };
 
-    createPlayersBox(element: HTMLElement){
+    createSettingPlayers(element: HTMLElement){
+        const setting_players = this.createElement('div', 'setting_players');
+        const setting_players_text = this.createElement('div', 'setting_players_text');
+        setting_players_text.innerText = 'USTAWIENIA GRACZY';
+        setting_players.appendChild(setting_players_text);
+        
         const players_box = this.createElement('div', 'players_box');
         const players_box_text = this.createElement('div', 'players_box_text');
         players_box_text.innerText = "IMIONA GRACZY";
@@ -70,7 +75,9 @@ export default class MenuView implements IMenu {
 
         players.append(first_player, second_player);
         players_box.append(players_box_text, players);
-        element.appendChild(players_box);
+        setting_players.appendChild(players_box)
+        this.createRadio(setting_players);
+        element.appendChild(setting_players);
     };
 
     createRadio(element: HTMLElement) {
