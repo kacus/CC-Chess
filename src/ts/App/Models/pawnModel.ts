@@ -16,7 +16,7 @@ export default class RookModel implements IFigure {
         ];
         this.attackVectors = [
             [[1 , reverse]],
-            [[-1 * reverse, reverse]]
+            [[-1, reverse]]
         ];
         this.isMoved = false;
     }
