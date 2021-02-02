@@ -22,14 +22,7 @@ export default class MenuView implements IMenu {
        
     createMenuBackground(element: HTMLElement){
         const menu_background = this.createElement('div', 'menu_background');
-        // const setting_players = this.createElement('div', 'setting_players');
-        // const setting_players_text = this.createElement('div', 'setting_players_text');
-        // setting_players_text.innerText = 'USTAWIENIA GRACZY';
-        // setting_players.appendChild(setting_players_text);
-
-
         this.createSettingPlayers(menu_background);
-        // this.createRadio(menu_background);
         this.createSettingBox(menu_background);
         element.appendChild(menu_background);
     };
@@ -138,10 +131,8 @@ export default class MenuView implements IMenu {
     createTimeGame(element: HTMLElement){
         const time_game = this.createElement('div', 'tame_game');
         time_game.innerText = 'CZAS GRY'
-
         const span_tg = this.createElement('span');
         span_tg.innerText = 'W MINUTACH';
-
         time_game.appendChild(span_tg);
 
         const slider_box = this.createElement('div', 'slider_box');
@@ -159,9 +150,8 @@ export default class MenuView implements IMenu {
         slider_time.setAttribute('name', 'range_display');
         slider_time.setAttribute('for', 'range_time');
         slider_time.textContent = `Wybrany czas gry to: ${slider.getAttribute('value')}min`
-
         slider_box.append(slider, slider_time);
-
+        
         element.append(time_game, slider_box);
     };
 
