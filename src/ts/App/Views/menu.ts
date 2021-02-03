@@ -72,28 +72,28 @@ export default class MenuView implements IMenu {
     };
 
     private createRadio(element: HTMLElement) {
-        const form_radio = this.createElement('form', 'setting__players--form_radio');
+        const form_checkbox = this.createElement('form', 'setting__players--form_checkbox');
 
-        const radio_color = this.createElement('input');
-        radio_color.setAttribute('type','radio');
-        radio_color.setAttribute('id','random color');
-        radio_color.setAttribute('value','random color');
+        const checkbox_color = this.createElement('input');
+        checkbox_color.setAttribute('type','checkbox');
+        checkbox_color.setAttribute('id','random color');
+        checkbox_color.setAttribute('name','random color');
 
         const label_color = this.createElement('label');
         label_color.setAttribute('for','random color');
         label_color.innerText = 'Losowy kolor';
 
-        const radio_move = this.createElement('input');
-        radio_move.setAttribute('type','radio');
-        radio_move.setAttribute('id','possible move');
-        radio_color.setAttribute('value','possible move');
+        const checkbox_move = this.createElement('input');
+        checkbox_move.setAttribute('type','checkbox');
+        checkbox_move.setAttribute('id','possible move');
+        checkbox_move.setAttribute('name','possible move');
 
         const label_move = this.createElement('label');
         label_move.setAttribute('for','possible move');
         label_move.innerText = 'Pokazuj możliwe posunięcia';
 
-        form_radio.append(radio_color, label_color, radio_move, label_move);
-        element.appendChild(form_radio);
+        form_checkbox.append(checkbox_color, label_color, checkbox_move, label_move);
+        element.appendChild(form_checkbox);
     };
 
     private createSettingBox(element: HTMLElement){
@@ -164,10 +164,9 @@ export default class MenuView implements IMenu {
     }
 
     private addTime() {
-        const x = document.querySelector('.slider_box'); 
-        const z =x.querySelector('input').value  
-        const y = x.querySelector('output');    
-        y.innerText = `Wybrany czas gry to: ${z}min`;
+        const sliderValue = (<HTMLInputElement>document.getElementById('range')).value;
+        const outputElement = <HTMLElement>document.getElementById('range_display');
+        outputElement.innerText = `Wybrany czas gry to: ${sliderValue}min`;
     };
 
     display(){
