@@ -1,6 +1,6 @@
 import IBoard from '../Models/boardInterface';
 import BoardModel from '../Models/boardModel';
-import { EColor, TField, EFigureType, IFigure } from '../Models/figureInterface';
+import { EColor, TField, EFigureType, IFigure } from '../Models/pieces/figureInterface';
 
 export default class BoardView {
 

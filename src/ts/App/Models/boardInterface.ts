@@ -1,4 +1,4 @@
-import { IFigure, EColor, TField } from './figureInterface';
+import { IFigure, EColor, TField } from './pieces/figureInterface';
 
 export default interface IBoard {
     board: (IFigure | null)[][];
