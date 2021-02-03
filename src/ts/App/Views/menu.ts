@@ -13,52 +13,52 @@ export default class MenuView implements IMenu {
         return element;
     };
 
-    createMenuWraper(element: HTMLElement){
-        const menu_wraper = this.createElement('div', 'menu_wraper');
+    private createMenuWraper(element: HTMLElement){
+        const menu_wraper = this.createElement('div', 'menu');
         this.createMenuBackground(menu_wraper);
         this.createBtnBox(menu_wraper);
         element.appendChild(menu_wraper);
     };
        
-    createMenuBackground(element: HTMLElement){
-        const menu_background = this.createElement('div', 'menu_background');
+    private createMenuBackground(element: HTMLElement){
+        const menu_background = this.createElement('div', 'menu__background');
         this.createSettingPlayers(menu_background);
         this.createSettingBox(menu_background);
         element.appendChild(menu_background);
     };
 
-    createBtnBox(element: HTMLElement){
-        const btn_box = this.createElement('div', 'btn_box');
-        const btn_start = this.createElement('button', 'btn_start');
+    private createBtnBox(element: HTMLElement){
+        const btn_box = this.createElement('div', 'menu__button');
+        const btn_start = this.createElement('button', 'menu__button--start');
         btn_start.innerText = "ROZPOCZNIJ GRĘ";
         btn_box.append(btn_start);
         element.appendChild(btn_box);
     };
 
-    createSettingPlayers(element: HTMLElement){
-        const setting_players = this.createElement('div', 'setting_players');
-        const setting_players_text = this.createElement('div', 'setting_players_text');
+    private createSettingPlayers(element: HTMLElement){
+        const setting_players = this.createElement('div', 'setting__players');
+        const setting_players_text = this.createElement('div', 'setting__players--text');
         setting_players_text.innerText = 'USTAWIENIA GRACZY';
         setting_players.appendChild(setting_players_text);
         
-        const players_box = this.createElement('div', 'players_box');
-        const players_box_text = this.createElement('div', 'players_box_text');
+        const players_box = this.createElement('div', 'setting__players--box');
+        const players_box_text = this.createElement('div', 'setting__players--text');
         players_box_text.innerText = "IMIONA GRACZY";
-        const players = this.createElement('div', 'players');
+        const players = this.createElement('div', 'setting__players--players');
 
-        const first_player = this.createElement('div', 'one_player');
+        const first_player = this.createElement('div', 'players--one_player');
         const white = this.createElement('div', 'white_player');
         white.innerText = 'Białe | Nazwa gracza'
-        const insert_name_first = this.createElement('input', 'insert_name');
+        const insert_name_first = this.createElement('input', 'insert__name');
         insert_name_first.setAttribute('type', 'text');
         insert_name_first.setAttribute('maxlength', '20');
         insert_name_first.setAttribute('pattern', '[a-zA-Z0-9]{3,20}');
         first_player.append(white, insert_name_first);
 
-        const second_player = this.createElement('div', 'one_player');
+        const second_player = this.createElement('div', 'players--one_player');
         const black = this.createElement('div', 'black_player');
         black.innerText = 'Czarne | Nazwa gracza'
-        const insert_name_second = this.createElement('input', 'insert_name');
+        const insert_name_second = this.createElement('input', 'insert__name');
         insert_name_second.setAttribute('type', 'text');
         insert_name_second.setAttribute('maxlength', '20');
         insert_name_second.setAttribute('pattern', '[a-zA-Z0-9]{3,20}');
@@ -71,8 +71,8 @@ export default class MenuView implements IMenu {
         element.appendChild(setting_players);
     };
 
-    createRadio(element: HTMLElement) {
-        const form_radio = this.createElement('form', 'form_radio');
+    private createRadio(element: HTMLElement) {
+        const form_radio = this.createElement('form', 'setting__players--form_radio');
 
         const radio_color = this.createElement('input');
         radio_color.setAttribute('type','radio');
@@ -96,19 +96,19 @@ export default class MenuView implements IMenu {
         element.appendChild(form_radio);
     };
 
-    createSettingBox(element: HTMLElement){
-        const setting_box = this.createElement('div', 'setting_box');
+    private createSettingBox(element: HTMLElement){
+        const setting_box = this.createElement('div', 'setting__box');
         this.createSettingGame(setting_box);
         this.createTimeGame(setting_box);
         element.appendChild(setting_box);
     };
 
-    createSettingGame(element: HTMLElement){
-        const setting_game = this.createElement('div', 'setting_game');
-        const setting_text = this.createElement('div', 'setting_text');
+    private createSettingGame(element: HTMLElement){
+        const setting_game = this.createElement('div', 'setting--game');
+        const setting_text = this.createElement('div', 'setting__game--text');
         setting_text.innerText ='USTAWIENIA GRY';
 
-        const form_action = this.createElement('form', 'form_action');
+        const form_action = this.createElement('form', 'setting__box--form__action');
         form_action.innerText = "WARIANT GRY";
         const select = this.createElement('select'); 
         select.setAttribute('name', 'game variant');
@@ -126,15 +126,15 @@ export default class MenuView implements IMenu {
         element.appendChild(setting_game);
     };
 
-    createTimeGame(element: HTMLElement){
-        const time_game = this.createElement('div', 'tame_game');
+    private createTimeGame(element: HTMLElement){
+        const time_game = this.createElement('div', 'setting--tame');
         time_game.innerText = 'CZAS GRY'
         const span_tg = this.createElement('span');
         span_tg.innerText = 'W MINUTACH';
         time_game.appendChild(span_tg);
 
-        const slider_box = this.createElement('div', 'slider_box');
-        const slider = this.createElement('input', 'slider_range');
+        const slider_box = this.createElement('div', 'setting--slider');
+        const slider = this.createElement('input', 'slider__range');
         slider.setAttribute('type', 'range');
         slider.setAttribute('name', 'range_time');
         slider.setAttribute('min', '2');
@@ -153,7 +153,7 @@ export default class MenuView implements IMenu {
         element.append(time_game, slider_box);
     };
 
-    createAddEventListner() {
+    private createAddEventListner() {
         const t = document.getElementById('range');
         t.addEventListener("input", () => {
             this.addTime();
@@ -163,7 +163,7 @@ export default class MenuView implements IMenu {
         });
     }
 
-    addTime() {
+    private addTime() {
         const x = document.querySelector('.slider_box'); 
         const z =x.querySelector('input').value  
         const y = x.querySelector('output');    
