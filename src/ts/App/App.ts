@@ -5,5 +5,5 @@ export default function App(): void {
     const root = document.getElementById('root')!;
 
     const controller = new BoardController(root);
-    controller.setBoard();
+    controller.newGame(15);
 }

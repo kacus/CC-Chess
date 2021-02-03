@@ -1,5 +1,5 @@
 import IBoard from './boardInterface';
-import { IFigure, EColor, TField, EFigureType } from './figureInterface';
+import { IFigure, EColor, TField, EFigureType } from './pieces/figureInterface';
 import {
     KingModel,
     KnightModel,
@@ -7,7 +7,7 @@ import {
     RookModel,
     BishopModel,
     QueenModel
-} from './index';
+} from './pieces/index';
 
 export default class BoardModel implements IBoard {
     private blackKing: KingModel = new KingModel(EColor.Black);

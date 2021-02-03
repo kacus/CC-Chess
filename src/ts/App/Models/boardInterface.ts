@@ -1,4 +1,4 @@
-import { IFigure, EColor, TField } from './figureInterface';
+import { IFigure, EColor, TField } from './pieces/figureInterface';
 
 export default interface IBoard {
     board: (IFigure | null)[][];
@@ -9,5 +9,8 @@ export default interface IBoard {
     setBoard(): void; //set board
     isMate(color: EColor): boolean; //is king with given color in mate
     isCheckMate(color: EColor): boolean; //is king with given color in checkmate
+
+    get(pos: TField): (IFigure | null);
+    set(pos: TField, figure: IFigure | null): void;
 
 }
