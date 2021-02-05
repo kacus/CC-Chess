@@ -1,3 +1,4 @@
+import { copyFile } from 'fs';
 import IBoard from './boardInterface';
 import { IFigure, EColor, TField, EFigureType } from './pieces/figureInterface';
 import {
@@ -10,8 +11,6 @@ import {
 } from './pieces/index';
 
 export default class BoardModel implements IBoard {
-    private blackKing: KingModel = new KingModel(EColor.Black);
-    private whiteKing: KingModel = new KingModel(EColor.White);
     public board: (IFigure | null)[][] = this.setBoard();
 
     constructor() {
@@ -40,12 +39,12 @@ export default class BoardModel implements IBoard {
 
     public possibleMovesFor(pos: TField): TField[] {
         const moves: TField[] = [];
-        const chessman = this.get(pos);
-        if (chessman === null) {
+        const figure = this.get(pos);
+        if (figure === null) {
             return moves;
         }
 
-        chessman.moveVectors.forEach(vector => {
+        figure.moveVectors.forEach(vector => {
             let indexOfMove = 0;
             while (indexOfMove < vector.length) {
                 const move = vector[indexOfMove];
@@ -54,15 +53,24 @@ export default class BoardModel implements IBoard {
                 if (row < 1 || row > 8) {
                     break;
                 }
+
                 const col = pos[1] + move[1];
                 if (col < 1 || col > 8) {
                     break;
                 }
+
                 const newPos: TField = [row, col];
 
                 if (this.get(newPos) !== null) {
                     break;
                 }
+
+                //check if move cause 'check'
+                if (!this.simulateMove(figure.color, pos, newPos)) {
+                    break;
+                }
+
+
                 moves.push([row, col]);
                 indexOfMove += 1;
             }
@@ -73,13 +81,13 @@ export default class BoardModel implements IBoard {
 
     public possibleAttacksFor(pos: TField): TField[] {
         const attacks: TField[] = [];
-        const chessman = this.get(pos);
+        const figure = this.get(pos);
 
-        if (chessman === null) {
+        if (figure === null) {
             return attacks;
         }
 
-        chessman.attackVectors.forEach(vector => {
+        figure.attackVectors.forEach(vector => {
             let indexOfMove = 0;
             while (indexOfMove < vector.length) {
                 const move = vector[indexOfMove];
@@ -96,19 +104,23 @@ export default class BoardModel implements IBoard {
                 const target = this.get(newPos);
 
                 if (target !== null) {
-                    if (target.color !== chessman.color) attacks.push([row, col]);
+                    if (target.color !== figure.color) {
+                        attacks.push([row, col]);
+                    }
                     break;
                 }
                 indexOfMove += 1;
             }
         })
 
+        // attacks.filter(attack => {
+        //     return this.simulateMove(figure.color, pos, attack);
+        // });
+
         return attacks;
     }
 
     public setBoard(): (IFigure | null)[][] {
-        this.blackKing = new KingModel(EColor.Black);
-        this.whiteKing = new KingModel(EColor.White);
         return [
             this.setFirstLine(EColor.Black),
             this.setPawns(EColor.Black),
@@ -128,18 +140,63 @@ export default class BoardModel implements IBoard {
             new KnightModel(color),
             new BishopModel(color),
             new QueenModel(color),
-            color === EColor.White ? this.whiteKing : this.blackKing,
+            color === EColor.White ? new KingModel(EColor.White) : new KingModel(EColor.Black),
             new BishopModel(color),
             new KnightModel(color),
             new RookModel(color)
         ]
     }
 
-    public isMate(color: EColor): boolean {
+    private deepCopy(): BoardModel {
+        const copy = new BoardModel();
+        copy.board = [];
+        this.board.forEach(line => {
+            const row: (IFigure | null)[] = [];
+            line.forEach(figure => {
+                if (figure) {
+                    const copyOfFigure = Object.assign(Object.create(Object.getPrototypeOf(figure)), figure);
+                    row.push(copyOfFigure);
+                    return;
+                } else {
+                    row.push(null);
+                }
+
+            });
+            copy.board.push(row);
+        });
+        return copy;
+    }
+
+    //Is king in check
+    public isCheck(color: EColor): boolean {
+        for (let y = 1; y <= 8; y++) {
+            for (let x = 1; x <= 8; x++) {
+                const pos: TField = [x, y];
+                const figure = this.get(pos);
+                if (figure && figure.color !== color) {
+                    const attackedFields = this.possibleAttacksFor(pos);
+                    for (let z = 0; z < attackedFields.length; z++) {
+                        const attackedFigure = this.get(attackedFields[z])!;
+                        if (attackedFigure.name === EFigureType.King && attackedFigure.color === color) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
         return false;
     }
 
     public isCheckMate(color: EColor): boolean {
         return false;
+    }
+
+    // check if move can be made for given color
+    public simulateMove(color: EColor, from: TField, to: TField): boolean {
+        const copy = this.deepCopy();
+        copy.move(from, to);
+
+        //return false if move will cause 'check', return true otherwise
+        return !copy.isCheck(color);
     }
 }

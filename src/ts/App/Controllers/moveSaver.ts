@@ -12,7 +12,7 @@ export class MoveSaver {
     }
 
     public canUndoMove(): boolean{
-        return this.moves !== [];
+        return this.moves.length > 0;
     }
 
     public addMove(move: (SaveOfMove | SaveOfCastling)): void {

@@ -65,6 +65,11 @@ export default class BoardController {
         this.movesForSelected = this.board.possibleMovesFor(this.selectedField);
         this.attacksForSelected = this.board.possibleAttacksFor(this.selectedField);
 
+        //allow attack if it not cause 'check'
+        this.attacksForSelected = this.attacksForSelected.filter(attack => {
+            return this.board.simulateMove(this.moveFor, pos, attack);
+        });
+
         //mark figure on given position as selected
         this.view.setAsSelected(pos);
         const figure = this.board.get(pos)!;
@@ -102,6 +107,8 @@ export default class BoardController {
         //move
         this.view.move(start, end, figure);
         this.board.move(start, end);
+
+        //change turn
         this.changeTurn();
 
         //print move
@@ -120,6 +127,8 @@ export default class BoardController {
         //attack
         this.view.move(start, end, figure);
         this.board.move(start, end);
+
+        //change turn
         this.changeTurn();
 
         //print attack
@@ -172,7 +181,7 @@ export default class BoardController {
                     this.makeAttack(selectedPos, clickedPos, figure);
                 }
             }
-        //check if we clicked on field we can move
+            //check if we clicked on field we can move
         } else if (figure && this.isFieldOnList(clickedPos, this.movesForSelected)) {
             //we clicked empty field
             //we can move on this field
@@ -204,7 +213,7 @@ export default class BoardController {
         //save castling
         const savedMove = new SaveOfCastling(color, kingSide);
         this.moveSaver.addMove(savedMove);
-        
+
         const row = color === EColor.White ? 1 : 8;
 
         const initKingPos: TField = [5, row];
@@ -298,7 +307,7 @@ export default class BoardController {
 
     //handler for 'undo' last move
     public undoMove = () => {
-        if(this.moveSaver.canUndoMove()){
+        if (this.moveSaver.canUndoMove()) {
             this.moveSaver.revertLastMove(this.board, this.view);
             this.moveFor = this.moveFor === EColor.White ? EColor.Black : EColor.White;
             this.resetSelectedFigure();
