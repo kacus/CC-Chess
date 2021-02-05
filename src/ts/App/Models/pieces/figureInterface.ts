@@ -25,4 +25,5 @@ export interface IFigure {
     moveVectors: TListOfVectors;
     attackVectors: TListOfVectors;
     move(): void;
+    reset(): void;
 };

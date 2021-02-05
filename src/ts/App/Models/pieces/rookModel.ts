@@ -20,7 +20,11 @@ export default class TowerModel implements IFigure {
         this.isMoved = false;
     }
 
-    move() {
+    public move() {
         this.isMoved = true;
+    }
+
+    public reset():void {
+        this.isMoved = false;
     }
 }

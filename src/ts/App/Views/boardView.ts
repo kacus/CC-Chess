@@ -64,7 +64,7 @@ export default class BoardView {
         field.classList.add('chessboard__field');
     }
 
-    private setFigureOnField(pos: TField, figure: IFigure): void {
+    public setFigureOnField(pos: TField, figure: IFigure): void {
         const field = this.getField(pos);
         const figureImage = this.getFigureImage(figure);
         field.innerHTML = '';

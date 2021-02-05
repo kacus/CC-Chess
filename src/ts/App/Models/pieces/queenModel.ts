@@ -27,4 +27,8 @@ export default class QueenModel implements IFigure {
     public move() {
         this.isMoved = true;
     }
+
+    public reset():void {
+        this.isMoved = false;
+    }
 }

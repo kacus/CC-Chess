@@ -34,7 +34,7 @@ export default class BoardModel implements IBoard {
         this.board[8 - pos[1]][pos[0] - 1] = figure;
     }
 
-    private resetField(pos: TField): void {
+    public resetField(pos: TField): void {
         this.set(pos, null);
     }
 
