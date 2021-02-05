@@ -78,8 +78,9 @@ export default class MenuView implements IMenu {
         checkbox_color.setAttribute('type','checkbox');
         checkbox_color.setAttribute('id','random color');
         checkbox_color.setAttribute('name','random color');
+        const span_color = this.createElement('span', 'checkmark');
 
-        const label_color = this.createElement('label');
+        const label_color = this.createElement('label', 'checkbox');
         label_color.setAttribute('for','random color');
         label_color.innerText = 'Losowy kolor';
 
@@ -87,12 +88,15 @@ export default class MenuView implements IMenu {
         checkbox_move.setAttribute('type','checkbox');
         checkbox_move.setAttribute('id','possible move');
         checkbox_move.setAttribute('name','possible move');
+        const span_move = this.createElement('span', 'checkmark');
 
-        const label_move = this.createElement('label');
+        const label_move = this.createElement('label', 'checkbox');
         label_move.setAttribute('for','possible move');
         label_move.innerText = 'Pokazuj możliwe posunięcia';
 
-        form_checkbox.append(checkbox_color, label_color, checkbox_move, label_move);
+        label_color.append(checkbox_color, span_color);
+        label_move.append(checkbox_move, span_move);
+        form_checkbox.append(label_color, label_move);
         element.appendChild(form_checkbox);
     };
 
@@ -130,7 +134,7 @@ export default class MenuView implements IMenu {
         const time_game = this.createElement('div', 'setting--tame');
         time_game.innerText = 'CZAS GRY'
         const span_tg = this.createElement('span');
-        span_tg.innerText = 'W MINUTACH';
+        span_tg.innerText = '(W MINUTACH)';
         time_game.appendChild(span_tg);
 
         const slider_box = this.createElement('div', 'setting--slider');
