@@ -17,7 +17,7 @@ export default class SaveOfMove implements ISaveOf{
         this.movedFigure = moved;
         this.from = from;
         this.to = to;
-        this.wasMovedFigureUnmoved = !!moved.isMoved;
+        this.wasMovedFigureUnmoved = moved.isMoved;
         if (attacked) {
             this.attacked = attacked;
             this.wasAttackedFigureUnmoved = attacked.isMoved;
@@ -81,14 +81,18 @@ export default class SaveOfMove implements ISaveOf{
 
     public revert(model: BoardModel, view: BoardView):void{
         //revert move
-        this.movedFigure.reset();
+        if(!this.wasMovedFigureUnmoved){
+            this.movedFigure.setAsUnmoved();
+        }
         model.set(this.from, this.movedFigure);
         model.resetField(this.to);
         view.move(this.to, this.from, this.movedFigure);
         
         //revert attack
         if(this.attacked){
-            this.attacked.reset();
+            if(!this.wasAttackedFigureUnmoved){
+                this.attacked.setAsUnmoved();
+            }
             model.set(this.to, this.attacked);
             view.setFigureOnField(this.to, this.attacked);
         }

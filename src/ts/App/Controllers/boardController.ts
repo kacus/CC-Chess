@@ -258,6 +258,7 @@ export default class BoardController {
         if(this.moveSaver.canUndoMove()){
             this.moveSaver.revertLastMove(this.board, this.view);
             this.moveFor = this.moveFor === EColor.White ? EColor.Black : EColor.White;
+            this.resetSelectedFigure();
         }
     }
 

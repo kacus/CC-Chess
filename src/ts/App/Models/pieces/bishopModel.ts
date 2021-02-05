@@ -24,7 +24,7 @@ export default class BishopModel implements IFigure {
         this.isMoved = true;
     }
 
-    public reset(): void {
+    public setAsUnmoved(): void {
         this.isMoved = false;
     }
 }

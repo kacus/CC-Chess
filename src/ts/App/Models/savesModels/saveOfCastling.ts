@@ -32,7 +32,7 @@ export default class SaveOfCastling implements ISaveOf {
 
         //revert king
         view.move(initKingPos,newKingPos, king);
-        king.reset();
+        king.setAsUnmoved();
         
         model.set(newKingPos, king);
         model.resetField(initKingPos);
@@ -42,6 +42,6 @@ export default class SaveOfCastling implements ISaveOf {
         model.resetField(initRookPos);
 
         view.move(initRookPos, newRookPos, rook);
-        rook.reset();
+        rook.setAsUnmoved();
     }
 }

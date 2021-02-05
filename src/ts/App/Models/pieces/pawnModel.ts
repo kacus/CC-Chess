@@ -29,7 +29,7 @@ export default class RookModel implements IFigure {
         ];
     }
 
-    public reset(): void {
+    public setAsUnmoved(): void {
         this.isMoved = false;
         const reverse: number = this.color === EColor.White ? 1 : -1;
         this.moveVectors = [
