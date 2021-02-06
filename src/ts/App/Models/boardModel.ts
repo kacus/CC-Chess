@@ -111,11 +111,7 @@ export default class BoardModel implements IBoard {
                 }
                 indexOfMove += 1;
             }
-        })
-
-        // attacks.filter(attack => {
-        //     return this.simulateMove(figure.color, pos, attack);
-        // });
+        });
 
         return attacks;
     }
@@ -188,7 +184,27 @@ export default class BoardModel implements IBoard {
     }
 
     public isCheckMate(color: EColor): boolean {
-        return false;
+        if (!this.isCheck(color)) return false;
+
+        for (let y = 1; y <= 8; y++) {
+            for (let x = 1; x <= 8; x++) {
+                const pos: TField = [x, y];
+                const figure = this.get(pos);
+                if (figure && figure.color === color) {
+                    //check if attack can save king
+                    let attackedFields = this.possibleAttacksFor(pos);
+                    attackedFields = attackedFields.filter(attack => {
+                        return this.simulateMove(color, pos, attack);
+                    });
+                    if (attackedFields.length > 0) return false;
+                    //check if move can save king
+                    const fieldsToMove = this.possibleMovesFor(pos);
+                    if (fieldsToMove.length > 0) return false;
+                }
+            }
+        }
+        console.log('CHECK MATE!');
+        return true;
     }
 
     // check if move can be made for given color

@@ -108,11 +108,11 @@ export default class BoardController {
         this.view.move(start, end, figure);
         this.board.move(start, end);
 
-        //change turn
-        this.changeTurn();
-
         //print move
         console.log(savedMove.printMove());
+
+        //change turn
+        this.changeTurn();
     }
 
     //Attack given figure on end position by given figure on start position
@@ -127,12 +127,12 @@ export default class BoardController {
         //attack
         this.view.move(start, end, figure);
         this.board.move(start, end);
+        
+        //print attack
+        console.log(savedAttack.printMove());
 
         //change turn
         this.changeTurn();
-
-        //print attack
-        console.log(savedAttack.printMove());
     }
 
     //Handler for clicking on field
@@ -302,7 +302,9 @@ export default class BoardController {
 
     //change turn for enemy player
     private changeTurn() {
-        this.moveFor = this.moveFor === EColor.White ? EColor.Black : EColor.White;
+        const nextMoveFor =this.moveFor === EColor.White ? EColor.Black : EColor.White;
+        if(this.board.isCheckMate(nextMoveFor)) this.gameOver(this.moveFor);
+        this.moveFor = nextMoveFor;
     }
 
     //handler for 'undo' last move
