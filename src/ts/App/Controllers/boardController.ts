@@ -28,6 +28,9 @@ export default class BoardController {
         this.timeLeftForWhite = time;
         this.timeLeftForBlack = time;
 
+        //
+        this.view.getStartTime(time);
+
         //make new board model
         this.board = new BoardModel();
 
@@ -37,6 +40,7 @@ export default class BoardController {
         //start timer
         this.setUpTimer();
         if (+process.env.DEBUG!) console.log(`NEW GAME STARTS`);
+
     }
 
     //Moves and attacks functions
@@ -144,6 +148,11 @@ export default class BoardController {
                 return;
             }
             if (+process.env.DEBUG!) console.log(`Left time for White: ${this.timeLeftForWhite}sec`);
+
+            //
+            this.view.updateTime(this.timeLeftForWhite, this.moveFor);
+            //
+
         }else{
             this.timeLeftForBlack -= 1;
             if(this.timeLeftForBlack <= 0){
@@ -151,6 +160,8 @@ export default class BoardController {
                 return;
             }
             if (+process.env.DEBUG!) console.log(`Left time for Black: ${this.timeLeftForBlack}sec`);
+
+            this.view.updateTime(this.timeLeftForBlack, this.moveFor);
         }
     };
 

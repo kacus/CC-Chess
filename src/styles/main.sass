@@ -2,3 +2,53 @@
 body
     background-color: #555
     color: #FFF
+
+.container
+    max-height:100vh
+
+.stage
+    background-color: #888
+    width:75vh
+    height:10vh
+    display: flex
+    margin-top: 5px
+    margin-bottom: 5px
+    border-radius: 5px
+
+.stage:first-child
+    background-color: #464646
+    color: #C4C4C4
+
+.stage:last-child
+    background-color: #C4C4C4
+    color: #464646
+
+.player__name
+    height:30%
+    padding:2px
+    padding-left: 5px
+    font-weight: bold
+
+
+
+.figures__list
+    height: 70%
+    display: flex
+    max-width: 100%
+    justify-content: start
+    align-items: flex-end
+
+.chessboard__figure__stage
+    height:100%
+    max-width: 5%
+    color: red
+    filter: invert(0.5)
+
+.game__stage
+    justify-self: end
+    width: 90%
+
+.time
+    width: 10%
+    align-self: center
+    font-weight: bold

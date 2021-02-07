@@ -1,12 +1,31 @@
 import IBoard from '../Models/boardInterface';
 import BoardModel from '../Models/boardModel';
 import { EColor, TField, EFigureType, IFigure } from '../Models/pieces/figureInterface';
+import StageView from './stageView';
 
 export default class BoardView {
 
     public init(parent: HTMLElement, clickHandler: (pos: TField) => void): void {
         const board = document.createElement('div');
         board.classList.add('chessboard');
+
+        //game stage
+        const stage1 = document.createElement('div');
+        const stage2 = document.createElement('div');
+        const container = document.createElement('div');
+
+        stage1.classList.add('stage');
+        const blackStage = new StageView();
+        blackStage.init(stage1, EColor.White, 'Player 1');
+        stage2.classList.add('stage');
+        container.classList.add('container');
+
+        const whiteStage = new StageView();
+        whiteStage.init(stage2, EColor.Black, 'Player 2');
+
+
+
+        //
 
         for (let y = 0; y < 8; y++) {
             for (let x = 0; x < 8; x++) {
@@ -25,7 +44,14 @@ export default class BoardView {
                 board.appendChild(field);
             }
         }
-        parent.appendChild(board);
+
+        //
+        parent.appendChild(container);
+        container.appendChild(stage1);
+        container.appendChild(board);
+        container.appendChild(stage2);
+
+        //
     }
 
     public setUpBoard(board: IBoard): void {
@@ -66,6 +92,40 @@ export default class BoardView {
 
     private setFigureOnField(pos: TField, figure: IFigure): void {
         const field = this.getField(pos);
+        //
+        if (field.hasChildNodes()) {
+            const figureSrc = field.children[0].attributes[0].value;
+            const figureType = figureSrc.slice((figureSrc.length - 6), (figureSrc.length - 4));
+
+            let figType;
+            
+                if(figureType=='bp' || figureType=='wp'){
+                    figType = 'pawn';
+                }else if(figureType=='bb' || figureType=='wb'){
+                    figType = 'bishop';
+                }else if(figureType=='bn' || figureType=='wn'){
+                    figType = 'knight';
+                }else if(figureType=='br' || figureType=='wr'){
+                    figType = "rook";
+                }else if(figureType=='bq' || figureType=='wq') {
+                    figType = 'queen';
+                }
+
+
+            console.log(figureType);
+            console.log(figType)
+            let color;
+            color=figure.color===EColor.White?'last-of-type':'first-of-type';
+
+
+            let figSymbol = document.querySelector<HTMLElement>(`.stage:${color} > .game__stage>.figures__list > .chessboard__figure__stage.${figType}`)!
+            figSymbol.style.filter = 'invert(0)';
+            console.log(figSymbol);
+            figSymbol.classList.remove(`${figType}`);
+
+        }
+        //
+
         const figureImage = this.getFigureImage(figure);
         field.innerHTML = '';
         field.appendChild(figureImage);
@@ -104,5 +164,18 @@ export default class BoardView {
             field.classList.value = '';
             field.classList.add('chessboard__field');
         })
+    }
+    public updateTime(time:number, color:EColor){
+        if (color===EColor.White){
+            let obj = document.querySelector('.stage:last-child > .time')!;
+            obj.innerHTML=time+'';
+        }else{
+            let obj = document.querySelector('.stage:first-child > .time')!;
+            obj.innerHTML=time+'';
+        }
+    }
+    public getStartTime(time:number){
+        let startTime = document.querySelector('.time')!;
+        startTime.innerHTML=time+'';
     }
 }
