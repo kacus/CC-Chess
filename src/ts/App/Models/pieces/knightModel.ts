@@ -27,4 +27,8 @@ export default class KnightModel implements IFigure {
     public move() {
         this.isMoved = true;
     }
+
+    public setAsUnmoved():void {
+        this.isMoved = false;
+    }
 }

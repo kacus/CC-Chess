@@ -1,3 +1,4 @@
+import { KingModel } from './pieces';
 import { IFigure, EColor, TField } from './pieces/figureInterface';
 
 export default interface IBoard {
@@ -7,8 +8,8 @@ export default interface IBoard {
     possibleAttacksFor(pos: TField): TField[];
 
     setBoard(): void; //set board
-    isMate(color: EColor): boolean; //is king with given color in mate
-    isCheckMate(color: EColor): boolean; //is king with given color in checkmate
+    isCheck(color: EColor): boolean; //is king in check
+    isCheckMate(color: EColor): boolean; //is king in checkmate
 
     get(pos: TField): (IFigure | null);
     set(pos: TField, figure: IFigure | null): void;
