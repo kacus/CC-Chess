@@ -158,7 +158,7 @@ export default class MenuView implements IMenu {
     };
 
     private createAddEventListner() {
-        const t = document.getElementById('range');
+        const t = document.getElementById('range')!;
         t.addEventListener("input", () => {
             this.addTime();
         });
