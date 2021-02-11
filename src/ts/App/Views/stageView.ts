@@ -1,95 +1,60 @@
-import {  EColor, EFigureType, IFigure } from '../Models/pieces/figureInterface';
+import { EColor, EFigureType, IFigure } from "../Models/pieces/figureInterface";
 
 type FigureImage = {
-    color: EColor;
-    name: EFigureType;
-}
+  color: EColor;
+  name: EFigureType;
+};
 
-export default class StageView{
-    public init(parent: HTMLElement, color:EColor, player:string){
-        const playerName = document.createElement('div');
-        const time = document.createElement('div');
-        time.classList.add('time');
-        const figures = document.createElement('div');
-        const game = document.createElement('div');
-        game.classList.add('game__stage');
-        figures.classList.add('figures__list');
+export default class StageView {
+  public init(parent: HTMLElement, color: EColor, player: string) {
+    const playerName = document.createElement("div");
+    const time = document.createElement("div");
+    time.classList.add("time");
+    const figures = document.createElement("div");
+    const game = document.createElement("div");
+    game.classList.add("game__stage");
+    figures.classList.add("figures__list");
 
-        for(let i=0; i<8; i++){
-            const pawn = document.createElement('div');
-            let name = EFigureType.Pawn;
-            let figure:FigureImage = {color, name};
-            const figureImage = this.getFigureImage(figure)
-            figureImage.classList.add('pawn');
-            figures.appendChild(figureImage);
+    this.createFigure("Pawn", 8, color, figures);
+    this.createFigure("Bishop", 2, color, figures);
+    this.createFigure("Knight", 2, color, figures);
+    this.createFigure("Rook", 2, color, figures);
+    this.createFigure("Queen", 1, color, figures);
 
-        }
+    playerName.classList.add("player__name");
+    playerName.innerText = player;
+    parent.appendChild(game);
+    game.appendChild(playerName);
+    game.appendChild(figures);
+    parent.appendChild(time);
+  }
 
-        for(let i=0; i<2; i++){
-            const bishop = document.createElement('div');
-            let name = EFigureType.Bishop;
-            let figure:FigureImage = {color, name};
-            const figureImage = this.getFigureImage(figure);
-            figureImage.classList.add('bishop');
-            figures.appendChild(figureImage);
-        }
+  private getFigureImage(figure: FigureImage): HTMLElement {
+    const figureImg = document.createElement("img");
 
-        for(let i=0; i<2; i++){
-            const knight = document.createElement('div');
-            let name = EFigureType.Knight;
-            let figure:FigureImage = {color, name};
-            const figureImage = this.getFigureImage(figure);
-            figureImage.classList.add('knight');
-            figures.appendChild(figureImage);
-        }
+    //Map figure to file name
+    const file = figure.color + figure.name;
 
-        for(let i=0; i<2; i++){
-            const rook = document.createElement('div');
-            let name = EFigureType.Rook;
-            let figure:FigureImage = {color, name};
-            const figureImage = this.getFigureImage(figure);
-            figureImage.classList.add('rook');
-            figures.appendChild(figureImage);
-        }
+    figureImg.setAttribute("src", `./static/assets/pieces/kosal/${file}.svg`);
+    figureImg.setAttribute("alt", `${figure.color} ${figure.name}`);
 
-        const queen = document.createElement('div');
-        let name = EFigureType.Queen;
-        let figure:FigureImage = {color, name};
-        const figureImage = this.getFigureImage(figure);
-        figureImage.classList.add('queen');
-        figures.appendChild(figureImage);
+    figureImg.classList.add("chessboard__figure__stage");
 
+    return figureImg;
+  }
 
-        playerName.classList.add('player__name');
-        playerName.innerText=player;
-        parent.appendChild(game);
-        game.appendChild(playerName);
-        game.appendChild(figures);
-        parent.appendChild(time);
-
+  private createFigure(
+    figureType: keyof typeof EFigureType,
+    repeat: number,
+    color: EColor,
+    parent: HTMLDivElement
+  ) {
+    for (let i = 0; i < repeat; i++) {
+      const name = EFigureType[figureType];
+      const figure: FigureImage = { color, name };
+      const figureImage = this.getFigureImage(figure);
+      figureImage.classList.add(EFigureType[figureType].toLowerCase());
+      parent.appendChild(figureImage);
     }
-
-
-
-
-    private getFigureImage(figure: FigureImage): HTMLElement {
-        const figureImg = document.createElement('img');
-
-        //
-
-        //
-
-        //Map figure to file name
-        const file = figure.color + figure.name;
-
-        figureImg.setAttribute('src', `./static/assets/pieces/kosal/${file}.svg`);
-        figureImg.setAttribute('alt', `${figure.color} ${figure.name}`);
-
-        figureImg.classList.add('chessboard__figure__stage');
-
-        return figureImg;
-    }
-
-
-
+  }
 }
