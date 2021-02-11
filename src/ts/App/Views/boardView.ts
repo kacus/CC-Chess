@@ -23,6 +23,8 @@ export default class BoardView {
     blackStage.init(stage1, EColor.White, "Player 1");
     stage2.classList.add("stage");
     container.classList.add("container");
+    const gamePanel = document.createElement('div');
+    gamePanel.classList.add('game__panel');
 
     const whiteStage = new StageView();
     whiteStage.init(stage2, EColor.Black, "Player 2");
@@ -52,9 +54,10 @@ export default class BoardView {
 
     //
     parent.appendChild(container);
-    container.appendChild(stage1);
-    container.appendChild(board);
-    container.appendChild(stage2);
+    container.appendChild(gamePanel);
+    gamePanel.appendChild(stage1);
+    gamePanel.appendChild(board);
+    gamePanel.appendChild(stage2);
 
     //
   }
