@@ -108,20 +108,7 @@ export default class BoardView {
         figureSrc.length - 4
       );
 
-      let figType;
-
-      if (figureType[1] === EFigureType.Pawn) {
-        figType = EFigureType.Pawn;
-      } else if (figureType[1] === EFigureType.Bishop) {
-        figType = EFigureType.Bishop;
-      } else if (figureType[1] === EFigureType.Knight) {
-        figType = EFigureType.Knight;
-      } else if (figureType[1] === EFigureType.Rook) {
-        figType = EFigureType.Rook;
-      } else if (figureType[1] === EFigureType.Queen) {
-        figType = EFigureType.Queen;
-      }
-
+      let figType = figureType[1];
       const color =
         figure.color === EColor.White ? "last-of-type" : "first-of-type";
 
