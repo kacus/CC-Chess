@@ -5,7 +5,8 @@ import SaveOfCastling from "../Models/savesModels/saveOfCastling";
 import SaveOfMove from "../Models/savesModels/saveOfMove";
 
 export class MoveSaver {
-    private moves: (SaveOfMove | SaveOfCastling)[];
+    // private moves: (SaveOfMove | SaveOfCastling)[];
+    public moves: (SaveOfMove | SaveOfCastling)[];
 
     constructor() {
         this.moves = [];

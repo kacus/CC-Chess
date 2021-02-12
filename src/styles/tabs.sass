@@ -1,0 +1,77 @@
+.container
+    display: flex
+    justify-content: center
+    align-items: center
+    margin-bottom: 10px
+    height: 100%
+    flex-wrap: wrap
+
+.settings__panel
+    min-width: 30%
+    max-width: 30%
+    background-color: #464646
+    height: 90vh
+    margin-left:2%
+    margin-right:2%
+
+ul 
+  list-style: none
+  padding: 0
+  height: 50px
+  margin-top: 0
+  
+  li 
+    display: inline-flex
+    justify-content: center
+    align-items: center
+    width: 33.3%
+    background-color: #555
+    height: 70px
+    flex-wrap: wrap
+
+    img 
+      width: 15%
+      padding-top: 10px
+      justify-self: center
+
+    a
+      display: block
+      width: 100%
+      text-justify: center
+      display: flex
+      justify-content: center
+      text-decoration: none
+      color: #C1C1C1
+      padding: 10px
+      text-justify: center
+
+
+.nav .active a 
+  color: #C1C1C1
+
+.active
+    background-color: #464646
+    height: 50px
+  
+.nav__tab
+  margin-bottom:0
+  
+.tab__pane 
+  display: none
+
+.tab__pane.active  
+  display: block
+
+.info
+
+  width: 95%
+  height: 50px
+  display: flex
+  align-items: center
+  padding-left: 5%
+
+  &:nth-of-type(odd)
+    background-color: #555
+
+.revert__button
+  width: 30%

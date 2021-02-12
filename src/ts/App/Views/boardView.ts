@@ -1,6 +1,7 @@
 import IBoard from '../Models/boardInterface';
 import BoardModel from '../Models/boardModel';
 import { EColor, TField, EFigureType, IFigure } from '../Models/pieces/figureInterface';
+import TabsView from './tabsView';
 
 export default class BoardView {
 
@@ -25,7 +26,19 @@ export default class BoardView {
                 board.appendChild(field);
             }
         }
-        parent.appendChild(board);
+
+        const container = document.createElement("div");
+        container.classList.add('container');
+        const gamePanel = document.createElement('div');
+        gamePanel.classList.add('game__panel');
+        parent.appendChild(container);
+        container.appendChild(gamePanel);
+        gamePanel.appendChild(board);
+        const settingsPanel = document.createElement('div');
+        settingsPanel.classList.add('settings__panel');
+        container.appendChild(settingsPanel);
+        const tabs = new TabsView;
+        tabs.init(settingsPanel);
     }
 
     public setUpBoard(board: IBoard): void {
