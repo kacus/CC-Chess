@@ -7,6 +7,7 @@ import {
   IFigure,
 } from "../Models/pieces/figureInterface";
 import StageView from "./stageView";
+import TabsView from "./tabsView"
 
 export default class BoardView {
   public init(parent: HTMLElement, clickHandler: (pos: TField) => void): void {
@@ -25,6 +26,8 @@ export default class BoardView {
     container.classList.add("container");
     const gamePanel = document.createElement('div');
     gamePanel.classList.add('game__panel');
+    const settingsPanel = document.createElement('div');
+    settingsPanel.classList.add('settings__panel');
 
     const whiteStage = new StageView();
     whiteStage.init(stage2, EColor.Black, "Player 2");
@@ -58,6 +61,10 @@ export default class BoardView {
     gamePanel.appendChild(stage1);
     gamePanel.appendChild(board);
     gamePanel.appendChild(stage2);
+    container.appendChild(settingsPanel);
+    
+    const menu = new TabsView();
+    menu.init(settingsPanel);
 
     //
   }
