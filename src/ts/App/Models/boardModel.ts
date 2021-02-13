@@ -113,6 +113,8 @@ export default class BoardModel implements IBoard {
             }
         });
 
+
+
         return attacks;
     }
 
@@ -215,4 +217,7 @@ export default class BoardModel implements IBoard {
         //return false if move will cause 'check', return true otherwise
         return !copy.isCheck(color);
     }
+
+
+
 }
