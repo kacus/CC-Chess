@@ -103,4 +103,14 @@ export default class SaveOfMove implements ISaveOf{
 
         return result;
     }
+
+
+    public getLastMove() {
+        return {
+          from: this.from,
+          to: this.to,
+          figure: this.movedFigure,
+          moveFor: this.moveFor
+        };
+      }
 }
