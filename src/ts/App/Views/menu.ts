@@ -30,6 +30,7 @@ export default class MenuView implements IMenu {
     private createBtnBox(element: HTMLElement){
         const btn_box = this.createElement('div', 'menu__button');
         const btn_start = this.createElement('button', 'menu__button--start');
+        btn_start.setAttribute('id', "menu__button--start");
         btn_start.innerText = "ROZPOCZNIJ GRĘ";
         btn_box.append(btn_start);
         element.appendChild(btn_box);
