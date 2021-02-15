@@ -6,10 +6,15 @@ type FigureImage = {
 };
 
 export default class StageView {
+  id: string
+  constructor(id: string){
+    this.id= id;
+  }
   public init(parent: HTMLElement, color: EColor, player: string) {
     const playerName = document.createElement("div");
     const time = document.createElement("div");
     time.classList.add("time");
+    time.innerText='00:00 min'
     const figures = document.createElement("div");
     const game = document.createElement("div");
     game.classList.add("game__stage");
@@ -22,7 +27,9 @@ export default class StageView {
     this.createFigure("Queen", 1, color, figures);
 
     playerName.classList.add("player__name");
-    playerName.innerText = player;
+    playerName.innerText = player
+    playerName.id = this.id
+
     parent.appendChild(game);
     game.appendChild(playerName);
     game.appendChild(figures);

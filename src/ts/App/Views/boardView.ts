@@ -20,16 +20,17 @@ export default class BoardView {
     const container = document.createElement("div");
 
     stage1.classList.add("stage");
-    const blackStage = new StageView();
+    const blackStage = new StageView('first__player');
     blackStage.init(stage1, EColor.White, "Player 1");
     stage2.classList.add("stage");
     container.classList.add("container");
     const gamePanel = document.createElement('div');
     gamePanel.classList.add('game__panel');
+    gamePanel.id = 'game__panel';
     const settingsPanel = document.createElement('div');
     settingsPanel.classList.add('settings__panel');
 
-    const whiteStage = new StageView();
+    const whiteStage = new StageView('second__player');
     whiteStage.init(stage2, EColor.Black, "Player 2");
 
     //
@@ -171,11 +172,31 @@ export default class BoardView {
   }
   public timeDispaly(time: number, color: EColor) {
     if (color === EColor.White) {
-      const obj = document.querySelector(".stage:last-child > .time")!;
-      obj.innerHTML = time + "";
+      const obj = document.querySelector(".stage:nth-child(3) > .time")!;
+      const min = Math.floor(time/60);
+      let minString = min+''
+      if(min<10){
+        minString = '0'+ min;
+      }
+      const sec = (time%60);
+      let secString = sec+'';
+      if(sec<10){
+        secString = '0'+sec;
+      }
+      obj.innerHTML = minString+':'+secString + " min";
     } else {
-      const obj = document.querySelector(".stage:first-child > .time")!;
-      obj.innerHTML = time + "";
+      const obj = document.querySelector(".stage:nth-child(1) > .time")!;
+      const min = Math.floor(time/60);
+      let minString = min+''
+      if(min<10){
+        minString = '0'+ min;
+      }
+      const sec = (time%60);
+      let secString = sec+'';
+      if(sec<10){
+        secString = '0'+sec;
+      }
+      obj.innerHTML = minString+':'+secString + " min";
     }
   }
   public getStartTime(time: number) {

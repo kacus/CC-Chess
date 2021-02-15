@@ -10,6 +10,7 @@ import SaveOfMove from "../Models/savesModels/saveOfMove";
 import BoardView from "../Views/boardView";
 import { MoveSaver } from "./moveSaver";
 import MovesList from "../Views/movesList";
+import { time } from "console";
 
 export default class BoardController {
   private view: BoardView;
@@ -52,6 +53,39 @@ export default class BoardController {
     //start timer
     this.setUpTimer();
     if (+process.env.DEBUG!) console.log(`NEW GAME STARTS`);
+  }
+
+  public addEventListenerToButton() {
+    
+    this.view.timeDispaly(5, EColor.White);
+    this.view.timeDispaly(5, EColor.Black);
+    let btn_box = document.getElementById("start__button")!;
+    let timeElement = document.getElementById("range");
+    btn_box.addEventListener("click", (e) => {
+      this.view.timeDispaly(5, EColor.White);
+      this.view.timeDispaly(5, EColor.Black);
+      this.newGame(5 * 60);
+    });
+    timeElement?.addEventListener("change", (e) => {
+      let timeValue = (<HTMLInputElement>document.getElementById("range"))
+        .value;
+      let x = parseInt(timeValue);
+
+      this.view.timeDispaly(x, EColor.White);
+      this.view.timeDispaly(x, EColor.Black);
+      console.log(x + "value");
+      btn_box.addEventListener("click", (e) => {
+        if (!x || x === 0) {
+          x = 5;
+        }
+        this.view.timeDispaly(x, EColor.White);
+        this.view.timeDispaly(x, EColor.Black);
+        this.newGame(x * 60);
+
+        this.view.timeDispaly(x, EColor.White);
+        this.view.timeDispaly(x, EColor.Black);
+      });
+    });
   }
 
   private isFieldOnList(pos: TField, list: TField[]): boolean {
@@ -330,7 +364,7 @@ export default class BoardController {
         this.gameOver(EColor.White);
         return;
       }
-
+      this.view.timeDispaly(this.timeLeftForBlack, this.moveFor);
       if (+process.env.DEBUG! && +process.env.DEBUG_TIMER!)
         console.log(`Left time for Black: ${this.timeLeftForBlack}sec`);
     }
@@ -359,8 +393,8 @@ export default class BoardController {
     this.stopTimer();
     if (+process.env.DEBUG!) console.log(`WINER! ${winer}`);
     if (+process.env.DEBUG!) console.log(`NEW GAME WILL START IN 5 SEC`);
-    setTimeout(() => {
-      this.newGame(15);
-    }, 5000);
+    // setTimeout(() => {
+    //   this.newGame(15);
+    // }, 5000);
   }
 }

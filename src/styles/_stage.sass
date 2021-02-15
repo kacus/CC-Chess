@@ -14,7 +14,7 @@
     background-color: #464646
     color: #C4C4C4
 
-.stage:last-child
+.stage:nth-child(3)
     background-color: #C4C4C4
     color: #464646
 
@@ -42,6 +42,11 @@
     width: 90%
 
 .time
-    width: 10%
+    min-width: 15%
     align-self: center
     font-weight: bold
+    padding-right: 5px
+
+@media(max-width: 500px)
+    .stage
+        width: 45vh

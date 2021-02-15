@@ -23,22 +23,16 @@ export default class TabsView {
     const a1 = this.createElement("a");
     a1.setAttribute("href", "#moves");
     a1.innerText = "Moves";
-    const li2 = this.createElement("li");
-    const a2 = this.createElement("a");
-    a2.setAttribute("href", "#settings");
-    a2.innerText = "Settings";
     const li3 = this.createElement("li", "active");
     const a3 = this.createElement("a");
     a3.setAttribute("href", "#game");
     a3.innerText = "Game";
-    this.addIcons(li1, li2, li3);
+    this.addIcons(li1, li3);
 
     tabContainer.appendChild(ul);
     ul.appendChild(li1);
-    ul.appendChild(li2);
     ul.appendChild(li3);
     li1.appendChild(a1);
-    li2.appendChild(a2);
     li3.appendChild(a3);
   }
 
@@ -60,13 +54,10 @@ export default class TabsView {
     menu.display();
   }
 
-  private addIcons(li1: HTMLElement, li2: HTMLElement, li3: HTMLElement) {
+  private addIcons(li1: HTMLElement,  li3: HTMLElement) {
     const movesIcon = this.createElement("img");
     movesIcon.setAttribute("src", `./static/assets/icons/moves_icon.svg`);
     li1.appendChild(movesIcon);
-    const settingsIcon = this.createElement("img");
-    settingsIcon.setAttribute("src", `./static/assets/icons/settings_icon.svg`);
-    li2.appendChild(settingsIcon);
     const gameIcon = this.createElement("img");
     gameIcon.setAttribute("src", `./static/assets/icons/game_icon.svg`);
     li3.appendChild(gameIcon);

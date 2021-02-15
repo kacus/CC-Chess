@@ -4,30 +4,32 @@
     align-items: center
     margin-bottom: 10px
     height: 100%
+    width:100%
     flex-wrap: wrap
 
 .settings__panel
     min-width: 30%
-    max-width: 30%
     background-color: #464646
-    height: 100vh
+    height: 98%
     margin-left:2%
     margin-right:2%
     margin-top: 5px
+    display:flex
+    max-height: 100%
 
 ul 
   list-style: none
   padding: 0
-  height: 50px
+  min-height: 50px
   margin-top: 0
   
   li 
     display: inline-flex
     justify-content: center
     align-items: center
-    width: 33.3%
+    width: 50%
     background-color: #555
-    height: 70px
+    min-height: 70px
     flex-wrap: wrap
 
     img 
@@ -75,4 +77,19 @@ ul
     background-color: #555
 
 .revert__button
-  width: 30%
+  background-color: #FFF
+  color: #FA6009
+  width: 50%
+  padding: 2px
+  box-shadow: 0px 2px 15px #FF6E00
+  border-radius: 5px
+  font-weight: 500
+  self-align: center
+  display: block
+  margin-left: auto
+  margin-right: auto
+
+.revert__button:hover
+  background-color: #FA6009
+  color: #FFF
+

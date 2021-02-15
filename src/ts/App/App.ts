@@ -7,9 +7,18 @@ export default function App(): void {
     const controller = new BoardController(root);
     const revert_btn = document.createElement('button');
     revert_btn.addEventListener('click', controller.undoMove);
-    revert_btn.innerHTML = 'UNDO';
+    revert_btn.addEventListener('click', (e)=>{
+        const lastRecord = document.getElementById('moves')?.lastChild;
+        console.log(lastRecord)
+        if(lastRecord){
+            lastRecord.remove()
+        }
+    })
+    revert_btn.innerHTML = 'Cofnij ostatni ruch';
     revert_btn.classList.add('revert__button');
-    root.appendChild(revert_btn);
-    
-    controller.newGame(60);
+
+    const element =  document.getElementById('undo__button')!;
+    element.appendChild(revert_btn);
+
+    controller.addEventListenerToButton();
 }
