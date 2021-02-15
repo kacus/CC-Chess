@@ -10,6 +10,10 @@ export default function App(): void {
     revert_btn.innerHTML = 'UNDO';
     revert_btn.classList.add('revert__button');
     root.appendChild(revert_btn);
-    
-    controller.newGame(60);
+
+    const start = document.getElementById('menu__button--start');
+    start?.addEventListener('click', () => {
+        controller.newGame(60)
+    });
+
 }
