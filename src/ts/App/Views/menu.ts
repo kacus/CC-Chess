@@ -31,9 +31,13 @@ export default class MenuView implements IMenu {
         const btn_box = this.createElement('div', 'menu__button');
         const btn_start = this.createElement('button', 'menu__button--start');
         btn_start.innerText = "ROZPOCZNIJ GRĘ";
+        btn_start.setAttribute('id', "menu__button--start");
+        btn_start.id='start__button'
         btn_box.append(btn_start);
         element.appendChild(btn_box);
+
     };
+
 
     private createSettingPlayers(element: HTMLElement){
         const setting_players = this.createElement('div', 'setting__players');
@@ -49,20 +53,29 @@ export default class MenuView implements IMenu {
         const first_player = this.createElement('div', 'players--one_player');
         const white = this.createElement('div', 'white_player');
         white.innerText = 'Białe | Nazwa gracza'
-        const insert_name_first = this.createElement('input', 'insert__name');
+        const insert_name_first = this.createElement('input', 'insert__name') as HTMLInputElement;
         insert_name_first.setAttribute('type', 'text');
         insert_name_first.setAttribute('maxlength', '20');
         insert_name_first.setAttribute('pattern', '[a-zA-Z0-9]{3,20}');
         first_player.append(white, insert_name_first);
+        first_player
+        insert_name_first.addEventListener('change', (e)=>{
+            const element:HTMLInputElement = document.getElementById('first__player')! as HTMLInputElement;
+            element.innerText = insert_name_first.value
+          })
 
         const second_player = this.createElement('div', 'players--one_player');
         const black = this.createElement('div', 'black_player');
         black.innerText = 'Czarne | Nazwa gracza'
-        const insert_name_second = this.createElement('input', 'insert__name');
+        const insert_name_second = this.createElement('input', 'insert__name') as HTMLInputElement;
         insert_name_second.setAttribute('type', 'text');
         insert_name_second.setAttribute('maxlength', '20');
         insert_name_second.setAttribute('pattern', '[a-zA-Z0-9]{3,20}');
         second_player.append(black, insert_name_second);
+        insert_name_second.addEventListener('change', (e)=>{
+            const element:HTMLInputElement = document.getElementById('second__player')! as HTMLInputElement;
+            element.innerText = insert_name_second.value
+          })
 
         players.append(first_player, second_player);
         players_box.append(players_box_text, players);
@@ -74,15 +87,6 @@ export default class MenuView implements IMenu {
     private createRadio(element: HTMLElement) {
         const form_checkbox = this.createElement('form', 'setting__players--form_checkbox');
 
-        const checkbox_color = this.createElement('input');
-        checkbox_color.setAttribute('type','checkbox');
-        checkbox_color.setAttribute('id','random color');
-        checkbox_color.setAttribute('name','random color');
-        const span_color = this.createElement('span', 'checkmark');
-
-        const label_color = this.createElement('label', 'checkbox');
-        label_color.setAttribute('for','random color');
-        label_color.innerText = 'Losowy kolor';
 
         const checkbox_move = this.createElement('input');
         checkbox_move.setAttribute('type','checkbox');
@@ -94,10 +98,12 @@ export default class MenuView implements IMenu {
         label_move.setAttribute('for','possible move');
         label_move.innerText = 'Pokazuj możliwe posunięcia';
 
-        label_color.append(checkbox_color, span_color);
+
+
         label_move.append(checkbox_move, span_move);
-        form_checkbox.append(label_color, label_move);
+        form_checkbox.append( label_move);
         element.appendChild(form_checkbox);
+
     };
 
     private createSettingBox(element: HTMLElement){
@@ -112,21 +118,8 @@ export default class MenuView implements IMenu {
         const setting_text = this.createElement('div', 'setting__game--text');
         setting_text.innerText ='USTAWIENIA GRY';
 
-        const form_action = this.createElement('form', 'setting__box--form__action');
-        form_action.innerText = "WARIANT GRY";
-        const select = this.createElement('select'); 
-        select.setAttribute('name', 'game variant');
-        const option_first = this.createElement('option');
-        option_first.setAttribute('value', 'classic');
-        option_first.setAttribute('selected', "");
-        option_first.innerText ='Klasyczny';
-        const option_second = this.createElement('option');
-        option_second.setAttribute('value','amateur');
-        option_second.innerText ='Amatorski';
 
-        select.append(option_first, option_second);
-        form_action.appendChild(select);
-        setting_game.append(setting_text, form_action);
+        setting_game.append(setting_text);
         element.appendChild(setting_game);
     };
 
