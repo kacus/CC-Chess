@@ -57,33 +57,32 @@ export default class BoardController {
 
   public addEventListenerToButton() {
     
-    this.view.timeDispaly(5, EColor.White);
-    this.view.timeDispaly(5, EColor.Black);
-    let btn_box = document.getElementById("start__button")!;
-    let timeElement = document.getElementById("range");
-    btn_box.addEventListener("click", (e) => {
-      this.view.timeDispaly(5, EColor.White);
-      this.view.timeDispaly(5, EColor.Black);
+    this.view.timeDisplay(5, EColor.White);
+    this.view.timeDisplay(5, EColor.Black);
+    const btnBox = document.getElementById("start__button")!;
+    const timeElement = document.getElementById("range");
+    btnBox.addEventListener("click", (e) => {
+      this.view.timeDisplay(5, EColor.White);
+      this.view.timeDisplay(5, EColor.Black);
       this.newGame(5 * 60);
     });
     timeElement?.addEventListener("change", (e) => {
-      let timeValue = (<HTMLInputElement>document.getElementById("range"))
-        .value;
-      let x = parseInt(timeValue);
+      let timeValue = parseInt((<HTMLInputElement>document.getElementById("range"))
+        .value);
+      
 
-      this.view.timeDispaly(x, EColor.White);
-      this.view.timeDispaly(x, EColor.Black);
-      console.log(x + "value");
-      btn_box.addEventListener("click", (e) => {
-        if (!x || x === 0) {
-          x = 5;
+      this.view.timeDisplay(timeValue, EColor.White);
+      this.view.timeDisplay(timeValue, EColor.Black);
+      btnBox.addEventListener("click", (e) => {
+        if (!timeValue || timeValue === 0) {
+          timeValue = 5;
         }
-        this.view.timeDispaly(x, EColor.White);
-        this.view.timeDispaly(x, EColor.Black);
-        this.newGame(x * 60);
+        this.view.timeDisplay(timeValue, EColor.White);
+        this.view.timeDisplay(timeValue, EColor.Black);
+        this.newGame(timeValue * 60);
 
-        this.view.timeDispaly(x, EColor.White);
-        this.view.timeDispaly(x, EColor.Black);
+        this.view.timeDisplay(timeValue, EColor.White);
+        this.view.timeDisplay(timeValue, EColor.Black);
       });
     });
   }
@@ -354,7 +353,7 @@ export default class BoardController {
         this.gameOver(EColor.Black);
         return;
       }
-      this.view.timeDispaly(this.timeLeftForWhite, this.moveFor);
+      this.view.timeDisplay(this.timeLeftForWhite, this.moveFor);
       if (+process.env.DEBUG! && +process.env.DEBUG_TIMER!) {
         console.log(`Left time for White: ${this.timeLeftForWhite}sec`);
       }
@@ -364,7 +363,7 @@ export default class BoardController {
         this.gameOver(EColor.White);
         return;
       }
-      this.view.timeDispaly(this.timeLeftForBlack, this.moveFor);
+      this.view.timeDisplay(this.timeLeftForBlack, this.moveFor);
       if (+process.env.DEBUG! && +process.env.DEBUG_TIMER!)
         console.log(`Left time for Black: ${this.timeLeftForBlack}sec`);
     }
@@ -393,8 +392,5 @@ export default class BoardController {
     this.stopTimer();
     if (+process.env.DEBUG!) console.log(`WINER! ${winer}`);
     if (+process.env.DEBUG!) console.log(`NEW GAME WILL START IN 5 SEC`);
-    // setTimeout(() => {
-    //   this.newGame(15);
-    // }, 5000);
   }
 }

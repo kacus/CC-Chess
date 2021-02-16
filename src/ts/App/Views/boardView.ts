@@ -7,7 +7,7 @@ import {
   IFigure,
 } from "../Models/pieces/figureInterface";
 import StageView from "./stageView";
-import TabsView from "./tabsView"
+import TabsView from "./tabsView";
 
 export default class BoardView {
   public init(parent: HTMLElement, clickHandler: (pos: TField) => void): void {
@@ -20,17 +20,17 @@ export default class BoardView {
     const container = document.createElement("div");
 
     stage1.classList.add("stage");
-    const blackStage = new StageView('first__player');
+    const blackStage = new StageView("first__player");
     blackStage.init(stage1, EColor.White, "Player 1");
     stage2.classList.add("stage");
     container.classList.add("container");
-    const gamePanel = document.createElement('div');
-    gamePanel.classList.add('game__panel');
-    gamePanel.id = 'game__panel';
-    const settingsPanel = document.createElement('div');
-    settingsPanel.classList.add('settings__panel');
+    const gamePanel = document.createElement("div");
+    gamePanel.classList.add("game__panel");
+    gamePanel.id = "game__panel";
+    const settingsPanel = document.createElement("div");
+    settingsPanel.classList.add("settings__panel");
 
-    const whiteStage = new StageView('second__player');
+    const whiteStage = new StageView("second__player");
     whiteStage.init(stage2, EColor.Black, "Player 2");
 
     //
@@ -63,7 +63,7 @@ export default class BoardView {
     gamePanel.appendChild(board);
     gamePanel.appendChild(stage2);
     container.appendChild(settingsPanel);
-    
+
     const menu = new TabsView();
     menu.init(settingsPanel);
 
@@ -170,34 +170,19 @@ export default class BoardView {
       field.classList.add("chessboard__field");
     });
   }
-  public timeDispaly(time: number, color: EColor) {
-    if (color === EColor.White) {
-      const obj = document.querySelector(".stage:nth-child(3) > .time")!;
-      const min = Math.floor(time/60);
-      let minString = min+''
-      if(min<10){
-        minString = '0'+ min;
-      }
-      const sec = (time%60);
-      let secString = sec+'';
-      if(sec<10){
-        secString = '0'+sec;
-      }
-      obj.innerHTML = minString+':'+secString + " min";
-    } else {
-      const obj = document.querySelector(".stage:nth-child(1) > .time")!;
-      const min = Math.floor(time/60);
-      let minString = min+''
-      if(min<10){
-        minString = '0'+ min;
-      }
-      const sec = (time%60);
-      let secString = sec+'';
-      if(sec<10){
-        secString = '0'+sec;
-      }
-      obj.innerHTML = minString+':'+secString + " min";
-    }
+  public timeDisplay(time: number, color: EColor) {
+    const nthChild = color === EColor.White ? 3 : 1;
+
+    const timer = document.querySelector(
+      `.stage:nth-child(${nthChild}) > .time`
+    )!;
+    const min = Math.floor(time / 60);
+    const sec = time % 60;
+
+    const shouldAppendZero = (timeUnit: number): string =>
+      ("" + timeUnit).length === 1 ? `0${timeUnit}` : timeUnit.toString();
+
+    timer.innerHTML = `${shouldAppendZero(min)}:${shouldAppendZero(sec)} min`;
   }
   public getStartTime(time: number) {
     const startTime = document.querySelector(".time")!;
