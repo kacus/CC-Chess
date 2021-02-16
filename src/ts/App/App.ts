@@ -22,6 +22,7 @@ export default function App(): void {
 
     const start = document.getElementById('menu__button--start');
     start?.addEventListener('click', () => {
+        controller.stopTimer();
         const sliderValue = (<HTMLInputElement>document.getElementById('range')).value;
         controller.newGame(+sliderValue*60);
     });
