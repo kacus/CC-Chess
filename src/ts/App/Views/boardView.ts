@@ -186,10 +186,10 @@ export default class BoardView {
     const min = Math.floor(time / 60);
     const sec = time % 60;
 
-    const shouldAppendZero = (timeUnit: number): string =>
+    const appendZeroIfNeeded = (timeUnit: number): string =>
       ("" + timeUnit).length === 1 ? `0${timeUnit}` : timeUnit.toString();
 
-    timer.innerHTML = `${shouldAppendZero(min)}:${shouldAppendZero(sec)} min`;
+    timer.innerHTML = `${appendZeroIfNeeded(min)}:${appendZeroIfNeeded(sec)} min`;
   }
   public getStartTime(time: number) {
     const startTime = document.querySelector(".time")!;
