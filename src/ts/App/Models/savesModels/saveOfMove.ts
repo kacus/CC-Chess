@@ -97,7 +97,6 @@ export default class SaveOfMove implements ISaveOf{
             if(!this.wasAttackedFigureUnmoved){
                 this.attacked.setAsUnmoved();
             }
-            //////
             if(this.enemyField){
                 model.set(this.enemyField, this.attacked);
                 view.setFigureOnField(this.enemyField, this.attacked);
@@ -108,46 +107,55 @@ export default class SaveOfMove implements ISaveOf{
                 view.setFigureOnField(this.to, this.attacked);
 
             }
-            ////////
         }
         const color = this.attacked?.color === EColor.Black ? "last-of-type" : "first-of-type";
         const figType = this.attacked?.name;
         let fullname:string;
         if(figType===EFigureType.Queen){
             fullname='Queen'
-            const figSymbol = document.querySelector<HTMLElement>(
-                `.stage:${color} > .game__stage>.figures__list > .Queen:not(.p):not(.r):not(.n):not(.b):not(.q)`
+            const figSymbol = document.querySelectorAll<HTMLElement>(
+                `.stage:${color} > .game__stage>.figures__list > .Queen:not(.q)`
               )!;
-              figSymbol.style.filter = "invert(0.5)";
-              figSymbol.classList.add(`${figType}`);
+              const array = Array.from(figSymbol);
+              const lastElement = array[array.length-1]
+              lastElement.style.filter = "invert(0.5)";
+              lastElement.classList.add(`${figType}`);
         }else if(figType===EFigureType.Pawn){
             fullname = 'Pawn'
-            const figSymbol = document.querySelector<HTMLElement>(
-                `.stage:${color} > .game__stage>.figures__list > .Pawn:not(.p):not(.r):not(.n):not(.b):not(.q)`
+            const figSymbol = document.querySelectorAll<HTMLElement>(
+                `.stage:${color} > .game__stage>.figures__list > .Pawn:not(.p)`
               )!;
-              figSymbol.style.filter = "invert(0.5)";
-              figSymbol.classList.add(`${figType}`);
+              const array = Array.from(figSymbol);
+              const lastElement = array[array.length-1]
+              lastElement.style.filter = "invert(0.5)";
+              lastElement.classList.add(`${figType}`);
         }else if(figType===EFigureType.Rook){
             fullname = 'Rook'
-            const figSymbol = document.querySelector<HTMLElement>(
-                `.stage:${color} > .game__stage>.figures__list > .Rook:not(.p):not(.r):not(.n):not(.b):not(.q)`
+            const figSymbol = document.querySelectorAll<HTMLElement>(
+                `.stage:${color} > .game__stage>.figures__list > .Rook:not(.r)`
               )!;
-              figSymbol.style.filter = "invert(0.5)";
-              figSymbol.classList.add(`${figType}`);
+              const array = Array.from(figSymbol);
+              const lastElement = array[array.length-1]
+              lastElement.style.filter = "invert(0.5)";
+              lastElement.classList.add(`${figType}`);
         }else if(figType===EFigureType.Bishop){
             fullname = 'Bishop'
-            const figSymbol = document.querySelector<HTMLElement>(
-                `.stage:${color} > .game__stage>.figures__list > .Bishop:not(.p):not(.r):not(.n):not(.b):not(.q)`
+            const figSymbol = document.querySelectorAll<HTMLElement>(
+                `.stage:${color} > .game__stage>.figures__list > .Bishop:not(.b)`
               )!;
-              figSymbol.style.filter = "invert(0.5)";
-              figSymbol.classList.add(`${figType}`);
+              const array = Array.from(figSymbol);
+              const lastElement = array[array.length-1]
+              lastElement.style.filter = "invert(0.5)";
+              lastElement.classList.add(`${figType}`);
         }else if(figType===EFigureType.Knight){
             fullname = 'Knight'
-            const figSymbol = document.querySelector<HTMLElement>(
-                `.stage:${color} > .game__stage>.figures__list > .Knight:not(.p):not(.r):not(.n):not(.b):not(.q)`
+            const figSymbol = document.querySelectorAll<HTMLElement>(
+                `.stage:${color} > .game__stage>.figures__list > .Knight:not(.n)`
               )!;
-              figSymbol.style.filter = "invert(0.5)";
-              figSymbol.classList.add(`${figType}`);
+              const array = Array.from(figSymbol);
+              const lastElement = array[array.length-1]
+              lastElement.style.filter = "invert(0.5)";
+              lastElement.classList.add(`${figType}`);
         }
 
  
@@ -164,7 +172,6 @@ export default class SaveOfMove implements ISaveOf{
         return {
           from: this.from,
           to: this.to,
-          figure: this.movedFigure,
           moveFor: this.moveFor
         };
       }

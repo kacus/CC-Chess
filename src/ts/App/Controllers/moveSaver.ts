@@ -41,7 +41,7 @@ export class MoveSaver {
 
     const result:Array<Array<number> | string> = [];
     const resultingField = [];
-    const isPawn = figure.name === EFigureType.Pawn?true:false;
+    const isPawn = figure.name === EFigureType.Pawn;
     if(!isPawn){
         return result
     }
@@ -49,24 +49,19 @@ export class MoveSaver {
     const leftFigure: TField = [x-1, y];
     const rightFigure: TField = [x+1, y];
     const isLeftFigure = board.get(leftFigure);
-
-    
     const isRightFigure = board.get(rightFigure);
     const isLeftPawn = isLeftFigure?.name===EFigureType.Pawn;
     const isRightPawn = isRightFigure?.name===EFigureType.Pawn;
 
-    console.log(isLeftPawn)
-    console.log(isRightPawn)
-    console.log('pawns or not pawn')
 
     if(this.moves.length<1){return result};
     const lastMove= this.moves[this.moves.length-1] as SaveOfMove;
     if(lastMove.getLastMove){
         if(isLeftPawn){
-            const { from, to, figure, moveFor } = lastMove.getLastMove();
+            const { from, to, moveFor } = lastMove.getLastMove();
             if(moveFor===EColor.Black){
-                const isTo = to[0]===leftFigure[0] && to[1]===leftFigure[1]?true:false
-                const isFrom = from[0]===leftFigure[0]&& from[1]===leftFigure[1]+2?true:false;
+                const isTo = to[0]===leftFigure[0] && to[1]===leftFigure[1]
+                const isFrom = from[0]===leftFigure[0]&& from[1]===leftFigure[1]+2;
                 if(isTo && isFrom){
                     resultingField.push(x-1);
                     resultingField.push(y+1);
@@ -75,7 +70,7 @@ export class MoveSaver {
                     return result
                 }
             }else if(moveFor===EColor.White){
-                const isTo = to[0]===leftFigure[0] && to[1]===leftFigure[1]?true:false
+                const isTo = to[0]===leftFigure[0] && to[1]===leftFigure[1]
                 const isFrom = from[0]===leftFigure[0]&& from[1]===leftFigure[1]-2;
                 if(isTo && isFrom){
                     resultingField.push(x-1);
@@ -87,10 +82,10 @@ export class MoveSaver {
             }
 
         }else if (isRightPawn){
-            const { from, to, figure, moveFor } = lastMove.getLastMove();
+            const { from, to, moveFor } = lastMove.getLastMove();
             if(moveFor===EColor.Black){
-                const isTo = to[0]===rightFigure[0] && to[1]===rightFigure[1]?true:false;
-                const isFrom = from[0]===rightFigure[0] && from[0]===rightFigure[1]+2
+                const isTo = to[0]===rightFigure[0] && to[1]===rightFigure[1];
+                const isFrom = from[0]===rightFigure[0] && from[1]===rightFigure[1]+2
                 if(isTo && isFrom){
                     resultingField.push(x+1);
                     resultingField.push(y+1);
@@ -99,8 +94,8 @@ export class MoveSaver {
                     return result
                 }
             }else if (moveFor===EColor.White){
-                const isTo = to[0]===rightFigure[0] && to[1]===rightFigure[1]?true:false;
-                const isFrom = from[0]===rightFigure[0] && from[0]===rightFigure[1]-2
+                const isTo = to[0]===rightFigure[0] && to[1]===rightFigure[1];
+                const isFrom = from[0]===rightFigure[0] && from[1]===rightFigure[1]-2;
                 if(isTo && isFrom){
                     resultingField.push(x+1);
                     resultingField.push(y-1);

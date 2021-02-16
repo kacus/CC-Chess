@@ -126,14 +126,12 @@ export default class BoardModel implements IBoard {
 
         if(moveSaver){
             const addEnPassantField = moveSaver.isEnPassantPossible(figure, pos, this.deepCopy());
-            console.log(addEnPassantField);  
 
             if(addEnPassantField.length>0){ 
                 attacks.push(addEnPassantField[0] as TField);
             }
         }
         
-        console.log(attacks)
         return attacks;
     }
 
