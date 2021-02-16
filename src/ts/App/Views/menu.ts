@@ -57,11 +57,10 @@ export default class MenuView implements IMenu {
         insert_name_first.setAttribute('maxlength', '20');
         insert_name_first.setAttribute('pattern', '[a-zA-Z0-9]{3,20}');
         first_player.append(white, insert_name_first);
-        first_player
-        insert_name_first.addEventListener('change', (e)=>{
+        insert_name_first.addEventListener('change', ()=>{
             const element:HTMLInputElement = document.getElementById('first__player')! as HTMLInputElement;
             element.innerText = insert_name_first.value
-          })
+        })
 
         const second_player = this.createElement('div', 'players--one_player');
         const black = this.createElement('div', 'black_player');
@@ -71,10 +70,10 @@ export default class MenuView implements IMenu {
         insert_name_second.setAttribute('maxlength', '20');
         insert_name_second.setAttribute('pattern', '[a-zA-Z0-9]{3,20}');
         second_player.append(black, insert_name_second);
-        insert_name_second.addEventListener('change', (e)=>{
+        insert_name_second.addEventListener('change', ()=>{
             const element:HTMLInputElement = document.getElementById('second__player')! as HTMLInputElement;
             element.innerText = insert_name_second.value
-          })
+        })
 
         players.append(first_player, second_player);
         players_box.append(players_box_text, players);
@@ -86,16 +85,6 @@ export default class MenuView implements IMenu {
     private createRadio(element: HTMLElement) {
         const form_checkbox = this.createElement('form', 'setting__players--form_checkbox');
 
-        const checkbox_color = this.createElement('input');
-        checkbox_color.setAttribute('type','checkbox');
-        checkbox_color.setAttribute('id','random color');
-        checkbox_color.setAttribute('name','random color');
-        const span_color = this.createElement('span', 'checkmark');
-
-        const label_color = this.createElement('label', 'checkbox');
-        label_color.setAttribute('for','random color');
-        label_color.innerText = 'Random color';
-
         const checkbox_move = this.createElement('input');
         checkbox_move.setAttribute('type','checkbox');
         checkbox_move.setAttribute('id','possible move');
@@ -106,12 +95,10 @@ export default class MenuView implements IMenu {
         label_move.setAttribute('for','possible move');
         label_move.innerText = 'Show possible moves';
 
-
-
         label_move.append(checkbox_move, span_move);
         form_checkbox.append( label_move);
-        element.appendChild(form_checkbox);
 
+        element.appendChild(form_checkbox);
     };
 
     private createSettingBox(element: HTMLElement){
