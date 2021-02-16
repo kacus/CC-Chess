@@ -7,7 +7,7 @@ export default function App(): void {
     const controller = new BoardController(root);
     const revertBtn = document.createElement('button');
     revertBtn.addEventListener('click', controller.undoMove);
-    revertBtn.addEventListener('click', (e)=>{
+    revertBtn.addEventListener('click', ()=>{
         const lastRecord = document.getElementById('last__move__info')?.lastChild;
         console.log(lastRecord)
         if(lastRecord){
@@ -22,7 +22,8 @@ export default function App(): void {
 
     const start = document.getElementById('menu__button--start');
     start?.addEventListener('click', () => {
-        controller.newGame(60)
+        const sliderValue = (<HTMLInputElement>document.getElementById('range')).value;
+        controller.newGame(+sliderValue*60);
     });
 
     controller.addEventListenerToButton();
