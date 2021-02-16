@@ -11,6 +11,7 @@ import BoardView from "../Views/boardView";
 import { MoveSaver } from "./moveSaver";
 import MovesList from "../Views/movesList";
 
+
 export default class BoardController {
   private view: BoardView;
   private board!: BoardModel;
@@ -52,6 +53,7 @@ export default class BoardController {
     //start timer
     this.setUpTimer();
     if (+process.env.DEBUG!) console.log(`NEW GAME STARTS`);
+
   }
 
   public addEventListenerToButton() {
@@ -60,19 +62,19 @@ export default class BoardController {
     this.view.timeDisplay(5, EColor.Black);
     const btnBox = document.getElementById("start__button")!;
     const timeElement = document.getElementById("range");
-    btnBox.addEventListener("click", () => {
+    btnBox.addEventListener("click", (e) => {
       this.view.timeDisplay(5, EColor.White);
       this.view.timeDisplay(5, EColor.Black);
       this.newGame(5 * 60);
     });
-    timeElement?.addEventListener("change", () => {
+    timeElement?.addEventListener("change", (e) => {
       let timeValue = parseInt((<HTMLInputElement>document.getElementById("range"))
         .value);
       
 
       this.view.timeDisplay(timeValue, EColor.White);
       this.view.timeDisplay(timeValue, EColor.Black);
-      btnBox.addEventListener("click", () => {
+      btnBox.addEventListener("click", (e) => {
         if (!timeValue || timeValue === 0) {
           timeValue = 5;
         }
@@ -341,7 +343,7 @@ export default class BoardController {
     this.timer = setInterval(this.updateTime, 1000);
   }
 
-  private stopTimer() {
+  public stopTimer() {
     clearInterval(this.timer);
   }
 
@@ -392,7 +394,7 @@ export default class BoardController {
     let winerColor = '';
     if (winer === 'b') {
       winerColor = "Black"
-      } else {
+    } else {
       winerColor = "White"
     };
 
