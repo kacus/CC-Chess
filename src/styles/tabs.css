@@ -1,0 +1,144 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  height: 100%;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.settings__panel {
+  min-width: 30%;
+  max-width: 30%;
+  background-color: #464646;
+  height: 98%;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-top: 5px;
+  max-height: 100%;
+  position: relative;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  min-height: 50px;
+  margin-top: 0;
+}
+
+ul li {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  background-color: #555;
+  min-height: 70px;
+  flex-wrap: wrap;
+  hover-cursor: pointer;
+}
+
+ul li img {
+  width: 15%;
+  padding-top: 10px;
+  justify-self: center;
+}
+
+ul li a {
+  display: block;
+  width: 100%;
+  text-justify: center;
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  color: #C1C1C1;
+  padding: 10px;
+  text-justify: center;
+}
+
+.clicked {
+  background-color: #464646;
+}
+
+.nav .active a {
+  color: #C1C1C1;
+}
+
+.active {
+  background-color: #464646;
+  height: 50px;
+}
+
+.nav__tab {
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.tab__pane {
+  display: none;
+}
+
+.tab__pane.active {
+  display: block;
+}
+
+.tab__container {
+  width: 100%;
+  max-width: 100%;
+}
+
+.tab__content {
+  width: 100%;
+  max-width: 100%;
+}
+
+.info {
+  max-width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  padding-left: 5%;
+  box-sizing: border-box;
+}
+
+.info:nth-of-type(odd) {
+  background-color: #555;
+}
+
+.revert__button {
+  background-color: #FFF;
+  color: #FA6009;
+  width: 50%;
+  padding: 2px;
+  box-shadow: 0px 2px 15px #FF6E00;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 20px;
+  self-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.revert__button:hover {
+  background-color: #FA6009;
+  color: #FFF;
+}
+
+.undo__button__container {
+  min-width: 340px;
+  width: 100%;
+  position: absolute;
+  bottom: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 800px) {
+  .info {
+    min-height: 70px;
+  }
+  .settings__panel {
+    min-width: 90%;
+  }
+}
