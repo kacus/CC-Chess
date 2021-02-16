@@ -125,22 +125,7 @@ export default class MenuView implements IMenu {
         const setting_game = this.createElement('div', 'setting--game');
         const setting_text = this.createElement('div', 'setting__game--text');
         setting_text.innerText ='GAME SETTINGS';
-
-        const form_action = this.createElement('form', 'setting__box--form__action');
-        form_action.innerText = "GAME MODE";
-        const select = this.createElement('select'); 
-        select.setAttribute('name', 'game variant');
-        const option_first = this.createElement('option');
-        option_first.setAttribute('value', 'classic');
-        option_first.setAttribute('selected', "");
-        option_first.innerText ='Classic';
-        const option_second = this.createElement('option');
-        option_second.setAttribute('value','amateur');
-        option_second.innerText ='Amateur';
-
-        select.append(option_first, option_second);
-        form_action.appendChild(select);
-        setting_game.append(setting_text, form_action);
+        setting_game.append(setting_text);
 
         element.appendChild(setting_game);
     };
@@ -166,7 +151,7 @@ export default class MenuView implements IMenu {
         slider_time.setAttribute('id', 'range_display');
         slider_time.setAttribute('name', 'range_display');
         slider_time.setAttribute('for', 'range_time');
-        slider_time.textContent = `Game time is ${slider.getAttribute('value')} minutes`
+        slider_time.textContent = `Game time is: ${slider.getAttribute('value')} minutes`
         slider_box.append(slider, slider_time);
         
         element.append(time_game, slider_box);
