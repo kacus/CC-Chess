@@ -34,7 +34,9 @@ export default class MenuView implements IMenu {
         btn_start.innerText = "START THE GAME";
         btn_box.append(btn_start);
         element.appendChild(btn_box);
+
     };
+
 
     private createSettingPlayers(element: HTMLElement){
         const setting_players = this.createElement('div', 'setting__players');
@@ -50,20 +52,29 @@ export default class MenuView implements IMenu {
         const first_player = this.createElement('div', 'players--one_player');
         const white = this.createElement('div', 'white_player');
         white.innerText = "Black | Player's name"
-        const insert_name_first = this.createElement('input', 'insert__name');
+        const insert_name_first = this.createElement('input', 'insert__name') as HTMLInputElement;
         insert_name_first.setAttribute('type', 'text');
         insert_name_first.setAttribute('maxlength', '20');
         insert_name_first.setAttribute('pattern', '[a-zA-Z0-9]{3,20}');
         first_player.append(white, insert_name_first);
+        first_player
+        insert_name_first.addEventListener('change', (e)=>{
+            const element:HTMLInputElement = document.getElementById('first__player')! as HTMLInputElement;
+            element.innerText = insert_name_first.value
+          })
 
         const second_player = this.createElement('div', 'players--one_player');
         const black = this.createElement('div', 'black_player');
         black.innerText = "White | Player's name"
-        const insert_name_second = this.createElement('input', 'insert__name');
+        const insert_name_second = this.createElement('input', 'insert__name') as HTMLInputElement;
         insert_name_second.setAttribute('type', 'text');
         insert_name_second.setAttribute('maxlength', '20');
         insert_name_second.setAttribute('pattern', '[a-zA-Z0-9]{3,20}');
         second_player.append(black, insert_name_second);
+        insert_name_second.addEventListener('change', (e)=>{
+            const element:HTMLInputElement = document.getElementById('second__player')! as HTMLInputElement;
+            element.innerText = insert_name_second.value
+          })
 
         players.append(first_player, second_player);
         players_box.append(players_box_text, players);
@@ -95,10 +106,12 @@ export default class MenuView implements IMenu {
         label_move.setAttribute('for','possible move');
         label_move.innerText = 'Show possible moves';
 
-        label_color.append(checkbox_color, span_color);
+
+
         label_move.append(checkbox_move, span_move);
-        form_checkbox.append(label_color, label_move);
+        form_checkbox.append( label_move);
         element.appendChild(form_checkbox);
+
     };
 
     private createSettingBox(element: HTMLElement){
@@ -128,6 +141,7 @@ export default class MenuView implements IMenu {
         select.append(option_first, option_second);
         form_action.appendChild(select);
         setting_game.append(setting_text, form_action);
+
         element.appendChild(setting_game);
     };
 
