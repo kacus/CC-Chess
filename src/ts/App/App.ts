@@ -14,11 +14,16 @@ export default function App(): void {
             lastRecord.remove()
         }
     })
-    revertBtn.innerHTML = 'Cofnij ostatni ruch';
+    revertBtn.innerHTML = 'UNDO';
     revertBtn.classList.add('revert__button');
 
     const element =  document.getElementById('undo__button__container')!;
     element.appendChild(revertBtn);
+
+    const start = document.getElementById('menu__button--start');
+    start?.addEventListener('click', () => {
+        controller.newGame(60)
+    });
 
     controller.addEventListenerToButton();
 }
