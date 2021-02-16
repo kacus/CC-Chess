@@ -8,7 +8,7 @@ export default function App(): void {
     const revertBtn = document.createElement('button');
     revertBtn.addEventListener('click', controller.undoMove);
     revertBtn.addEventListener('click', (e)=>{
-        const lastRecord = document.getElementById('moves')?.lastChild;
+        const lastRecord = document.getElementById('last__move__info')?.lastChild;
         console.log(lastRecord)
         if(lastRecord){
             lastRecord.remove()
@@ -17,7 +17,7 @@ export default function App(): void {
     revertBtn.innerHTML = 'Cofnij ostatni ruch';
     revertBtn.classList.add('revert__button');
 
-    const element =  document.getElementById('undo__button')!;
+    const element =  document.getElementById('undo__button__container')!;
     element.appendChild(revertBtn);
 
     controller.addEventListenerToButton();

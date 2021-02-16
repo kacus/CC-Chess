@@ -98,12 +98,10 @@ export default class MenuView implements IMenu {
         label_move.setAttribute('for','possible move');
         label_move.innerText = 'Pokazuj możliwe posunięcia';
 
-        const undo = this.createElement('div')
-        undo.id = 'undo__button';
+
 
         label_move.append(checkbox_move, span_move);
         form_checkbox.append( label_move);
-        form_checkbox.append(undo);
         element.appendChild(form_checkbox);
 
     };

@@ -150,12 +150,19 @@ export default class BoardView {
 
   public setAsPossibleToMove(pos: TField): void {
     const field = this.getField(pos);
-    field.classList.add("chessboard__field--possible_move");
+    const radioButton: HTMLInputElement = document.getElementById('possible move')! as HTMLInputElement
+    if(radioButton.checked){
+      field.classList.add("chessboard__field--possible_move");
+    }
+
   }
 
   public setAsPossibleToAttack(pos: TField): void {
     const field = this.getField(pos);
-    field.classList.add("chessboard__field--possible_attack");
+    const radioButton: HTMLInputElement = document.getElementById('possible move')! as HTMLInputElement
+    if(radioButton.checked){
+      field.classList.add("chessboard__field--possible_attack");
+    }
   }
 
   public setAsSelected(pos: TField): void {
