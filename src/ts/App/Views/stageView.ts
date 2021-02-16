@@ -54,6 +54,7 @@ export default class StageView {
       const figure: FigureImage = { color, name };
       const figureImage = this.getFigureImage(figure);
       figureImage.classList.add(EFigureType[figureType].toLowerCase());
+      figureImage.classList.add(figureType+"");
       parent.appendChild(figureImage);
     }
   }

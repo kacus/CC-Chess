@@ -46,19 +46,21 @@ export class MoveSaver {
         return result
     }
     const [x,y] = position
-    
-    console.log(x);
-    console.log(y);
     const leftFigure: TField = [x-1, y];
     const rightFigure: TField = [x+1, y];
     const isLeftFigure = board.get(leftFigure);
+
+    
     const isRightFigure = board.get(rightFigure);
     const isLeftPawn = isLeftFigure?.name===EFigureType.Pawn;
     const isRightPawn = isRightFigure?.name===EFigureType.Pawn;
 
+    console.log(isLeftPawn)
+    console.log(isRightPawn)
+    console.log('pawns or not pawn')
+
     if(this.moves.length<1){return result};
     const lastMove= this.moves[this.moves.length-1] as SaveOfMove;
-    console.log(lastMove);
     if(lastMove.getLastMove){
         if(isLeftPawn){
             const { from, to, figure, moveFor } = lastMove.getLastMove();
@@ -68,8 +70,6 @@ export class MoveSaver {
                 if(isTo && isFrom){
                     resultingField.push(x-1);
                     resultingField.push(y+1);
-                    console.log(x);
-                    console.log(y);
                     result.push(resultingField);
                     result.push('lb')
                     return result
@@ -80,8 +80,6 @@ export class MoveSaver {
                 if(isTo && isFrom){
                     resultingField.push(x-1);
                     resultingField.push(y-1);
-                    console.log(x);
-                    console.log(y);
                     result.push(resultingField);
                     result.push('lw')
                     return result
@@ -96,25 +94,21 @@ export class MoveSaver {
                 if(isTo && isFrom){
                     resultingField.push(x+1);
                     resultingField.push(y+1);
-                    console.log(x+1);
-                    console.log(y+1);
-                    console.log(result);
                     result.push(resultingField);
                     result.push('rb')
-                    return result}
+                    return result
+                }
             }else if (moveFor===EColor.White){
                 const isTo = to[0]===rightFigure[0] && to[1]===rightFigure[1]?true:false;
                 const isFrom = from[0]===rightFigure[0] && from[0]===rightFigure[1]-2
                 if(isTo && isFrom){
                     resultingField.push(x+1);
                     resultingField.push(y-1);
-                    console.log(x+1);
-                    console.log(y-1);
-                    console.log(result);
 
                     result.push(resultingField);
                     result.push('rw')
-                    return result}
+                    return result
+                }
             }
 
         }

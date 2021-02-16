@@ -68,7 +68,10 @@ export default class BoardController {
     //checks moves avaible for figure on given position
     this.selectedField = pos;
     this.movesForSelected = this.board.possibleMovesFor(this.selectedField);
-    this.attacksForSelected = this.board.possibleAttacksFor(this.selectedField, this.moveSaver);
+    this.attacksForSelected = this.board.possibleAttacksFor(
+      this.selectedField,
+      this.moveSaver
+    );
 
     //allow attack if it not cause 'check'
     this.attacksForSelected = this.attacksForSelected.filter((attack) => {
@@ -107,18 +110,11 @@ export default class BoardController {
 
   //Move given figure from start position to end position
   private makeMove(start: TField, end: TField, figure: IFigure): void {
-
     // this.moveSaver.isEnPeasantPossible();
 
     //Save move
     const savedMove = new SaveOfMove(figure.color, figure, start, end);
     this.moveSaver.addMove(savedMove);
-
- 
-    
-
-
-    
 
     //move
     this.view.move(start, end, figure);
@@ -141,46 +137,79 @@ export default class BoardController {
 
   //Attack given figure on end position by given figure on start position
   private makeAttack(start: TField, end: TField, figure: IFigure): void {
-    //get enemy figure
-    // const enemyFigure = this.board.get(end)!;
-
-    //
 
     let enemyFigure = this.board.get(end);
-    if (!enemyFigure){
-      let enemyField:TField = [end[0], end[1]-1] as TField;
-      enemyFigure = this.board.get(enemyField)!
+    let enemyField: TField = end;
+    if (enemyFigure === null) {
+      if (figure.color === EColor.White) {
+        enemyField = [end[0], end[1] - 1] as TField;
+        enemyFigure = this.board.get(enemyField)!;
+        this.board.resetField(enemyField);
+      } else {
+        enemyField = [end[0], end[1] + 1] as TField;
+        enemyFigure = this.board.get(enemyField)!;
+        this.board.resetField(enemyField);
+      }
+
+      //save attack
+      const savedAttack = new SaveOfMove(
+        figure.color,
+        figure,
+        start,
+        end,
+        enemyFigure,
+        enemyField
+      );
+      this.moveSaver.addMove(savedAttack);
+
+      //attack
+      this.view.move(start, end, figure, enemyField);
+      this.board.move(start, end);
+
       this.board.resetField(enemyField);
+
+      //print attack
+      console.log(savedAttack.printMove());
+
+      //moves list
+
+      const lastMove = savedAttack.printMove();
+      const movesList = new MovesList();
+      movesList.init(lastMove);
+
+      //
+
+      //change turn
+      this.changeTurn();
+    } else {
+      //save attack
+      const savedAttack = new SaveOfMove(
+        figure.color,
+        figure,
+        start,
+        end,
+        enemyFigure
+      );
+      this.moveSaver.addMove(savedAttack);
+
+      //attack
+      this.view.move(start, end, figure);
+      this.board.move(start, end);
+
+      //print attack
+      console.log(savedAttack.printMove());
+
+      //moves list
+
+      const lastMove = savedAttack.printMove();
+      const movesList = new MovesList();
+      movesList.init(lastMove);
+
+      //
+
+      //change turn
+      this.changeTurn();
     }
-
-
-    //save attack
-    const savedAttack = new SaveOfMove(
-      figure.color,
-      figure,
-      start,
-      end,
-      enemyFigure
-    );
-    this.moveSaver.addMove(savedAttack);
-
-    //attack
-    this.view.move(start, end, figure);
-    this.board.move(start, end);
-
-    //print attack
-    console.log(savedAttack.printMove());
-
-    //moves list
-
-    const lastMove = savedAttack.printMove();
-    const movesList = new MovesList();
-    movesList.init(lastMove);
-
-    //
-
-    //change turn
-    this.changeTurn();
   }
 
   //Handler for clicking on field
@@ -255,6 +284,11 @@ export default class BoardController {
         //normal move
         this.makeMove(selectedPos, clickedPos, figure);
       }
+    } else if (
+      figure &&
+      this.isFieldOnList(clickedPos, this.attacksForSelected)
+    ) {
+      this.makeAttack(selectedPos, clickedPos, figure);
     }
     this.resetSelectedFigure();
   }

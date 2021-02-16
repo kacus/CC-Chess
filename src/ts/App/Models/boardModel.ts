@@ -16,9 +16,6 @@ import SaveOfMove from './savesModels/saveOfMove';
 
 export default class BoardModel implements IBoard {
     public board: (IFigure | null)[][] = this.setBoard();
-    // public enPassantInLastMove:boolean=true;
-    // public enPassantField: string | Array<number> = [];
-    // public enPasantType: string | Array<number>= '';
 
     constructor() {
     }
@@ -131,7 +128,7 @@ export default class BoardModel implements IBoard {
             const addEnPassantField = moveSaver.isEnPassantPossible(figure, pos, this.deepCopy());
             console.log(addEnPassantField);  
 
-            if(addEnPassantField.length>0){
+            if(addEnPassantField.length>0){ 
                 attacks.push(addEnPassantField[0] as TField);
             }
         }

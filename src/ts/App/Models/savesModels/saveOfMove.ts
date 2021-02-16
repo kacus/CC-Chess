@@ -11,8 +11,9 @@ export default class SaveOfMove implements ISaveOf{
     private to: TField;
     private attacked?: IFigure;
     private wasAttackedFigureUnmoved?: boolean;
+    private enemyField? :TField;
 
-    constructor(color: EColor, moved: IFigure, from: TField, to: TField, attacked?: IFigure) {
+    constructor(color: EColor, moved: IFigure, from: TField, to: TField, attacked?: IFigure, enemyField?:TField) {
         this.moveFor = color;
         this.movedFigure = moved;
         this.from = from;
@@ -21,6 +22,9 @@ export default class SaveOfMove implements ISaveOf{
         if (attacked) {
             this.attacked = attacked;
             this.wasAttackedFigureUnmoved = attacked.isMoved;
+        }
+        if(enemyField){
+            this.enemyField = enemyField;
         }
     }
 
@@ -93,9 +97,60 @@ export default class SaveOfMove implements ISaveOf{
             if(!this.wasAttackedFigureUnmoved){
                 this.attacked.setAsUnmoved();
             }
-            model.set(this.to, this.attacked);
-            view.setFigureOnField(this.to, this.attacked);
+            //////
+            if(this.enemyField){
+                model.set(this.enemyField, this.attacked);
+                view.setFigureOnField(this.enemyField, this.attacked);
+                model.set(this.to, null);
+                // view.setFigureOnField(this.to,);
+            }else{
+                model.set(this.to, this.attacked);
+                view.setFigureOnField(this.to, this.attacked);
+
+            }
+            ////////
         }
+        const color = this.attacked?.color === EColor.Black ? "last-of-type" : "first-of-type";
+        const figType = this.attacked?.name;
+        let fullname:string;
+        if(figType===EFigureType.Queen){
+            fullname='Queen'
+            const figSymbol = document.querySelector<HTMLElement>(
+                `.stage:${color} > .game__stage>.figures__list > .Queen:not(.p):not(.r):not(.n):not(.b):not(.q)`
+              )!;
+              figSymbol.style.filter = "invert(0.5)";
+              figSymbol.classList.add(`${figType}`);
+        }else if(figType===EFigureType.Pawn){
+            fullname = 'Pawn'
+            const figSymbol = document.querySelector<HTMLElement>(
+                `.stage:${color} > .game__stage>.figures__list > .Pawn:not(.p):not(.r):not(.n):not(.b):not(.q)`
+              )!;
+              figSymbol.style.filter = "invert(0.5)";
+              figSymbol.classList.add(`${figType}`);
+        }else if(figType===EFigureType.Rook){
+            fullname = 'Rook'
+            const figSymbol = document.querySelector<HTMLElement>(
+                `.stage:${color} > .game__stage>.figures__list > .Rook:not(.p):not(.r):not(.n):not(.b):not(.q)`
+              )!;
+              figSymbol.style.filter = "invert(0.5)";
+              figSymbol.classList.add(`${figType}`);
+        }else if(figType===EFigureType.Bishop){
+            fullname = 'Bishop'
+            const figSymbol = document.querySelector<HTMLElement>(
+                `.stage:${color} > .game__stage>.figures__list > .Bishop:not(.p):not(.r):not(.n):not(.b):not(.q)`
+              )!;
+              figSymbol.style.filter = "invert(0.5)";
+              figSymbol.classList.add(`${figType}`);
+        }else if(figType===EFigureType.Knight){
+            fullname = 'Knight'
+            const figSymbol = document.querySelector<HTMLElement>(
+                `.stage:${color} > .game__stage>.figures__list > .Knight:not(.p):not(.r):not(.n):not(.b):not(.q)`
+              )!;
+              figSymbol.style.filter = "invert(0.5)";
+              figSymbol.classList.add(`${figType}`);
+        }
+
+ 
     }
 
     private fieldToHumanNotation(field: TField): string {
