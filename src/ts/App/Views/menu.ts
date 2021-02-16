@@ -114,7 +114,7 @@ export default class MenuView implements IMenu {
         setting_text.innerText ='GAME SETTINGS';
 
         const form_action = this.createElement('form', 'setting__box--form__action');
-        form_action.innerText = "GAME WARIANT";
+        form_action.innerText = "GAME MODE";
         const select = this.createElement('select'); 
         select.setAttribute('name', 'game variant');
         const option_first = this.createElement('option');
