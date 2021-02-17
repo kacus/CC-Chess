@@ -463,12 +463,10 @@ export default class BoardController {
         this.gameOver(EColor.Black);
         return;
       }
-
       this.view.timeDisplay(this.timeLeftForWhite, this.moveFor);
       if (+process.env.DEBUG! && +process.env.DEBUG_TIMER!) {
-
         console.log(`Left time for White: ${this.timeLeftForWhite}sec`);
-    } else {
+    }} else {
       this.timeLeftForBlack -= 1;
       if (this.timeLeftForBlack <= 0) {
         this.gameOver(EColor.White);
@@ -481,6 +479,7 @@ export default class BoardController {
         console.log(`Left time for Black: ${this.timeLeftForBlack}sec`);
     }
   };
+
 
   //change turn for enemy player
   private changeTurn() {
