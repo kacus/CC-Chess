@@ -1,4 +1,8 @@
 import IBoard from "../Models/boardInterface";
+
+import BoardModel from "../Models/boardModel";
+import { QueenModel } from "../Models/pieces";
+
 import {
   EColor,
   TField,
@@ -229,4 +233,6 @@ export default class BoardView {
     const startTime = document.querySelector(".time")!;
     startTime.innerHTML = time + "";
   }
+
 }
+
