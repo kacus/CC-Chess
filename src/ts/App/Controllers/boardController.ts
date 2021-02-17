@@ -10,8 +10,12 @@ import SaveOfMove from "../Models/savesModels/saveOfMove";
 import BoardView from "../Views/boardView";
 import { MoveSaver } from "./moveSaver";
 import MovesList from "../Views/movesList";
+
 import { time } from "console";
 import { QueenModel } from "../Models/pieces";
+
+import EndGame from "../Views/endGameView";
+
 
 export default class BoardController {
   private view: BoardView;
@@ -28,6 +32,7 @@ export default class BoardController {
   constructor(parent: HTMLElement) {
     this.view = new BoardView();
     this.view.init(parent, this.clickOnField);
+
     this.moveSaver = new MoveSaver();
   }
 
@@ -40,7 +45,6 @@ export default class BoardController {
     this.attacksForSelected = [];
     this.timeLeftForWhite = time;
     this.timeLeftForBlack = time;
-    this.view.getStartTime(time);
 
     //reset saved moves
     this.moveSaver.reset();
@@ -54,40 +58,48 @@ export default class BoardController {
     //start timer
     this.setUpTimer();
     if (+process.env.DEBUG!) console.log(`NEW GAME STARTS`);
+
   }
 
   public addEventListenerToButton() {
     
-    this.view.timeDisplay(5, EColor.White);
-    this.view.timeDisplay(5, EColor.Black);
-    const btnBox = document.getElementById("start__button")!;
+    this.view.timeDisplay(5*60, EColor.White);
+    this.view.timeDisplay(5*60, EColor.Black);
+    const btnBox = document.getElementById("menu__button--start")!;
     const timeElement = document.getElementById("range");
+
     btnBox.addEventListener("click", (e) => {
-      this.view.timeDisplay(5, EColor.White);
-      this.view.timeDisplay(5, EColor.Black);
-      this.newGame(5 * 60);
+      let timeValue = parseInt((<HTMLInputElement>document.getElementById("range"))
+      .value);
+      console.log(timeValue)
+      this.view.timeDisplay(timeValue*60, EColor.White);
+      this.view.timeDisplay(timeValue*60, EColor.Black);
+      this.newGame(timeValue * 60);
+      this.view.timeDisplay(timeValue*60, EColor.White);
+      this.view.timeDisplay(timeValue*60, EColor.Black);
     });
+
     timeElement?.addEventListener("change", (e) => {
       let timeValue = parseInt((<HTMLInputElement>document.getElementById("range"))
         .value);
-      
 
-      this.view.timeDisplay(timeValue, EColor.White);
-      this.view.timeDisplay(timeValue, EColor.Black);
+      this.view.timeDisplay(timeValue*60, EColor.White);
+      this.view.timeDisplay(timeValue*60, EColor.Black);
+
       btnBox.addEventListener("click", (e) => {
         if (!timeValue || timeValue === 0) {
           timeValue = 5;
-        }
-        this.view.timeDisplay(timeValue, EColor.White);
-        this.view.timeDisplay(timeValue, EColor.Black);
-        this.newGame(timeValue * 60);
-
-        this.view.timeDisplay(timeValue, EColor.White);
-        this.view.timeDisplay(timeValue, EColor.Black);
+        };
+        this.view.timeDisplay(timeValue*60, EColor.White);
+        this.view.timeDisplay(timeValue*60, EColor.Black);
       });
+
     });
   }
 
+  //  Moves and attacks functions
+
+  //check if given position is on given list
   private isFieldOnList(pos: TField, list: TField[]): boolean {
     return !list.every((elem) => elem[0] !== pos[0] || elem[1] !== pos[1]);
   }
@@ -99,7 +111,10 @@ export default class BoardController {
     //checks moves avaible for figure on given position
     this.selectedField = pos;
     this.movesForSelected = this.board.possibleMovesFor(this.selectedField);
-    this.attacksForSelected = this.board.possibleAttacksFor(this.selectedField);
+    this.attacksForSelected = this.board.possibleAttacksFor(
+      this.selectedField,
+      this.moveSaver
+    );
 
     //allow attack if it not cause 'check'
     this.attacksForSelected = this.attacksForSelected.filter((attack) => {
@@ -138,6 +153,7 @@ export default class BoardController {
 
   //Move given figure from start position to end position
   private makeMove(start: TField, end: TField, figure: IFigure): void {
+
     //Check for pawn promotion
     if (figure.name == EFigureType.Pawn && (end[1] == 8 || end[1] == 1)){
       console.log(`${figure.color} ${figure.name} ready for promotion`)
@@ -152,6 +168,7 @@ export default class BoardController {
       this.board.set(end, figure)
       this.view.move(start, end, figure);
       
+
 
       //print move
       console.log(savedMove.printMove());
@@ -187,7 +204,48 @@ export default class BoardController {
 
   //Attack given figure on end position by given figure on start position
   private makeAttack(start: TField, end: TField, figure: IFigure): void {
-    if (figure.name == EFigureType.Pawn && (end[1] == 8 || end[1] == 1)){
+
+    let enemyFigure = this.board.get(end);
+    let enemyField: TField = end;
+    if (enemyFigure === null) {
+      if (figure.color === EColor.White) {
+        enemyField = [end[0], end[1] - 1] as TField;
+        enemyFigure = this.board.get(enemyField)!;
+        this.board.resetField(enemyField);
+      } else {
+        enemyField = [end[0], end[1] + 1] as TField;
+        enemyFigure = this.board.get(enemyField)!;
+        this.board.resetField(enemyField);
+      }
+
+      //save attack
+      const savedAttack = new SaveOfMove(
+        figure.color,
+        figure,
+        start,
+        end,
+        enemyFigure,
+        enemyField
+      );
+      this.moveSaver.addMove(savedAttack);
+
+      //attack
+      this.view.move(start, end, figure, enemyField);
+      this.board.move(start, end);
+
+      this.board.resetField(enemyField);
+
+      //moves list
+
+      const lastMove = savedAttack.printMove();
+      const movesList = new MovesList();
+      movesList.init(lastMove);
+
+      //
+
+      //change turn
+      this.changeTurn();
+    } else if (figure.name == EFigureType.Pawn && (end[1] == 8 || end[1] == 1)){
       console.log(`${figure.color} ${figure.name} ready for promotion`)
       figure = new QueenModel(figure.color);//this.view.show_promotion(figure.color)//
       const enemyFigure = this.board.get(end)!;
@@ -210,11 +268,7 @@ export default class BoardController {
       const lastMove = savedAttack.printMove();
       const movesList = new MovesList();
       movesList.init(lastMove);
-    }
-    else{
-      //get enemy figure
-      const enemyFigure = this.board.get(end)!;
-
+    }else {
       //save attack
       const savedAttack = new SaveOfMove(
         figure.color,
@@ -229,9 +283,6 @@ export default class BoardController {
       this.view.move(start, end, figure);
       this.board.move(start, end);
 
-      //print attack
-      console.log(savedAttack.printMove());
-
       //moves list
 
       const lastMove = savedAttack.printMove();
@@ -239,9 +290,10 @@ export default class BoardController {
       movesList.init(lastMove);
 
       //
+
+      //change turn
+      this.changeTurn();
     }
-    //change turn
-    this.changeTurn();
   }
 
   //Handler for clicking on field
@@ -316,6 +368,11 @@ export default class BoardController {
         //normal move
         this.makeMove(selectedPos, clickedPos, figure);
       }
+    } else if (
+      figure &&
+      this.isFieldOnList(clickedPos, this.attacksForSelected)
+    ) {
+      this.makeAttack(selectedPos, clickedPos, figure);
     }
     this.resetSelectedFigure();
   }
@@ -388,14 +445,17 @@ export default class BoardController {
     this.view.setUpBoard(board);
   }
 
+  // set up new timer
   private setUpTimer() {
     this.timer = setInterval(this.updateTime, 1000);
   }
 
-  private stopTimer() {
+
+  public stopTimer() {
     clearInterval(this.timer);
   }
 
+  //handler for timer
   private updateTime = (): void => {
     if (this.moveFor === EColor.White) {
       this.timeLeftForWhite -= 1;
@@ -403,17 +463,20 @@ export default class BoardController {
         this.gameOver(EColor.Black);
         return;
       }
+
       this.view.timeDisplay(this.timeLeftForWhite, this.moveFor);
       if (+process.env.DEBUG! && +process.env.DEBUG_TIMER!) {
+
         console.log(`Left time for White: ${this.timeLeftForWhite}sec`);
-      }
     } else {
       this.timeLeftForBlack -= 1;
       if (this.timeLeftForBlack <= 0) {
         this.gameOver(EColor.White);
         return;
       }
+
       this.view.timeDisplay(this.timeLeftForBlack, this.moveFor);
+
       if (+process.env.DEBUG! && +process.env.DEBUG_TIMER!)
         console.log(`Left time for Black: ${this.timeLeftForBlack}sec`);
     }
@@ -440,7 +503,15 @@ export default class BoardController {
   //game over handler
   private gameOver(winer: EColor) {
     this.stopTimer();
-    if (+process.env.DEBUG!) console.log(`WINER! ${winer}`);
-    if (+process.env.DEBUG!) console.log(`NEW GAME WILL START IN 5 SEC`);
-  }
+    let winerColor = '';
+    if (winer === 'b') {
+      winerColor = "BLACK"
+      } else {
+      winerColor = "WHITE"
+    };
+    const root = document.getElementById('root')!;
+    const end = new EndGame(root);
+
+    end.createWiner(winerColor);
+  };
 }

@@ -57,11 +57,10 @@ export default class MenuView implements IMenu {
         insert_name_first.setAttribute('maxlength', '20');
         insert_name_first.setAttribute('pattern', '[a-zA-Z0-9]{3,20}');
         first_player.append(white, insert_name_first);
-        first_player
-        insert_name_first.addEventListener('change', (e)=>{
+        insert_name_first.addEventListener('change', ()=>{
             const element:HTMLInputElement = document.getElementById('first__player')! as HTMLInputElement;
             element.innerText = insert_name_first.value
-          })
+        })
 
         const second_player = this.createElement('div', 'players--one_player');
         const black = this.createElement('div', 'black_player');
@@ -71,10 +70,10 @@ export default class MenuView implements IMenu {
         insert_name_second.setAttribute('maxlength', '20');
         insert_name_second.setAttribute('pattern', '[a-zA-Z0-9]{3,20}');
         second_player.append(black, insert_name_second);
-        insert_name_second.addEventListener('change', (e)=>{
+        insert_name_second.addEventListener('change', ()=>{
             const element:HTMLInputElement = document.getElementById('second__player')! as HTMLInputElement;
             element.innerText = insert_name_second.value
-          })
+        })
 
         players.append(first_player, second_player);
         players_box.append(players_box_text, players);
@@ -86,16 +85,6 @@ export default class MenuView implements IMenu {
     private createRadio(element: HTMLElement) {
         const form_checkbox = this.createElement('form', 'setting__players--form_checkbox');
 
-        const checkbox_color = this.createElement('input');
-        checkbox_color.setAttribute('type','checkbox');
-        checkbox_color.setAttribute('id','random color');
-        checkbox_color.setAttribute('name','random color');
-        const span_color = this.createElement('span', 'checkmark');
-
-        const label_color = this.createElement('label', 'checkbox');
-        label_color.setAttribute('for','random color');
-        label_color.innerText = 'Random color';
-
         const checkbox_move = this.createElement('input');
         checkbox_move.setAttribute('type','checkbox');
         checkbox_move.setAttribute('id','possible move');
@@ -106,12 +95,10 @@ export default class MenuView implements IMenu {
         label_move.setAttribute('for','possible move');
         label_move.innerText = 'Show possible moves';
 
-
-
         label_move.append(checkbox_move, span_move);
         form_checkbox.append( label_move);
-        element.appendChild(form_checkbox);
 
+        element.appendChild(form_checkbox);
     };
 
     private createSettingBox(element: HTMLElement){
@@ -125,22 +112,7 @@ export default class MenuView implements IMenu {
         const setting_game = this.createElement('div', 'setting--game');
         const setting_text = this.createElement('div', 'setting__game--text');
         setting_text.innerText ='GAME SETTINGS';
-
-        const form_action = this.createElement('form', 'setting__box--form__action');
-        form_action.innerText = "GAME MODE";
-        const select = this.createElement('select'); 
-        select.setAttribute('name', 'game variant');
-        const option_first = this.createElement('option');
-        option_first.setAttribute('value', 'classic');
-        option_first.setAttribute('selected', "");
-        option_first.innerText ='Classic';
-        const option_second = this.createElement('option');
-        option_second.setAttribute('value','amateur');
-        option_second.innerText ='Amateur';
-
-        select.append(option_first, option_second);
-        form_action.appendChild(select);
-        setting_game.append(setting_text, form_action);
+        setting_game.append(setting_text);
 
         element.appendChild(setting_game);
     };
@@ -166,7 +138,7 @@ export default class MenuView implements IMenu {
         slider_time.setAttribute('id', 'range_display');
         slider_time.setAttribute('name', 'range_display');
         slider_time.setAttribute('for', 'range_time');
-        slider_time.textContent = `Game time is ${slider.getAttribute('value')} minutes`
+        slider_time.textContent = `Game time is: ${slider.getAttribute('value')} minutes`
         slider_box.append(slider, slider_time);
         
         element.append(time_game, slider_box);

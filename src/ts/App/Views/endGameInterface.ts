@@ -1,6 +1,6 @@
-export default interface IMenu {
+export default interface IEndGame {
     parent: HTMLElement;
     
     createElement(tag: string, className?: string):HTMLElement;
-    display():void;
+    createWiner(winerColor: string): void;
 };

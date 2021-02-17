@@ -1,10 +1,11 @@
 import IBoard from "../Models/boardInterface";
+
 import BoardModel from "../Models/boardModel";
 import { QueenModel } from "../Models/pieces";
+
 import {
   EColor,
   TField,
-  EFigureType,
   IFigure,
 } from "../Models/pieces/figureInterface";
 import StageView from "./stageView";
@@ -107,32 +108,61 @@ export default class BoardView {
     field.classList.add("chessboard__field");
   }
 
-  private setFigureOnField(pos: TField, figure: IFigure): void {
+  public setFigureOnField(pos: TField, figure: IFigure, enemyField?:TField): void {
     const field = this.getField(pos);
     //
-    if (field.hasChildNodes()) {
-      const figureSrc = field.children[0].attributes[0].value;
-      const figureType = figureSrc.slice(
-        figureSrc.length - 6,
-        figureSrc.length - 4
-      );
 
-      let figType = figureType[1];
-      const color =
-        figure.color === EColor.White ? "last-of-type" : "first-of-type";
+    if(enemyField){
+      const enemyFieldPos = this.getField(enemyField)
+      if (enemyFieldPos.hasChildNodes()) {
+        const figureSrc = enemyFieldPos.children[0].attributes[0].value;
+        const figureType = figureSrc.slice(
+          figureSrc.length - 6,
+          figureSrc.length - 4
+        );
+  
+        let figType = figureType[1];
+        const color =
+          figure.color === EColor.White ? "last-of-type" : "first-of-type";
+  
+        const figSymbol = document.querySelector<HTMLElement>(
+          `.stage:${color} > .game__stage>.figures__list > .chessboard__figure__stage.${figType}`
+        )!;
+        figSymbol.style.filter = "invert(0)";
+        console.log(figSymbol);
+        figSymbol.classList.remove(`${figType}`);
+      }
+      const figureImage = this.getFigureImage(figure);
+      field.innerHTML = "";
+      field.appendChild(figureImage);
+    }else{
+      if (field.hasChildNodes()) {
+        const figureSrc = field.children[0].attributes[0].value;
+        const figureType = figureSrc.slice(
+          figureSrc.length - 6,
+          figureSrc.length - 4
+        );
+  
+        let figType = figureType[1];
+        const color =
+          figure.color === EColor.White ? "last-of-type" : "first-of-type";
+  
+        const figSymbol = document.querySelector<HTMLElement>(
+          `.stage:${color} > .game__stage>.figures__list > .chessboard__figure__stage.${figType}`
+        )!;
+        figSymbol.style.filter = "invert(0)";
+        console.log(figSymbol);
+        figSymbol.classList.remove(`${figType}`);
+      }
+      const figureImage = this.getFigureImage(figure);
+      field.innerHTML = "";
+      field.appendChild(figureImage);
 
-      const figSymbol = document.querySelector<HTMLElement>(
-        `.stage:${color} > .game__stage>.figures__list > .chessboard__figure__stage.${figType}`
-      )!;
-      figSymbol.style.filter = "invert(0)";
-      console.log(figSymbol);
-      figSymbol.classList.remove(`${figType}`);
     }
+
     //
 
-    const figureImage = this.getFigureImage(figure);
-    field.innerHTML = "";
-    field.appendChild(figureImage);
+
   }
 
   public getField(pos: TField): Element {
@@ -142,10 +172,17 @@ export default class BoardView {
 
     return field;
   }
-
-  public move(start: TField, end: TField, figure: IFigure): void {
-    this.setFigureOnField(end, figure);
+  public move(start: TField, end: TField, figure: IFigure, enemyField?: TField): void {
+    if(enemyField){
+      this.setFigureOnField(end, figure, enemyField)
+    }else{
+      this.setFigureOnField(end, figure);
+    }
+    
     this.resetField(start);
+    if(enemyField){
+      this.resetField(enemyField);
+    }
     this.resetStyles();
   }
 
@@ -197,6 +234,7 @@ export default class BoardView {
     startTime.innerHTML = time + "";
   }
 
+
   public show_promotion(color: EColor): IFigure{
     const board: HTMLInputElement = document.getElementById('game__panel')! as HTMLInputElement
     const selectionWindow = document.createElement("div");
@@ -246,3 +284,4 @@ export default class BoardView {
     return newfig
   }
 }
+
