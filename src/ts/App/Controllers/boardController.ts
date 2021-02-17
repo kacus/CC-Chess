@@ -61,11 +61,11 @@ export default class BoardController {
     
     this.view.timeDisplay(5*60, EColor.White);
     this.view.timeDisplay(5*60, EColor.Black);
-    const btnBox = document.getElementById("start__button")!;
+    const btnBox = document.getElementById("menu__button--start")!;
     const timeElement = document.getElementById("range");
     btnBox.addEventListener("click", () => {
-      this.view.timeDisplay(5, EColor.White);
-      this.view.timeDisplay(5, EColor.Black);
+      this.view.timeDisplay(5*60, EColor.White);
+      this.view.timeDisplay(5*60, EColor.Black);
       this.newGame(5 * 60);
     });
     timeElement?.addEventListener("change", () => {
@@ -73,18 +73,18 @@ export default class BoardController {
         .value);
       
 
-      this.view.timeDisplay(timeValue, EColor.White);
-      this.view.timeDisplay(timeValue, EColor.Black);
+      this.view.timeDisplay(timeValue*60, EColor.White);
+      this.view.timeDisplay(timeValue*60, EColor.Black);
       btnBox.addEventListener("click", () => {
         if (!timeValue || timeValue === 0) {
           timeValue = 5;
         }
-        this.view.timeDisplay(timeValue, EColor.White);
-        this.view.timeDisplay(timeValue, EColor.Black);
+        this.view.timeDisplay(timeValue*60, EColor.White);
+        this.view.timeDisplay(timeValue*60, EColor.Black);
         this.newGame(timeValue * 60);
 
-        this.view.timeDisplay(timeValue, EColor.White);
-        this.view.timeDisplay(timeValue, EColor.Black);
+        this.view.timeDisplay(timeValue*60, EColor.White);
+        this.view.timeDisplay(timeValue*60, EColor.Black);
       });
     });
   }
@@ -398,9 +398,9 @@ export default class BoardController {
       } else {
       winerColor = "WHITE"
     };
-    const root = document.getElementById('root');
-    const end = new EndGame(root!);
+    const root = document.getElementById('root')!;
+    const end = new EndGame(root);
 
-    if (+process.env.DEBUG!) end.createWiner(winerColor);
+    end.createWiner(winerColor);
   };
 }
