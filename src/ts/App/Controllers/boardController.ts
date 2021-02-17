@@ -153,54 +153,31 @@ export default class BoardController {
 
   //Move given figure from start position to end position
   private makeMove(start: TField, end: TField, figure: IFigure): void {
+    // this.moveSaver.isEnPeasantPossible();
 
-    //Check for pawn promotion
-    if (figure.name == EFigureType.Pawn && (end[1] == 8 || end[1] == 1)){
-      console.log(`${figure.color} ${figure.name} ready for promotion`)
-      figure = new QueenModel(figure.color)//this.view.show_promotion(figure.color)
+    //Save move
+    const savedMove = new SaveOfMove(figure.color, figure, start, end);
+    this.moveSaver.addMove(savedMove);
 
-      const savedMove = new SaveOfMove(figure.color, figure, start, end);
-      this.moveSaver.addMove(savedMove);
+    //move
+    this.view.move(start, end, figure);
+    this.board.move(start, end);
 
-      //move
-      this.board.resetField(end)
-      this.board.resetField(start)
-      this.board.set(end, figure)
-      this.view.move(start, end, figure);
-      
+    //print move
+    console.log(savedMove.printMove());
 
+    //moves list
 
-      //print move
-      console.log(savedMove.printMove());
+    const lastMove = savedMove.printMove();
+    const movesList = new MovesList();
+    movesList.init(lastMove);
 
-      //moves list
-
-      const lastMove = savedMove.printMove();
-      const movesList = new MovesList();
-      movesList.init(lastMove);
-    }
-    else{
-      //Save move
-      const savedMove = new SaveOfMove(figure.color, figure, start, end);
-      this.moveSaver.addMove(savedMove);
-
-      //move
-      this.view.move(start, end, figure);
-      this.board.move(start, end);
-
-      //print move
-      console.log(savedMove.printMove());
-
-      //moves list
-
-      const lastMove = savedMove.printMove();
-      const movesList = new MovesList();
-      movesList.init(lastMove);
-    }
     //
+
     //change turn
     this.changeTurn();
   }
+  
 
   //Attack given figure on end position by given figure on start position
   private makeAttack(start: TField, end: TField, figure: IFigure): void {
@@ -245,29 +222,6 @@ export default class BoardController {
 
       //change turn
       this.changeTurn();
-    } else if (figure.name == EFigureType.Pawn && (end[1] == 8 || end[1] == 1)){
-      console.log(`${figure.color} ${figure.name} ready for promotion`)
-      figure = new QueenModel(figure.color);//this.view.show_promotion(figure.color)//
-      const enemyFigure = this.board.get(end)!;
-      const savedAttack = new SaveOfMove(
-        figure.color,
-        figure,
-        start,
-        end,
-        enemyFigure
-      );
-      this.moveSaver.addMove(savedAttack);
-      this.board.resetField(end)
-      this.board.resetField(start)
-      this.board.set(end, figure)
-      this.view.move(start, end, figure);
-      console.log(savedAttack.printMove());
-
-      //moves list
-
-      const lastMove = savedAttack.printMove();
-      const movesList = new MovesList();
-      movesList.init(lastMove);
     }else {
       //save attack
       const savedAttack = new SaveOfMove(
@@ -468,7 +422,7 @@ export default class BoardController {
       if (+process.env.DEBUG! && +process.env.DEBUG_TIMER!) {
 
         console.log(`Left time for White: ${this.timeLeftForWhite}sec`);
-    } else {
+    }} else {
       this.timeLeftForBlack -= 1;
       if (this.timeLeftForBlack <= 0) {
         this.gameOver(EColor.White);
