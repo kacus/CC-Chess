@@ -10,7 +10,7 @@ import SaveOfMove from "../Models/savesModels/saveOfMove";
 import BoardView from "../Views/boardView";
 import { MoveSaver } from "./moveSaver";
 import MovesList from "../Views/movesList";
-import { time } from "console";
+
 
 export default class BoardController {
   private view: BoardView;
@@ -53,6 +53,7 @@ export default class BoardController {
     //start timer
     this.setUpTimer();
     if (+process.env.DEBUG!) console.log(`NEW GAME STARTS`);
+
   }
 
   public addEventListenerToButton() {
@@ -342,7 +343,7 @@ export default class BoardController {
     this.timer = setInterval(this.updateTime, 1000);
   }
 
-  private stopTimer() {
+  public stopTimer() {
     clearInterval(this.timer);
   }
 
@@ -390,7 +391,15 @@ export default class BoardController {
   //game over handler
   private gameOver(winer: EColor) {
     this.stopTimer();
-    if (+process.env.DEBUG!) console.log(`WINER! ${winer}`);
+    let winerColor = '';
+    if (winer === 'b') {
+      winerColor = "Black"
+    } else {
+      winerColor = "White"
+    };
+
+    if (+process.env.DEBUG!) alert(`The winer is: ${winerColor}!`);
+    location.reload();
     if (+process.env.DEBUG!) console.log(`NEW GAME WILL START IN 5 SEC`);
   }
 }
