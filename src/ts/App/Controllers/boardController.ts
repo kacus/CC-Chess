@@ -63,29 +63,33 @@ export default class BoardController {
     this.view.timeDisplay(5*60, EColor.Black);
     const btnBox = document.getElementById("menu__button--start")!;
     const timeElement = document.getElementById("range");
-    btnBox.addEventListener("click", () => {
-      this.view.timeDisplay(5*60, EColor.White);
-      this.view.timeDisplay(5*60, EColor.Black);
-      this.newGame(5 * 60);
+
+    btnBox.addEventListener("click", (e) => {
+      let timeValue = parseInt((<HTMLInputElement>document.getElementById("range"))
+      .value);
+      console.log(timeValue)
+      this.view.timeDisplay(timeValue*60, EColor.White);
+      this.view.timeDisplay(timeValue*60, EColor.Black);
+      this.newGame(timeValue * 60);
+      this.view.timeDisplay(timeValue*60, EColor.White);
+      this.view.timeDisplay(timeValue*60, EColor.Black);
     });
-    timeElement?.addEventListener("change", () => {
+
+    timeElement?.addEventListener("change", (e) => {
       let timeValue = parseInt((<HTMLInputElement>document.getElementById("range"))
         .value);
-      
 
       this.view.timeDisplay(timeValue*60, EColor.White);
       this.view.timeDisplay(timeValue*60, EColor.Black);
-      btnBox.addEventListener("click", () => {
+
+      btnBox.addEventListener("click", (e) => {
         if (!timeValue || timeValue === 0) {
           timeValue = 5;
-        }
-        this.view.timeDisplay(timeValue*60, EColor.White);
-        this.view.timeDisplay(timeValue*60, EColor.Black);
-        this.newGame(timeValue * 60);
-
+        };
         this.view.timeDisplay(timeValue*60, EColor.White);
         this.view.timeDisplay(timeValue*60, EColor.Black);
       });
+
     });
   }
 
