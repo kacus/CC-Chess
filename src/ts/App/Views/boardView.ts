@@ -1,4 +1,8 @@
 import IBoard from "../Models/boardInterface";
+
+import BoardModel from "../Models/boardModel";
+import { QueenModel } from "../Models/pieces";
+
 import {
   EColor,
   TField,
@@ -229,4 +233,55 @@ export default class BoardView {
     const startTime = document.querySelector(".time")!;
     startTime.innerHTML = time + "";
   }
+
+
+  public show_promotion(color: EColor): IFigure{
+    const board: HTMLInputElement = document.getElementById('game__panel')! as HTMLInputElement
+    const selectionWindow = document.createElement("div");
+    selectionWindow.classList.add('selection__promo')
+    if(color == EColor.White){
+      const wq =  document.createElement("img");
+      wq.setAttribute("src", `./static/assets/pieces/kosal/wq.svg`);
+      wq.classList.add("chessboard__figure_select");
+      // brokes code
+      //wq.addEventListener("click", ()=>console.log('wq'))
+      //
+      const wb =  document.createElement("img");
+      wb.setAttribute("src", `./static/assets/pieces/kosal/wb.svg`);
+      wb.classList.add("chessboard__figure_select");
+      const wr =  document.createElement("img");
+      wr.setAttribute("src", `./static/assets/pieces/kosal/wr.svg`);
+      wr.classList.add("chessboard__figure_select");
+      const wn =  document.createElement("img");
+      wn.setAttribute("src", `./static/assets/pieces/kosal/wn.svg`);
+      wn.classList.add("chessboard__figure_select");
+      selectionWindow.append(wq);
+      selectionWindow.append(wb);
+      selectionWindow.append(wr);
+      selectionWindow.append(wn);
+    }
+    else if(color == EColor.Black){
+      const bq =  document.createElement("img");
+      bq.setAttribute("src", `./static/assets/pieces/kosal/bq.svg`);
+      bq.classList.add("chessboard__figure_select");
+      const bb =  document.createElement("img");
+      bb.setAttribute("src", `./static/assets/pieces/kosal/bb.svg`);
+      bb.classList.add("chessboard__figure_select");
+      const br =  document.createElement("img");
+      br.setAttribute("src", `./static/assets/pieces/kosal/br.svg`);
+      br.classList.add("chessboard__figure_select");
+      const bn =  document.createElement("img");
+      bn.setAttribute("src", `./static/assets/pieces/kosal/bn.svg`);
+      bn.classList.add("chessboard__figure_select");
+      selectionWindow.append(bq);
+      selectionWindow.append(bb);
+      selectionWindow.append(br);
+      selectionWindow.append(bn);
+    }
+    board.append(selectionWindow)
+
+    let newfig = new QueenModel(color)
+    return newfig
+  }
 }
+
