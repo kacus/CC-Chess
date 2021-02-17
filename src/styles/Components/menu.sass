@@ -15,9 +15,7 @@
         
         background-color: rgba(70, 70, 70, 1)
         width: 100%
-        height:100%
         margin-top: 3%
-
         
         .setting__players
             display: grid
@@ -25,19 +23,17 @@
             grid-template-rows: auto
             justify-items: center
             width: 100%
-            box-sizing: border-box
-            
-            padding: 1rem
+            box-sizing: border-box            
+            padding-left: 1rem
+            padding-right: 1rem
             font-size: 1.3rem
             color: rgba(222, 222, 222, 1)
             
-
             .setting__players--text
                 text-align: center
                 font-size: 1.3rem
                 font-weight: 600
                 color: #DEDEDE
-                margin-top: 1rem
             
 
             .setting__players--box
@@ -78,12 +74,10 @@
                         color: #FA6009
                         margin-top: 0.3rem
 
-
                         div
                             font-size: 0.7rem
                             font-weight: 400
                             justify-self: left
-
 
                         input
                             display: flex
@@ -100,14 +94,10 @@
                             padding: 0.3rem
                             box-sizing: border-box
                         
-
             .setting__players--form_checkbox
                 display: grid
                 grid-template-columns: 1fr 
-                grid-template-rows: 1fr 1fr
-                column-gap: 0.5rem
-                grid-row-gap: 1rem
-                padding: 1.5rem
+                padding: 0.5rem
                 font-size: 1rem
                 font-weight: 400
                 width: 90%
@@ -117,7 +107,7 @@
                     display: block
                     position: relative
                     padding-left: 2rem
-                    margin-bottom: 0.5rem
+                    margin: 0.5rem
                     cursor: pointer
                     font-size: 1rem
                     font-weight: 400
@@ -152,8 +142,7 @@
                             height: 0.5rem
                             border-radius: 1rem
                             border: 0.2rem solid  rgba(70, 70, 70, 1)
-                        
-                        
+                                          
                 .checkbox:hover input ~ .checkmark
                     background-color: #ccc
                     
@@ -176,20 +165,6 @@
             padding: 1rem
             box-sizing: border-box
 
-            .setting__box--form__action
-                font-size: 1.15rem
-                justify-self: center
-                text-align: center
-                padding: 1rem
-                padding-top: 2rem
-                font-weight: 500
-                text-align: justify
-
-                select
-                    font-size: 1rem
-                    
-                    font-weight: 400
-
             .setting--tame
                 font-size: 1.1rem
                 font-weight: 500
@@ -197,7 +172,6 @@
                 box-sizing: border-box
                 margin-left: 1rem
                 justify-self: left
-
 
                 span
                     font-size: 0.6rem
@@ -210,38 +184,17 @@
                     font-weight: 600
                     font-size: 1.3rem
                     color: #CACACA
-                    margin-bottom: 1rem
                     width: 100%
                     text-align: center
-
-                form
-                    display: flex
-                    flex-direction: column
-                    padding: 0.5rem
-                    font-weight: 500
-                    font-size: 1.1rem
-                    color: #CACACA
-                    box-sizing: border-box
-                    padding-left: 1rem
-                
-                    select 
-                        margin-top: 0.5rem
-                        color: #CACACA
-                        font-size: 1rem
-                        background: #464646
-                        border: 2px solid #FA6009
-                        border-radius: 4px
-                        padding: 0.3rem
-                        margin-left: 1rem
-
+    
             .setting--slider
                 display: flex
                 flex-direction: column
                 width: 100% 
                 gap: 0.5rem
                 box-sizing: border-box
-                padding-left: 0.5rem
-                padding-right: 0.5rem
+                padding-left: 1rem
+                padding-right: 1rem
                 margin-top: 3rem
 
                 .slider__range
@@ -295,7 +248,6 @@
             width: 100%
             position: relative
             top: -2rem
-
 
             &:hover
                 background-color: rgba(51, 48, 48, 1)

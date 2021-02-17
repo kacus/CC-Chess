@@ -1,13 +1,11 @@
 import IBoard from "../Models/boardInterface";
-import BoardModel from "../Models/boardModel";
 import {
   EColor,
   TField,
-  EFigureType,
   IFigure,
 } from "../Models/pieces/figureInterface";
 import StageView from "./stageView";
-import TabsView from "./tabsView"
+import TabsView from "./tabsView";
 
 export default class BoardView {
   public init(parent: HTMLElement, clickHandler: (pos: TField) => void): void {
@@ -20,16 +18,17 @@ export default class BoardView {
     const container = document.createElement("div");
 
     stage1.classList.add("stage");
-    const blackStage = new StageView();
+    const blackStage = new StageView("first__player");
     blackStage.init(stage1, EColor.White, "Player 1");
     stage2.classList.add("stage");
     container.classList.add("container");
-    const gamePanel = document.createElement('div');
-    gamePanel.classList.add('game__panel');
-    const settingsPanel = document.createElement('div');
-    settingsPanel.classList.add('settings__panel');
+    const gamePanel = document.createElement("div");
+    gamePanel.classList.add("game__panel");
+    gamePanel.id = "game__panel";
+    const settingsPanel = document.createElement("div");
+    settingsPanel.classList.add("settings__panel");
 
-    const whiteStage = new StageView();
+    const whiteStage = new StageView("second__player");
     whiteStage.init(stage2, EColor.Black, "Player 2");
 
     //
@@ -62,7 +61,7 @@ export default class BoardView {
     gamePanel.appendChild(board);
     gamePanel.appendChild(stage2);
     container.appendChild(settingsPanel);
-    
+
     const menu = new TabsView();
     menu.init(settingsPanel);
 
@@ -108,6 +107,7 @@ export default class BoardView {
   public setFigureOnField(pos: TField, figure: IFigure, enemyField?:TField): void {
     const field = this.getField(pos);
     //
+
     if(enemyField){
       const enemyFieldPos = this.getField(enemyField)
       if (enemyFieldPos.hasChildNodes()) {
@@ -153,6 +153,7 @@ export default class BoardView {
       const figureImage = this.getFigureImage(figure);
       field.innerHTML = "";
       field.appendChild(figureImage);
+
     }
 
     //
@@ -183,12 +184,19 @@ export default class BoardView {
 
   public setAsPossibleToMove(pos: TField): void {
     const field = this.getField(pos);
-    field.classList.add("chessboard__field--possible_move");
+    const radioButton: HTMLInputElement = document.getElementById('possible move')! as HTMLInputElement
+    if(radioButton.checked){
+      field.classList.add("chessboard__field--possible_move");
+    }
+
   }
 
   public setAsPossibleToAttack(pos: TField): void {
     const field = this.getField(pos);
-    field.classList.add("chessboard__field--possible_attack");
+    const radioButton: HTMLInputElement = document.getElementById('possible move')! as HTMLInputElement
+    if(radioButton.checked){
+      field.classList.add("chessboard__field--possible_attack");
+    }
   }
 
   public setAsSelected(pos: TField): void {
@@ -203,14 +211,19 @@ export default class BoardView {
       field.classList.add("chessboard__field");
     });
   }
-  public timeDispaly(time: number, color: EColor) {
-    if (color === EColor.White) {
-      const obj = document.querySelector(".stage:last-child > .time")!;
-      obj.innerHTML = time + "";
-    } else {
-      const obj = document.querySelector(".stage:first-child > .time")!;
-      obj.innerHTML = time + "";
-    }
+  public timeDisplay(time: number, color: EColor) {
+    const nthChild = color === EColor.White ? 3 : 1;
+
+    const timer = document.querySelector(
+      `.stage:nth-child(${nthChild}) > .time`
+    )!;
+    const min = Math.floor(time / 60);
+    const sec = time % 60;
+
+    const appendZeroIfNeeded = (timeUnit: number): string =>
+      ("" + timeUnit).length === 1 ? `0${timeUnit}` : timeUnit.toString();
+
+    timer.innerHTML = `${appendZeroIfNeeded(min)}:${appendZeroIfNeeded(sec)} min`;
   }
   public getStartTime(time: number) {
     const startTime = document.querySelector(".time")!;

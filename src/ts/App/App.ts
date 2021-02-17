@@ -5,11 +5,19 @@ export default function App(): void {
     const root = document.getElementById('root')!;
 
     const controller = new BoardController(root);
-    const revert_btn = document.createElement('button');
-    revert_btn.addEventListener('click', controller.undoMove);
-    revert_btn.innerHTML = 'UNDO';
-    revert_btn.classList.add('revert__button');
-    root.appendChild(revert_btn);
-    
-    controller.newGame(60);
+    const revertBtn = document.createElement('button');
+    revertBtn.addEventListener('click', controller.undoMove);
+    revertBtn.addEventListener('click', ()=>{
+        const lastRecord = document.getElementById('last__move__info')?.lastChild;
+        if(lastRecord){
+            lastRecord.remove()
+        }
+    })
+    revertBtn.innerHTML = 'UNDO';
+    revertBtn.classList.add('revert__button');
+
+    const element =  document.getElementById('undo__button__container')!;
+    element.appendChild(revertBtn);
+
+    controller.addEventListenerToButton();
 }
