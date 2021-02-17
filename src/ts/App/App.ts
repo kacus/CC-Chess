@@ -9,7 +9,6 @@ export default function App(): void {
     revertBtn.addEventListener('click', controller.undoMove);
     revertBtn.addEventListener('click', ()=>{
         const lastRecord = document.getElementById('last__move__info')?.lastChild;
-        console.log(lastRecord)
         if(lastRecord){
             lastRecord.remove()
         }
