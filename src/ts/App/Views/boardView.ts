@@ -1,9 +1,7 @@
 import IBoard from "../Models/boardInterface";
-import BoardModel from "../Models/boardModel";
 import {
   EColor,
   TField,
-  EFigureType,
   IFigure,
 } from "../Models/pieces/figureInterface";
 import StageView from "./stageView";
@@ -110,7 +108,7 @@ export default class BoardView {
     const field = this.getField(pos);
     //
     if (field.hasChildNodes()) {
-      const figureSrc = field.children[0].attributes[0].value;
+      const figureSrc = field.children[0]!.attributes[0]!.value;
       const figureType = figureSrc.slice(
         figureSrc.length - 6,
         figureSrc.length - 4
