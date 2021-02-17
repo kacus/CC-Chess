@@ -4,7 +4,6 @@ import BoardView from "../Views/boardView";
 import SaveOfCastling from "../Models/savesModels/saveOfCastling";
 import SaveOfMove from "../Models/savesModels/saveOfMove";
 import { EColor, EFigureType, IFigure, TField } from "../Models/pieces/figureInterface";
-import { copyFileSync } from "fs";
 
 export class MoveSaver {
     public moves: (SaveOfMove | SaveOfCastling)[];

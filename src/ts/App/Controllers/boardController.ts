@@ -168,9 +168,6 @@ export default class BoardController {
 
       this.board.resetField(enemyField);
 
-      //print attack
-      console.log(savedAttack.printMove());
-
       //moves list
 
       const lastMove = savedAttack.printMove();
@@ -195,9 +192,6 @@ export default class BoardController {
       //attack
       this.view.move(start, end, figure);
       this.board.move(start, end);
-
-      //print attack
-      console.log(savedAttack.printMove());
 
       //moves list
 
