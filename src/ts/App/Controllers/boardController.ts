@@ -69,9 +69,9 @@ export default class BoardController {
     const timeElement = document.getElementById("range");
 
     btnBox.addEventListener("click", (e) => {
+      this.stopTimer();
       let timeValue = parseInt((<HTMLInputElement>document.getElementById("range"))
       .value);
-      console.log(timeValue)
       this.view.timeDisplay(timeValue*60, EColor.White);
       this.view.timeDisplay(timeValue*60, EColor.Black);
       this.newGame(timeValue * 60);
