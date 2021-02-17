@@ -10,6 +10,10 @@ import {
     QueenModel
 } from './pieces/index';
 
+import { MoveSaver } from '../Controllers/moveSaver'
+import SaveOfMove from './savesModels/saveOfMove';
+
+
 export default class BoardModel implements IBoard {
     public board: (IFigure | null)[][] = this.setBoard();
 
@@ -38,6 +42,7 @@ export default class BoardModel implements IBoard {
     }
 
     public possibleMovesFor(pos: TField): TField[] {
+
         const moves: TField[] = [];
         const figure = this.get(pos);
         if (figure === null) {
@@ -79,13 +84,18 @@ export default class BoardModel implements IBoard {
         return moves;
     }
 
-    public possibleAttacksFor(pos: TField): TField[] {
+
+    public possibleAttacksFor(pos: TField, moveSaver?: MoveSaver): TField[] {
+
+        
         const attacks: TField[] = [];
         const figure = this.get(pos);
+
 
         if (figure === null) {
             return attacks;
         }
+
 
         figure.attackVectors.forEach(vector => {
             let indexOfMove = 0;
@@ -114,7 +124,14 @@ export default class BoardModel implements IBoard {
         });
 
 
+        if(moveSaver){
+            const addEnPassantField = moveSaver.isEnPassantPossible(figure, pos, this.deepCopy());
 
+            if(addEnPassantField.length>0){ 
+                attacks.push(addEnPassantField[0] as TField);
+            }
+        }
+        
         return attacks;
     }
 
@@ -217,6 +234,9 @@ export default class BoardModel implements IBoard {
         //return false if move will cause 'check', return true otherwise
         return !copy.isCheck(color);
     }
+
+
+
 
 
 
