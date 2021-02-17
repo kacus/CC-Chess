@@ -11,6 +11,7 @@ import BoardView from "../Views/boardView";
 import { MoveSaver } from "./moveSaver";
 import MovesList from "../Views/movesList";
 import { time } from "console";
+import { QueenModel } from "../Models/pieces";
 
 export default class BoardController {
   private view: BoardView;
@@ -137,59 +138,108 @@ export default class BoardController {
 
   //Move given figure from start position to end position
   private makeMove(start: TField, end: TField, figure: IFigure): void {
-    //Save move
-    const savedMove = new SaveOfMove(figure.color, figure, start, end);
-    this.moveSaver.addMove(savedMove);
+    //Check for pawn promotion
+    if (figure.name == EFigureType.Pawn && (end[1] == 8 || end[1] == 1)){
+      console.log(`${figure.color} ${figure.name} ready for promotion`)
+      figure = new QueenModel(figure.color)//this.view.show_promotion(figure.color)
 
-    //move
-    this.view.move(start, end, figure);
-    this.board.move(start, end);
+      const savedMove = new SaveOfMove(figure.color, figure, start, end);
+      this.moveSaver.addMove(savedMove);
 
-    //print move
-    console.log(savedMove.printMove());
+      //move
+      this.board.resetField(end)
+      this.board.resetField(start)
+      this.board.set(end, figure)
+      this.view.move(start, end, figure);
+      
 
-    //moves list
+      //print move
+      console.log(savedMove.printMove());
 
-    const lastMove = savedMove.printMove();
-    const movesList = new MovesList();
-    movesList.init(lastMove);
+      //moves list
 
+      const lastMove = savedMove.printMove();
+      const movesList = new MovesList();
+      movesList.init(lastMove);
+    }
+    else{
+      //Save move
+      const savedMove = new SaveOfMove(figure.color, figure, start, end);
+      this.moveSaver.addMove(savedMove);
+
+      //move
+      this.view.move(start, end, figure);
+      this.board.move(start, end);
+
+      //print move
+      console.log(savedMove.printMove());
+
+      //moves list
+
+      const lastMove = savedMove.printMove();
+      const movesList = new MovesList();
+      movesList.init(lastMove);
+    }
     //
-
     //change turn
     this.changeTurn();
   }
 
   //Attack given figure on end position by given figure on start position
   private makeAttack(start: TField, end: TField, figure: IFigure): void {
-    //get enemy figure
-    const enemyFigure = this.board.get(end)!;
+    if (figure.name == EFigureType.Pawn && (end[1] == 8 || end[1] == 1)){
+      console.log(`${figure.color} ${figure.name} ready for promotion`)
+      figure = new QueenModel(figure.color);//this.view.show_promotion(figure.color)//
+      const enemyFigure = this.board.get(end)!;
+      const savedAttack = new SaveOfMove(
+        figure.color,
+        figure,
+        start,
+        end,
+        enemyFigure
+      );
+      this.moveSaver.addMove(savedAttack);
+      this.board.resetField(end)
+      this.board.resetField(start)
+      this.board.set(end, figure)
+      this.view.move(start, end, figure);
+      console.log(savedAttack.printMove());
 
-    //save attack
-    const savedAttack = new SaveOfMove(
-      figure.color,
-      figure,
-      start,
-      end,
-      enemyFigure
-    );
-    this.moveSaver.addMove(savedAttack);
+      //moves list
 
-    //attack
-    this.view.move(start, end, figure);
-    this.board.move(start, end);
+      const lastMove = savedAttack.printMove();
+      const movesList = new MovesList();
+      movesList.init(lastMove);
+    }
+    else{
+      //get enemy figure
+      const enemyFigure = this.board.get(end)!;
 
-    //print attack
-    console.log(savedAttack.printMove());
+      //save attack
+      const savedAttack = new SaveOfMove(
+        figure.color,
+        figure,
+        start,
+        end,
+        enemyFigure
+      );
+      this.moveSaver.addMove(savedAttack);
 
-    //moves list
+      //attack
+      this.view.move(start, end, figure);
+      this.board.move(start, end);
 
-    const lastMove = savedAttack.printMove();
-    const movesList = new MovesList();
-    movesList.init(lastMove);
+      //print attack
+      console.log(savedAttack.printMove());
 
-    //
+      //moves list
 
+      const lastMove = savedAttack.printMove();
+      const movesList = new MovesList();
+      movesList.init(lastMove);
+
+      //
+    }
     //change turn
     this.changeTurn();
   }
